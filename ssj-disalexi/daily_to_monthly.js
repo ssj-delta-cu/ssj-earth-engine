@@ -199,7 +199,7 @@ var wy_2015 = [
 
 var wy_2016 = [];
 
-var dates = wy_2014_2015;
+var dates = wy_2015;
 
 var months;
 
