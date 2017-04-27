@@ -274,7 +274,7 @@ for (var z=0;z < water_years.length; z++){  // we'll iterate through each water 
   Export.image.toAsset({
     image:months,
     description:'disalexi',
-    assetId:'users/qjhart/ssj-delta-cu/ssj-disalexi/et_wy2015',
+    assetId:'users/qjhart/ssj-delta-cu/ssj-disalexi/et_' + wy_name,
     pyramidingPolicy: {
           '.default': 'mean',
         },
