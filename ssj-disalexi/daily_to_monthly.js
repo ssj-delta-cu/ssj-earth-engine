@@ -235,7 +235,7 @@ for (var z=0;z < water_years.length; z++){  // we'll iterate through each water 
     return n;
   }
   
-  var disalexi = ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output')
+  var disalexi = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output')
   disalexi=disalexi.map(maskit);
   
   for (var i=0; i<dates.length; i++) {
