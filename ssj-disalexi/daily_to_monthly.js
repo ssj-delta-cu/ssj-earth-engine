@@ -226,6 +226,7 @@ function maskit(i) {
 }
 
 // WATER YEAR AND DATA DEFINITIONS =============================================
+
 // Set the dates to be used for the monthly raster - use the first day of each month
 var wy_2015 = {'name': 'wy_2015',
   'collection':'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output',
