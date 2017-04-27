@@ -284,7 +284,7 @@ for (var z=0;z < water_years.length; z++){  // we'll iterate through each water 
   Map.addLayer(display,{min:0,max:60},'High Low');
   Map.addLayer(disalexi,{min:0,max:60},'Daily');
   
-  var opts=DELTA.export_options();
+  var opts=DELTA.export_options();  // sets resolution, CRS, etc
   
   // Uncomment below to export to Google Drive - can also do it with the other task below when running task
   //opts.driveFileNamePrefix='ssj_disalexi_et_' + wy_name;
