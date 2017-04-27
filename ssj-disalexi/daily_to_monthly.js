@@ -268,13 +268,13 @@ for (var z=0;z < water_years.length; z++){  // we'll iterate through each water 
   
   var opts=DELTA.export_options();
   
-  opts.driveFileNamePrefix='ssj_disalexi_et_wy2015';
-  Export.image(months,'ssj_disalexi_et_wy2015',opts);
+  opts.driveFileNamePrefix='ssj_disalexi_et_' + wy_name;
+  Export.image(months,'ssj_disalexi_et_' + wy_name,opts);
   
   Export.image.toAsset({
     image:months,
     description:'disalexi',
-    assetId:'users/qjhart/ssj-delta-cu/ssj-disalexi/et_' + wy_name,
+    assetId:'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_' + wy_name,
     pyramidingPolicy: {
           '.default': 'mean',
         },
