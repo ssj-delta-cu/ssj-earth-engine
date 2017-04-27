@@ -207,10 +207,6 @@ function maskit(i) {
   return n;
 }
 
-var disalexi = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output')
-disalexi=disalexi.map(maskit);
-
-
 // Set the dates to be used for the monthly raster - use the first day of each month
 var wy_2015 = {'name': 'wy_2015',
   'collection':'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output',
@@ -245,6 +241,9 @@ for (var z=0;z < water_years.length; z++){  // we'll iterate through each water 
   var wy_name = water_years[z].name;
   var dates = water_years[z].dates; // and set the current water year to the dates variable used below
   var months = null;
+  
+  var disalexi = ee.ImageCollection(water_years[z].collection);
+  disalexi=disalexi.map(maskit);
   
   for (var i=0; i<dates.length; i++) {
       var b = 'b'+(i+1);
