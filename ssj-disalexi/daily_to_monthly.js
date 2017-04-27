@@ -214,64 +214,66 @@ var wy_2016 = ['2015-10-01',
 
 var dates = wy_2015;
 
-var months;
-
-
-function unmaskit(i) { 
-  var n=i.unmask(0).clip(bbox);
-  return n;
+for (var z=0;z < water_years.length; z++){
+  var months;
+  
+  
+  function unmaskit(i) { 
+    var n=i.unmask(0).clip(bbox);
+    return n;
+  }
+  
+  function maskit(i) { 
+    var n=i.updateMask(i.gt(-50));//.clip(bbox);
+    return n;
+  }
+  
+  disalexi=disalexi.map(maskit);
+  
+  for (var i=0; i<dates.length; i++) {
+      var b='b'+(i+1);
+      var start=ee.Date(dates[i]);
+      var stop=start.advance(1,'month');
+      var mc=disalexi.filterDate(start,stop);
+  //    mc=mc.map(maskit);
+      var m=mc.mean().clip(bbox).int16();
+  //    print(m);
+      if (months) {
+        months=months.addBands(m.select([0],[b]));
+      } else {
+        months=m.select([0],[b]);
+      }
+  }
+  print(months);
+  
+  //var e=months.select(['b4','b5','b6']).multiply(0)
+  //  .select([0,1,2],['b1','b2','b3']);
+  //months=e.addBands(months);
+  //print(months);
+  var display=disalexi.min()
+    .addBands(disalexi.max())
+    .addBands(disalexi.median());
+  
+  
+  Map.addLayer(months,{bands:['b8','b4','b12'],min:0,max:60},'DisAlexi');
+  Map.addLayer(display,{min:0,max:60},'High Low');
+  Map.addLayer(disalexi,{min:0,max:60},'Daily');
+  
+  var opts=DELTA.export_options();
+  
+  opts.driveFileNamePrefix='ssj_disalexi_et_wy2015';
+  Export.image(months,'ssj_disalexi_et_wy2015',opts);
+  
+  Export.image.toAsset({
+    image:months,
+    description:'disalexi',
+    assetId:'users/qjhart/ssj-delta-cu/ssj-disalexi/et_wy2015',
+    pyramidingPolicy: {
+          '.default': 'mean',
+        },
+    scale:opts.scale,
+    crs:opts.crs,
+    crsTransform:opts.crs_transform,
+    dimensions:opts.dimensions
+  });
 }
-
-function maskit(i) { 
-  var n=i.updateMask(i.gt(-50));//.clip(bbox);
-  return n;
-}
-
-disalexi=disalexi.map(maskit);
-
-for (var i=0; i<dates.length; i++) {
-    var b='b'+(i+1);
-    var start=ee.Date(dates[i]);
-    var stop=start.advance(1,'month');
-    var mc=disalexi.filterDate(start,stop);
-//    mc=mc.map(maskit);
-    var m=mc.mean().clip(bbox).int16();
-//    print(m);
-    if (months) {
-      months=months.addBands(m.select([0],[b]));
-    } else {
-      months=m.select([0],[b]);
-    }
-}
-print(months);
-
-//var e=months.select(['b4','b5','b6']).multiply(0)
-//  .select([0,1,2],['b1','b2','b3']);
-//months=e.addBands(months);
-//print(months);
-var display=disalexi.min()
-  .addBands(disalexi.max())
-  .addBands(disalexi.median());
-
-
-Map.addLayer(months,{bands:['b8','b4','b12'],min:0,max:60},'DisAlexi');
-Map.addLayer(display,{min:0,max:60},'High Low');
-Map.addLayer(disalexi,{min:0,max:60},'Daily');
-
-var opts=DELTA.export_options();
-
-opts.driveFileNamePrefix='ssj_disalexi_et_wy2015';
-Export.image(months,'ssj_disalexi_et_wy2015',opts);
-
-Export.image.toAsset({
-  image:months,
-  description:'disalexi',
-  assetId:'users/qjhart/ssj-delta-cu/ssj-disalexi/et_wy2015',
-  pyramidingPolicy: {
-        '.default': 'mean',
-      },
-  scale:opts.scale,
-  crs:opts.crs,
-  crsTransform:opts.crs_transform,
-  dimensions:opts.dimensions
-});
