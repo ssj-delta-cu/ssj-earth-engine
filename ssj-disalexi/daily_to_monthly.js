@@ -238,17 +238,17 @@ for (var z=0;z < water_years.length; z++){  // we'll iterate through each water 
   disalexi=disalexi.map(maskit);
   
   for (var i=0; i<dates.length; i++) {
-      var b='b'+(i+1);
-      var start=ee.Date(dates[i]);
-      var stop=start.advance(1,'month');
-      var mc=disalexi.filterDate(start,stop);
+      var b = 'b'+(i+1);
+      var start = ee.Date(dates[i]);
+      var stop = start.advance(1,'month');  // get the end date for the month based on the start date
+      var mc = disalexi.filterDate(start,stop);  // filter the image collection to the date range for the month
   //    mc=mc.map(maskit);
-      var m=mc.mean().clip(bbox).int16();
+      var m=mc.mean().clip(bbox).int16();  // get the mean value and clip the image to the Delta Bounding Box (defined in the DELTA library)
   //    print(m);
       if (months) {
-        months=months.addBands(m.select([0],[b]));
+        months = months.addBands(m.select([0],[b]));  // add a new band to the monthly raster for this month
       } else {
-        months=m.select([0],[b]);
+        months = m.select([0],[b]);
       }
   }
   print(months);
@@ -269,7 +269,7 @@ for (var z=0;z < water_years.length; z++){  // we'll iterate through each water 
   var opts=DELTA.export_options();
   
   opts.driveFileNamePrefix='ssj_disalexi_et_' + wy_name;
-  Export.image(months,'ssj_disalexi_et_' + wy_name,opts);
+  Export.image(months,'ssj_disalexi_et_' + wy_name, opts);
   
   Export.image.toAsset({
     image:months,
