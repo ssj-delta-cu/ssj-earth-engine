@@ -286,8 +286,9 @@ for (var z=0;z < water_years.length; z++){  // we'll iterate through each water 
   
   var opts=DELTA.export_options();
   
-  opts.driveFileNamePrefix='ssj_disalexi_et_' + wy_name;
-  Export.image(months,'ssj_disalexi_et_' + wy_name, opts);
+  // Uncomment below to export to Google Drive - can also do it with the other task below when running task
+  //opts.driveFileNamePrefix='ssj_disalexi_et_' + wy_name;
+  //Export.image(months,'ssj_disalexi_et_' + wy_name, opts);
   
   Export.image.toAsset({
     image:months,
