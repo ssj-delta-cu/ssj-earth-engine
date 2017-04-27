@@ -243,7 +243,7 @@ for (var z=0;z < water_years.length; z++){  // we'll iterate through each water 
       var stop = start.advance(1,'month');  // get the end date for the month based on the start date
       var mc = disalexi.filterDate(start,stop);  // filter the image collection to the date range for the month
   //    mc=mc.map(maskit);
-      var m=mc.mean().clip(bbox).int16();  // get the mean value and clip the image to the Delta Bounding Box (defined in the DELTA library)
+      var m = mc.mean().clip(bbox).int16();  // get the mean value and clip the image to the Delta Bounding Box (defined in the DELTA library)
   //    print(m);
       if (months) {
         months = months.addBands(m.select([0],[b]));  // add a new band to the monthly raster for this month
