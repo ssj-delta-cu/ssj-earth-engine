@@ -1,3 +1,9 @@
+// UPDATING FOR A NEW WATER YEAR
+// In order to update this code to work for a new water year, you must do three things
+// 1) Add the daily disalexi rasters for the new water year to the image collection at
+//    users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output
+
+// LIBRARIES
 var DELTA = (function() {
   function bbox() {
     return delta_service_region().geometry().bounds();
