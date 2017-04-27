@@ -212,7 +212,7 @@ var wy_2016 = ['2015-10-01',
     '2016-08-01',
     '2016-09-01'];
 
-var dates = wy_2015;
+var water_years = [wy_2015, wy_2016];
 
 for (var z=0;z < water_years.length; z++){
   
