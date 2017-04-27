@@ -190,6 +190,8 @@ return weather[ymd];
 }()); //v2016-07-25
 
 var bbox=DELTA.bbox();
+
+// Set the dates to be used for the monthly raster - use the first day of each month
 var wy_2015 = [
 '2015-10-01','2015-11-01','2015-12-01',
 '2015-01-01','2015-02-01','2015-03-01',
