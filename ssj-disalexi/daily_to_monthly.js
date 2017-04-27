@@ -215,6 +215,8 @@ var wy_2016 = ['2015-10-01',
 var dates = wy_2015;
 
 for (var z=0;z < water_years.length; z++){
+  
+  dates = water_years[z]
   var months;
   
   
