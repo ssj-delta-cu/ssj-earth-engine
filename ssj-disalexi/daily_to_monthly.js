@@ -191,6 +191,20 @@ return weather[ymd];
 
 var bbox=DELTA.bbox();
 
+function unmaskit(i) { 
+  var n=i.unmask(0).clip(bbox);
+  return n;
+}
+
+function maskit(i) { 
+  var n=i.updateMask(i.gt(-50));//.clip(bbox);
+  return n;
+}
+
+var disalexi = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output')
+disalexi=disalexi.map(maskit);
+
+
 // Set the dates to be used for the monthly raster - use the first day of each month
 var wy_2015 = {'name': 'wy_2015',
   'dates': [
@@ -222,21 +236,7 @@ for (var z=0;z < water_years.length; z++){  // we'll iterate through each water 
   
   var wy_name = water_years[z].name;
   var dates = water_years[z].dates; // and set the current water year to the dates variable used below
-  var months;
-  
-  
-  function unmaskit(i) { 
-    var n=i.unmask(0).clip(bbox);
-    return n;
-  }
-  
-  function maskit(i) { 
-    var n=i.updateMask(i.gt(-50));//.clip(bbox);
-    return n;
-  }
-  
-  var disalexi = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output')
-  disalexi=disalexi.map(maskit);
+  var months = null;
   
   for (var i=0; i<dates.length; i++) {
       var b = 'b'+(i+1);
