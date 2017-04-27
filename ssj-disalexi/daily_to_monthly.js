@@ -212,11 +212,11 @@ var wy_2016 = ['2015-10-01',
     '2016-08-01',
     '2016-09-01'];
 
-var water_years = [wy_2015, wy_2016];
+var water_years = [wy_2015, wy_2016];  // add any new years to run here
 
-for (var z=0;z < water_years.length; z++){
+for (var z=0;z < water_years.length; z++){  // we'll iterate through each water year and run it once for each
   
-  dates = water_years[z]
+  dates = water_years[z]; // and set the current water year to the dates variable used below
   var months;
   
   
