@@ -213,6 +213,7 @@ disalexi=disalexi.map(maskit);
 
 // Set the dates to be used for the monthly raster - use the first day of each month
 var wy_2015 = {'name': 'wy_2015',
+  'collection':'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output',
   'dates': [
         '2015-10-01','2015-11-01','2015-12-01',
         '2015-01-01','2015-02-01','2015-03-01',
@@ -222,6 +223,7 @@ var wy_2015 = {'name': 'wy_2015',
 };
 
 var wy_2016 = {'name': 'wy_2016',
+    'collection': 'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output',
     'dates': ['2015-10-01',
     '2015-11-01',
     '2015-12-01',
