@@ -1,9 +1,25 @@
 // UPDATING FOR A NEW WATER YEAR
-// In order to update this code to work for a new water year, you must do three things
+// In order to update this code to work for a new water year, you must do a few short things
 // 1) Add the daily disalexi rasters for the new water year to the image collection at
-//    users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output
+//    users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output and 
+//    users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr (depending on
+//    which version of disalexi's data you're using, regular or corrected).
+// 2) See below in the code where there are variables named things like wy_2015. Define an object
+//    like that for each water year and image collection (so, if you want 2015 data for
+//    et_daily_output and et_daily_output_corr, you'll define two objects) - give the object
+//    a name attribute  - this will be used in the output names. Also give it the path to the
+//    Image Collection it refers to in the 'collection' attribute. Finally, give it the dates
+//    for the water year - this should just be a list of strings that include the first day of
+//    each month in the water year. The code will automatically fill the range of days for that
+//    month and collect the data from the image collection.
+// 3) Once you've created the object, add it to the water_years list - this list contains
+//    the objects to process and will be iterated over. You can remove any existing ones that
+//    you don't want to rerun
+// 4) Run the scripts. Once it has run, export the images from the tasks pane and they will go
+//    to user/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_monthly
 
-// LIBRARIES
+
+// LIBRARIES AND CONSTANTS ================================================
 var DELTA = (function() {
   function bbox() {
     return delta_service_region().geometry().bounds();
@@ -197,6 +213,8 @@ return weather[ymd];
 
 var bbox=DELTA.bbox();
 
+
+// LOCAL FUNCTIONS =============================================================
 function unmaskit(i) { 
   var n=i.unmask(0).clip(bbox);
   return n;
@@ -207,6 +225,7 @@ function maskit(i) {
   return n;
 }
 
+// WATER YEAR AND DATA DEFINITIONS =============================================
 // Set the dates to be used for the monthly raster - use the first day of each month
 var wy_2015 = {'name': 'wy_2015',
   'collection':'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output',
@@ -245,6 +264,9 @@ var wy_2016_corr = {'name': 'wy_2016_corr',
 };
 
 var water_years = [wy_2015, wy_2016, wy_2015_corr, wy_2016_corr];  // add any new years to run here
+
+
+// PROCESSING CODE ================================================================
 
 for (var z=0;z < water_years.length; z++){  // we'll iterate through each water year and run it once for each
   
