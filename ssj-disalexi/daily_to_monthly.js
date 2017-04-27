@@ -221,6 +221,7 @@ var wy_2015 = {'name': 'wy_2015',
 var wy_2015_corr = {'name': 'wy_2015_corr',
     'collection': 'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr',
     'dates': wy_2015.dates
+}
 
 var wy_2016 = {'name': 'wy_2016',
     'collection': 'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output',
