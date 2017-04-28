@@ -34,7 +34,8 @@ Map.addLayer(ee.Image('users/ucd-cws-ee-data/landuse_2015'));
 // fusion tables with regions to clip
 var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZllv');
 var LEGALregion = ee.FeatureCollection('ft:1pwTPCh-j_aDA2MUbk12LxorHFrW-DnEgYqqySPk5');
-
+print(DSAregion);
+print(LEGALregion);
 
 // function to return an image clipped to a specific AOI from a fusion table
 var clip_ET_region = function(image, AOI){
