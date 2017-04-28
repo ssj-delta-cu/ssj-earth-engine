@@ -3,8 +3,8 @@ var select_water_year = function(water_year){
   if(water_year == 2015){
 
     var methods={
-      itrc_co:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-1-0")},
-      itrc_or:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1")},
+      itrcco:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-1-0")},
+      itrcor:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1")},
       disalexi:{image:ee.Image("users/qjhart/ssj-delta-cu/ssj-disalexi/et_wy2015")},
       };
     
