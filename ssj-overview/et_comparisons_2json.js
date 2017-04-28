@@ -30,7 +30,9 @@ var select_water_year = function(water_year){
 
 
 print(select_water_year(2015).landcover);
-Map.addLayer(ee.Image('users/ucd-cws-ee-data/landuse_2015'));
+
+Map.addLayer(select_water_year(2015).landcover);
+
 // fusion tables with regions to clip
 var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZllv');
 var LEGALregion = ee.FeatureCollection('ft:1pwTPCh-j_aDA2MUbk12LxorHFrW-DnEgYqqySPk5');
@@ -100,7 +102,6 @@ var region_names = {
 var exportEEjson = function(region, wateryear){
   var methods = select_water_year(wateryear).methods;
   var landcover = select_water_year(wateryear).landcover;
-  print(landcover);
     //loop through all the et sources, calc stats for areas
   for (var key in methods) {
   
