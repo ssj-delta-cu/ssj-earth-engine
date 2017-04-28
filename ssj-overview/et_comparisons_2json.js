@@ -10,7 +10,7 @@ var select_water_year = function(water_year){
       };
     
     var landIQ_wy2015 = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landiq_2015_v2016-06-16');
-    var landcover = landIQ_wy2015.select(['b2']);
+    var landcover = landIQ_wy2015.select(['b2']).rename('level_2');
   }
   else if(water_year == 2016){
 
@@ -49,7 +49,6 @@ var GroupedStatReducers = ee.Reducer.mean()
 
 // Function to use ReduceRegions to calculate GroupedStatReducers by landcover type for a single band 
 var LUstats = function(monthlyETwy12band, bandname, landcover){
-  landcover = landcover.rename('level_2');
   var LUstatsSingleBand = monthlyETwy12band.select(bandname)
     .addBands(landcover)
     .reduceRegion({
