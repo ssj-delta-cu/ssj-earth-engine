@@ -116,7 +116,6 @@ var exportEEjson = function(region, wateryear){
   
 };
 
-var region = "dsa";
 
-exportEEjson(region, 2015);
-exportEEjson(region, 2016);
+exportEEjson("dsa", 2015);
+exportEEjson("dsa", 2016);
