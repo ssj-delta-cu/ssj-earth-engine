@@ -3,19 +3,20 @@ var select_water_year = function(water_year){
   if(water_year == 2015){
 
     var methods={
-      itrcco:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-1-0")},
-      itrcor:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1")},
-      disalexi:{image:ee.Image("users/qjhart/ssj-delta-cu/ssj-disalexi/et_wy2015")},
+      itrc_co:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-1-0")},
+      itrc_or:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1")},
+      disalexi_or:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-0-0")},
+      disalexi_co:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2016_v2-1-0")},
       };
     
     var landIQ_wy2015 = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landiq_2015_v2016-06-16');
-    var landcover = landIQ_wy2015.select(['level_2']);
+    var landcover = landIQ_wy2015.select(['b2']);
   }
   
   return({methods: methods, landcover: landcover});
 };
 
-
+print(ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landiq_2015_v2016-06-16'));
 
 
 // fusion tables with regions to clip
