@@ -22,7 +22,7 @@ var select_water_year = function(water_year){
       };
     
     var landIQ_wy2016 = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landiq_2016_v2017-04-25');
-    var landcover = landIQ_wy2016.select(['b1']);
+    var landcover = landIQ_wy2016.select(['b1']).rename('level_2');
   }
   
   return({methods: methods, landcover: landcover});
