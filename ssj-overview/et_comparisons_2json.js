@@ -21,7 +21,7 @@ var select_water_year = function(water_year){
       disalexi_co:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2016_v2-1-0")},
       };
     
-    var landIQ_wy2016 = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landiq_2016_v2017-05-25');
+    var landIQ_wy2016 = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landiq_2016_v2017-04-25');
     var landcover = landIQ_wy2016.select(['b1']);
   }
   
