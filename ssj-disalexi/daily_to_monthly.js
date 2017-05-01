@@ -42,7 +42,7 @@ var DELTA = (function() {
     landcover:landcover,
     export_options:export_options
   };
-}()); //v2016-07-25 - partial - Nick removed the parts that weren't needed for this script
+}()); //v2016-07-25 - partial - Nick removed the parts that weren't needed for this script to clean it up a bit
 
 var bbox=DELTA.bbox();
 
