@@ -27,6 +27,10 @@ var DELTA = (function() {
   function delta_service_region() {
         return ee.FeatureCollection('ft:1OE_ETOZ9Wc2ffFa_B7YWTof9LP2YcuWNcOccSHO7');
   }
+  function landcover() {
+    return ee.FeatureCollection('ft:13MC0r0a-Zi36E9PNhFOr9m3a5MJAjsKmOsQKk3_9');
+  }
+
    //ul_lr:=596898 4276385 656760 4162602
   function export_options() {
     return  { 
