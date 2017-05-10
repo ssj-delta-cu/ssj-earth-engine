@@ -1,0 +1,86 @@
+var select_water_year = function(water_year){
+  if(water_year == 2015){
+
+    
+    var methods={
+      calsimetaw:{image:ee.Image("users/qjhart/ssj-delta-cu/ssj-calsimetaw/et_wy2015")},
+      itrc:{image:ee.Image("users/qjhart/ssj-delta-cu/ssj-itrc-metric/et_wy2015")},
+      eto:{image:ee.Image("users/qjhart/eto_monthly_avg")},
+      ucdpt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_wy2015_v2")},
+      disalexi:{image:ee.Image("users/qjhart/ssj-delta-cu/ssj-disalexi/et_wy2015")},
+      sims:{image: ee.Image("users/qjhart/ssj-delta-cu/ssj-nasa-tops/et_wy2015")},
+      detaw:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2015")},
+      ucdmetric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd_metric")},
+    };
+    
+    
+    // Convert average ETO to WaterYear order
+    methods.eto.image=methods.eto.image.select([9,10,11,0,1,2,3,4,5,6,7,8]);
+    
+    var landIQ_wy2015 = ee.Image('users/qjhart/ssj-delta-cu/ssj-landuse/landuse/2015');
+    var landcover = landIQ_wy2015.select(['level_2']);
+    
+  }
+  
+  return({methods: methods, landcover: landcover, landiq:landIQ_wy2015});
+};
+
+
+// fusion tables with regions to clip
+var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZllv');
+Map.addLayer(DSAregion);
+
+var landcover = select_water_year(2015).landcover;
+
+// mask to crops using land cover
+var crops_only = function(image){
+    var mask_bands = landcover.eq([0, 12, 22, 425, 2002, 2004, 2005, 2006, 2007]);
+    var mask = mask_bands.reduce(ee.Reducer.anyNonZero()).eq(0);
+    var image_masked = image.updateMask(mask);
+    return image_masked;
+};
+
+
+// constructs new band names for et images to be in the format of {model}_{wy}_month to reduce
+var band_renamer = function(model, water_year){
+  var months = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
+  var names = [];
+  for(var m=0;m<months.length;m++){
+    var c = model + "_" + "wy" + water_year + "_" + months[m];
+    names.push(c);}
+  return names;
+};
+
+
+// loop through images in methods, rename bands, return as single image
+var combine_et_imgs = function(water_year){
+  var methods = select_water_year(water_year).methods;
+
+  var holder = [];
+  for(var key in methods){
+      var et_image = methods[key].image;
+      var et_image_rename = et_image.rename(band_renamer(key, water_year)); 
+      holder.push(et_image_rename);}
+  print(holder);
+  var all_img_et = ee.Image.cat(holder);
+  return all_img_et;
+};
+
+
+
+var all_img_et = combine_et_imgs(2015);
+
+
+// mask by landcover
+
+var all_img_et_crops = crops_only(all_img_et.clipToCollection(DSAregions));
+Map.addLayer(all_img_et_crops);
+
+
+// Grouped reducer for mean/median/quartiles/count
+var GroupedStatReducers = ee.Reducer.mean()
+  .combine(ee.Reducer.median(), "", true)
+  .combine(ee.Reducer.percentile([9, 25, 75, 91]), "", true)
+  .combine(ee.Reducer.count(), "", true);
+
+
