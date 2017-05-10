@@ -101,5 +101,5 @@ var regions_reduced = all_img_et_crops.reduceRegions({
 });
 
 print(regions_reduced);
-Export.table.toDrive(regions_reduced, "Reducded DSA regions", "DSAregions", "DSAregion_export", "geojson");
+Export.table.toDrive(regions_reduced, "ReducdedDSAregions", "DSAregions", "DSAregion_export", "geojson");
 
