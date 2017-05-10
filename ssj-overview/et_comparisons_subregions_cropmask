@@ -93,4 +93,11 @@ var GroupedStatReducers = ee.Reducer.mean()
   .combine(ee.Reducer.percentile([9, 25, 75, 91]), "", true)
   .combine(ee.Reducer.count(), "", true);
 
+// Add reducer output to the Features in the collection.
+var regions_reduced = all_img_et_crops.reduceRegions({
+  collection: DSAregion,
+  reducer: ee.Reducer.mean(),
+  scale: 200,
+});
 
+print(regions_reduced);
