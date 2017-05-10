@@ -97,7 +97,8 @@ var GroupedStatReducers = ee.Reducer.mean()
 var regions_reduced = all_img_et_crops.reduceRegions({
   collection: DSAregion,
   reducer: GroupedStatReducers,
-  scale: 200,
+  scale: 30,
 });
 
 print(regions_reduced);
+
