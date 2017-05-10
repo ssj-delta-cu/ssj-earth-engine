@@ -96,7 +96,7 @@ var GroupedStatReducers = ee.Reducer.mean()
 // Add reducer output to the Features in the collection.
 var regions_reduced = all_img_et_crops.reduceRegions({
   collection: DSAregion,
-  reducer: ee.Reducer.mean(),
+  reducer: GroupedStatReducers,
   scale: 200,
 });
 
