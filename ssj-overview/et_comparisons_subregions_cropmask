@@ -50,19 +50,45 @@ var crops_only = function(image, landcover_level2){
 };
 
 
+// Grouped reducer for mean/median/quartiles/count
+var GroupedStatReducers = ee.Reducer.mean()
+  .combine(ee.Reducer.median(), "", true)
+  .combine(ee.Reducer.percentile([9, 25, 75, 91]), "", true)
+  .combine(ee.Reducer.count(), "", true);
+  
 
-
-
+// reduces DSA island for a given method and water year
 var reduce_et_method = function(method, water_year){
   var et_img = select_water_year(water_year).methods[method].image;
   var landcover_yr = select_water_year(water_year).landcover;
   
-  print(et_img);
-  print(landcover);
+  
+  // mask to crops only
+  var et_img_crops = crops_only(et_img, landcover_yr);
+  
+  // rename bands
+  var months = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
+  var et_img_crops_rename = et_img_crops.rename(months);
+  
+  
+  // reducer
+  
+  var regions_reduced = et_img_crops_rename.reduceRegions({
+  collection: DSAregion,
+  reducer: GroupedStatReducers,
+  scale: 30,
+  });
+  
+  print(regions_reduced);
   
 };
 
 reduce_et_method("sims", 2015);
+
+// loop though all methds and years and export to drive folder
+
+for()
+
 
 /*
 
@@ -85,11 +111,6 @@ Map.addLayer(all_img_et_crops);
 
 print(all_img_et_crops);
 
-// Grouped reducer for mean/median/quartiles/count
-var GroupedStatReducers = ee.Reducer.mean()
-  .combine(ee.Reducer.median(), "", true)
-  .combine(ee.Reducer.percentile([9, 25, 75, 91]), "", true)
-  .combine(ee.Reducer.count(), "", true);
 
 // Add reducer output to the Features in the collection.
 var regions_reduced = all_img_et_crops.reduceRegions({
