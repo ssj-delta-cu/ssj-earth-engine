@@ -54,7 +54,7 @@ var crops_only = function(image, landcover_level2){
 
 
 var reduce_et_method = function(method, water_year){
-  var img = select_water_year(water_year).methods[method];
+  var et_img = select_water_year(water_year).methods[method].image;
   var landcover_yr = select_water_year(water_year).landcover;
   
   print(img);
