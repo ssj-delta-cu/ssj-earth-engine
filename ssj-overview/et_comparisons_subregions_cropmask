@@ -42,38 +42,31 @@ Map.addLayer(DSAregion);
 var landcover = select_water_year(2015).landcover;
 
 // mask to crops using land cover
-var crops_only = function(image){
-    var mask_bands = landcover.eq([0, 12, 22, 425, 2002, 2004, 2005, 2006, 2007]);
+var crops_only = function(image, landcover_level2){
+    var mask_bands = landcover_level2.eq([0, 12, 22, 425, 2002, 2004, 2005, 2006, 2007]);
     var mask = mask_bands.reduce(ee.Reducer.anyNonZero()).eq(0);
     var image_masked = image.updateMask(mask);
     return image_masked;
 };
 
 
-// constructs new band names for et images to be in the format of {model}_{wy}_month to reduce
-var band_renamer = function(model, water_year){
-  var months = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
-  var names = [];
-  for(var m=0;m<months.length;m++){
-    var c = model + "_" + "wy" + water_year + "_" + months[m];
-    names.push(c);}
-  return names;
+
+
+
+var reduce_et_method = function(method, water_year){
+  
+  
+  
+  
 };
+/*
 
 
-// loop through images in methods, rename bands, return as single image
-var combine_et_imgs = function(water_year){
-  var methods = select_water_year(water_year).methods;
+// constructs new band names for et images to be in the order of the water year
+var months = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
+var et_image_rename = et_image.rename(months); 
 
-  var holder = [];
-  for(var key in methods){
-      var et_image = methods[key].image;
-      var et_image_rename = et_image.rename(band_renamer(key, water_year)); 
-      holder.push(et_image_rename);}
-  print(holder);
-  var all_img_et = ee.Image.cat(holder);
-  return all_img_et;
-};
+
 
 
 
@@ -103,3 +96,4 @@ var regions_reduced = all_img_et_crops.reduceRegions({
 print(regions_reduced);
 Export.table.toDrive(regions_reduced, "ReducdedDSAregions", "DSAregions", "DSAregion_export", "geojson");
 
+*/
