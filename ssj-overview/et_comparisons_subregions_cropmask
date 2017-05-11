@@ -78,7 +78,7 @@ var reduce_et_method = function(method, water_year){
   scale: 30,
   });
   
-  print(regions_reduced);
+  return(regions_reduced);
   
 };
 
@@ -92,8 +92,8 @@ var export_fc_geojson = function(wateryear){
   
     var filename = key + "-" + "DSAsubregions" + "-" + wateryear;
     print(filename);
-    //var e =  reduce_et_method(key, wateryear);
-    //print(e);
+    var e =  reduce_et_method(key, wateryear);
+    print(e);
     //Export.table.toDrive(e, filename, "ET_comparisons_geojson", filename, "GeoJSON");
     }
 };
