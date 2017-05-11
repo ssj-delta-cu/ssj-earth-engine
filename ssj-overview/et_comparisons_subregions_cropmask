@@ -54,11 +54,16 @@ var crops_only = function(image, landcover_level2){
 
 
 var reduce_et_method = function(method, water_year){
+  var img = select_water_year(water_year).methods[method];
+  var landcover_yr = select_water_year(water_year).landcover;
   
-  
-  
+  print(img);
+  print(landcover);
   
 };
+
+reduce_et_method("sims", 2015);
+
 /*
 
 
