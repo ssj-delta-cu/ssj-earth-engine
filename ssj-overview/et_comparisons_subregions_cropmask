@@ -82,10 +82,8 @@ var reduce_et_method = function(method, water_year){
   
 };
 
-reduce_et_method("sims", 2015);
 
 // loop though all methds and years and export to drive folder
-
 var export_fc_geojson = function(wateryear){
   var methods = select_water_year(wateryear).methods;
   for (var key in methods) {
@@ -94,43 +92,10 @@ var export_fc_geojson = function(wateryear){
     print(filename);
     var e =  reduce_et_method(key, wateryear);
     print(e);
-    //Export.table.toDrive(e, filename, "ET_comparisons_geojson", filename, "GeoJSON");
+    Export.table.toDrive(e, filename, "ET_comparisons_geojson", filename, "GeoJSON");
     }
 };
 
 
 export_fc_geojson(2015);
-
-/*
-
-
-// constructs new band names for et images to be in the order of the water year
-var months = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
-var et_image_rename = et_image.rename(months); 
-
-
-
-
-
-var all_img_et = combine_et_imgs(2015);
-
-
-// mask by landcover
-
-var all_img_et_crops = crops_only(all_img_et.clipToCollection(DSAregion));
-Map.addLayer(all_img_et_crops);
-
-print(all_img_et_crops);
-
-
-// Add reducer output to the Features in the collection.
-var regions_reduced = all_img_et_crops.reduceRegions({
-  collection: DSAregion,
-  reducer: GroupedStatReducers,
-  scale: 30,
-});
-
-print(regions_reduced);
-Export.table.toDrive(regions_reduced, "ReducdedDSAregions", "DSAregions", "DSAregion_export", "geojson");
-
-*/
+export_fc_geojson(2016);
