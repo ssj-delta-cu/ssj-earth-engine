@@ -13,25 +13,33 @@ var start_dates = function(wateryear){
   return(d);
 };
 
-var dates = start_dates(2015);
+// create a 12 band raster for the water year of average values in tenths of mm/day
+var monthly_avg_eto = function(water_year){
+  var dates = start_dates(water_year);
+  var months = null;
+  
+  // calculate monthly average by looping over start dates and adding to months as a band
+  for (var i=0; i<dates.length; i++) {
+      var b = 'b'+(i+1);
+      var start = ee.Date(dates[i]);
+      var stop = start.advance(1,'month');  // get the end date for the month based on the start date
+      var c_filter = dailyCIMIS.filterDate(start,stop);  // filter the image collection to the date range for the month
+      var m = c_filter.mean();  // get the mean value
+      if (months) {
+        months = months.addBands(m.select([0],[b]));  // add a new band to the monthly raster for this month
+      } else {
+        months = m.select([0],[b]);
+      }
+  }
+
+  // multipy by 10 and cast to byte
+  var monthsx10 = months.multiply(ee.Image.constant(10));
+  var t = monthsx10.toByte();
+  return(t);
+};
 
 
-var months = null;
 
-
-
-for (var i=0; i<dates.length; i++) {
-    var b = 'b'+(i+1);
-    var start = ee.Date(dates[i]);
-    var stop = start.advance(1,'month');  // get the end date for the month based on the start date
-    var c_filter = dailyCIMIS.filterDate(start,stop);  // filter the image collection to the date range for the month
-    var m = c_filter.mean();  // get the mean value
-//    print(m);
-    if (months) {
-      months = months.addBands(m.select([0],[b]));  // add a new band to the monthly raster for this month
-    } else {
-      months = m.select([0],[b]);
-    }
-}
-print(months);
-Map.addLayer(months);
+var eto_wy2015 = monthly_avg_eto(2015);
+print(eto_wy2015);
+Map.addLayer(eto_wy2015);
