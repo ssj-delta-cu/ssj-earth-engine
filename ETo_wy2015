@@ -8,18 +8,24 @@ print(eto);
 Map.addLayer(eto,  {bands:['b12'], min: 45, max:50}, "ORIGINAL");
 
 
-// updated version for water year 2015
+// INTEGER updated version for water year 2015
 var newETo = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/eto_wy2015');
 print(newETo);
 Map.addLayer(newETo,{bands:['b12'], min: 45, max:50}, "ETO water year 2015");
 
 
-
-// updated version for water year 2015 float
+// FLOAT updated version for water year 2015 float
 var newETo_fl = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/eto_wy2015_month');
 print(newETo_fl);
 Map.addLayer(newETo_fl,{bands:['b12'], min: 4.5, max:5.0}, "float");
 
-// subtract
-var newminusold = newETo.subtract(eto);
+// DIFF
+
+// let's make the float units in tenth of mm
+var newETo_flx10 = newETo_fl.multiply(ee.Image.constant(10));
+print(newETo_flx10);
+
+var float_minus_int = newETo_flx10.subtract(newETo);
+Map.addLayer(float_minus_int,{bands:['b12'], min: 45, max:50}, "DIFF");
+
 Map.addLayer(newminusold, '', "diff");
