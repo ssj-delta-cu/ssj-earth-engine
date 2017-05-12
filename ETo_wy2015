@@ -1,0 +1,15 @@
+var eto = ee.Image("users/qjhart/eto_monthly_avg");
+
+// eto bands are in an odd order so they need to be rearranged.
+// Convert average ETO to WaterYear order
+eto=eto.select([9,10,11,0,1,2,3,4,5,6,7,8]);
+
+print(eto);
+Map.addLayer(eto,  {bands:['b9'], min: 45, max:50}, "ORIGINAL");
+
+
+
+var newETo = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/eto_wy2015');
+print(newETo);
+Map.addLayer(newETo,{bands:['b12'], min: 45, max:50}, "ETO water year 2015");
+
