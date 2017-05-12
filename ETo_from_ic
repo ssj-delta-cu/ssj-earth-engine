@@ -1,0 +1,10 @@
+// INTEGER updated version for water year 2015
+var newETo = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/eto_wy2015');
+print(newETo);
+Map.addLayer(newETo,{bands:['b12'], min: 45, max:50}, "ETO water year 2015");
+
+
+// INTEGER calculated from users/qjhart/ssj-delta-cu/ssj-weather/cimis_eto IC
+var q = ee.Image('users/andybell/eto_wy2015_qIC');
+print(q);
+Map.addLayer(q,{bands:['b12'], min: 45, max:50}, "q IC");
