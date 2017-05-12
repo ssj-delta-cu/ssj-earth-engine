@@ -1,10 +1,27 @@
-// INTEGER updated version for water year 2015
-var newETo = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/eto_wy2015');
+// visualization settings
+var b = 'b12';
+var mi = 45;
+var mx = 50;
+
+
+
+// INTEGER water year 2015 for IC on CWS's account from ssj-weather
+var newETo = ee.Image('users/andybell/eto_wy2015_cws');
 print(newETo);
-Map.addLayer(newETo,{bands:['b12'], min: 45, max:50}, "ETO water year 2015");
+Map.addLayer(newETo,{bands:[b], min: mi, max:mx}, "ETO water year 2015");
 
 
 // INTEGER calculated from users/qjhart/ssj-delta-cu/ssj-weather/cimis_eto IC
-var q = ee.Image('users/andybell/eto_wy2015_qIC');
+var q = ee.Image('users/andybell/eto_wy2015_q');
 print(q);
-Map.addLayer(q,{bands:['b12'], min: 45, max:50}, "q IC");
+Map.addLayer(q,{bands:[b], min: mi, max:mx}, "q IC");
+
+
+// Quinn's asset eto_monthly_avg, this is a statewide file of unknown origins
+var eto = ee.Image("users/qjhart/eto_monthly_avg");
+
+// eto bands are in an odd order so they need to be rearranged.
+// Convert average ETO to WaterYear order
+eto=eto.select([9,10,11,0,1,2,3,4,5,6,7,8], ['b1','b2','b3','b4','b5','b6','b7','b8','b9','b10','b11','b12']);
+print(eto);
+Map.addLayer(eto,  {bands:[b], min: mi, max:mx}, "ORIGINAL", false);
