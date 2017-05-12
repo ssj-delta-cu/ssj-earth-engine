@@ -30,7 +30,6 @@ var monthly_avg_eto = function(water_year){
   for (var i=0; i<dates.length; i++) {
       var b = 'b'+(i+1);
       var start = ee.Date(dates[i]);
-      print(start);
       var stop = start.advance(1,'month');  // get the end date for the month based on the start date
       var c_filter = dailyCIMIS.filterDate(start,stop);  // filter the image collection to the date range for the month
       var m = c_filter.mean();  // get the mean value
@@ -44,8 +43,8 @@ var monthly_avg_eto = function(water_year){
   // multipy by 10 and cast to byte
   var monthsx10 = months.multiply(ee.Image.constant(10));
   
-  //var t = monthsx10.toByte();
-  return(monthsx10);
+  var t = monthsx10.toByte();
+  return(t);
 };
 
 
