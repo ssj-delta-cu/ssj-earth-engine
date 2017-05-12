@@ -3,8 +3,7 @@
 // image collection with daily cimis ETo as individual raster with dates, note there is also an
 //  collection for the other variables in spatial cimis as a multiband raster
 var dailyCIMIS = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/cimis_eto');
-
-// var dailyCIMIS = ee.ImageCollection('users/qjhart/ssj-delta-cu/ssj-weather/cimis_eto');
+//var dailyCIMIS = ee.ImageCollection('users/qjhart/ssj-delta-cu/ssj-weather/cimis_eto');
 print(dailyCIMIS);
 
 // construct start dates (1st of the month) for each of the months in a water year
