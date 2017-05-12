@@ -47,7 +47,7 @@ Map.addLayer(diff_from_ic,  {bands:[b], min: -10, max:10}, "Diff: calcs from CIM
 // let's get the differance between the avg monthly raster derived from the CIMIS IC
 // that were calculated using ETo_daily_to_monthly and Quinn's eto_monthly_avg
 var diff_eto_ic = eto.subtract(q);
-Map.addLayer(diff_eto_ic,  {bands:[b], min: -10, max:10}, "Diff: Quinn's ETO - CIMIS IC ", false);
+Map.addLayer(diff_eto_ic,  {bands:[b], min: -10, max:10}, "Diff: Quinn's ETO - CIMIS IC ", true);
 
 
 
