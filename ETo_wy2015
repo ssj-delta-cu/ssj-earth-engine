@@ -14,6 +14,12 @@ print(newETo);
 Map.addLayer(newETo,{bands:['b12'], min: 45, max:50}, "ETO water year 2015");
 
 
+
+// updated version for water year 2015 float
+var newETo_fl = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/eto_wy2015_month');
+print(newETo_fl);
+Map.addLayer(newETo_fl,{bands:['b12'], min: 4.5, max:5.0}, "float");
+
 // subtract
 var newminusold = newETo.subtract(eto);
 Map.addLayer(newminusold, '', "diff");
