@@ -11,4 +11,6 @@ var start_dates = function(wateryear){
   for(var i; i<months.length; i++){
     print(months[i]);
   }
-}
+};
+
+start_dates(2015);
