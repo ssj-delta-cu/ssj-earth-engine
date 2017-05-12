@@ -42,22 +42,39 @@ var monthly_avg_eto = function(water_year){
 };
 
 
+var bbox =  ee.FeatureCollection('ft:1OE_ETOZ9Wc2ffFa_B7YWTof9LP2YcuWNcOccSHO7').geometry().bounds();
+
 // water year 2015  
 var eto_wy2015 = monthly_avg_eto(2015);
 print(eto_wy2015);
 Map.addLayer(eto_wy2015, {bands:['b1'], min: 20, max:35}, "ETO water year 2015");
 
 
-
-var bbox =  ee.FeatureCollection('ft:1OE_ETOZ9Wc2ffFa_B7YWTof9LP2YcuWNcOccSHO7').geometry().bounds();
-  
 Export.image.toAsset({
   image:eto_wy2015,
   description:'eto_wy2015',
-  assetId:'users/ucd-cws-ee-data/ssj-delta-cu/eto_wy2015',
+  assetId:'users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2015',
   pyramidingPolicy: {
         '.default': 'mean',
       },
   scale: 2000,
   region: bbox,
 });
+
+
+// water year 2016  
+var eto_wy2016 = monthly_avg_eto(2016);
+print(eto_wy2016);
+Map.addLayer(eto_wy2016, {bands:['b1'], min: 20, max:35}, "ETO water year 2016");
+
+Export.image.toAsset({
+  image:eto_wy2016,
+  description:'eto_wy2016',
+  assetId:'users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2016',
+  pyramidingPolicy: {
+        '.default': 'mean',
+      },
+  scale: 2000,
+  region: bbox,
+});
+
