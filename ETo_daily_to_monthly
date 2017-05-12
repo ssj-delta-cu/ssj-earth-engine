@@ -50,7 +50,7 @@ Map.addLayer(eto_wy2015, {bands:['b1'], min: 20, max:35}, "ETO water year 2015")
 
 
 
-var bbox =  ee.FeatureCollection('ft:1OE_ETOZ9Wc2ffFa_B7YWTof9LP2YcuWNcOccSHO7'.geometry().bounds());
+var bbox =  ee.FeatureCollection('ft:1OE_ETOZ9Wc2ffFa_B7YWTof9LP2YcuWNcOccSHO7').geometry().bounds();
   
 Export.image.toAsset({
   image:eto_wy2015,
