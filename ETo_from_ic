@@ -1,5 +1,5 @@
 // visualization settings for the layers added on the map
-var b = 'b12';
+var b = 'b10';
 var mi = 45;
 var mx = 50;
 
@@ -8,14 +8,14 @@ var mx = 50;
 // using the ETo_daily_to monthly script to get the monthly averages
 var newETo = ee.Image('users/andybell/eto_wy2015_cws');
 print(newETo);
-Map.addLayer(newETo,{bands:[b], min: mi, max:mx}, "ETO water year 2015");
+Map.addLayer(newETo,{bands:[b], min: mi, max:mx}, "ETO water year 2015", false);
 
 
 //  calculated from users/qjhart/ssj-delta-cu/ssj-weather/cimis_eto IC
 // using the ETo_daily_to monthly script to get the monthly averages
 var q = ee.Image('users/andybell/eto_wy2015_q');
 print(q);
-Map.addLayer(q,{bands:[b], min: mi, max:mx}, "q IC");
+Map.addLayer(q,{bands:[b], min: mi, max:mx}, "q IC", false);
 
 
 // Quinn's asset eto_monthly_avg 
@@ -48,7 +48,7 @@ Map.addLayer(diff_from_ic,  {bands:[b], min: -10, max:10}, "Diff: calcs from CIM
 // that were calculated using ETo_daily_to_monthly and Quinn's eto_monthly_avg
 var diff_eto_ic = eto.subtract(q);
 Map.addLayer(diff_eto_ic,  {bands:[b], min: -10, max:10}, "Diff: Quinn's ETO - CIMIS IC ", false);
-// they are identical 
+
 
 
 
