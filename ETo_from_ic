@@ -1,23 +1,27 @@
-// visualization settings
+// visualization settings for the layers added on the map
 var b = 'b12';
 var mi = 45;
 var mx = 50;
 
 
-
-// INTEGER water year 2015 for IC on CWS's account from ssj-weather
+// Calculated from 'users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/cimis_eto'
+// using the ETo_daily_to monthly script to get the monthly averages
 var newETo = ee.Image('users/andybell/eto_wy2015_cws');
 print(newETo);
 Map.addLayer(newETo,{bands:[b], min: mi, max:mx}, "ETO water year 2015");
 
 
-// INTEGER calculated from users/qjhart/ssj-delta-cu/ssj-weather/cimis_eto IC
+//  calculated from users/qjhart/ssj-delta-cu/ssj-weather/cimis_eto IC
+// using the ETo_daily_to monthly script to get the monthly averages
 var q = ee.Image('users/andybell/eto_wy2015_q');
 print(q);
 Map.addLayer(q,{bands:[b], min: mi, max:mx}, "q IC");
 
 
-// Quinn's asset eto_monthly_avg, this is a statewide file of unknown origins
+// Quinn's asset eto_monthly_avg 
+// which was using in the analysis in fall '16
+// This is a statewide file of unknown origins and has some intesting things
+// happening with the order of the raster bands.
 var eto = ee.Image("users/qjhart/eto_monthly_avg");
 
 // eto bands are in an odd order so they need to be rearranged.
