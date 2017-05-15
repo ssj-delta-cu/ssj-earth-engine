@@ -1,3 +1,4 @@
+// get the value at each of the field stations for each month in the 12 month raster
 
 var select_water_year = function(water_year){
   if(water_year == 2015){
@@ -35,6 +36,10 @@ var select_water_year = function(water_year){
   
   return({methods: methods, landcover: landcover});
 };//updated 5-15-17
+
+// fusion table with the station points
+
+
 
 /*
 print(select_water_year(2015).landcover);
