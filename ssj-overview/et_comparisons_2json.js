@@ -34,7 +34,7 @@ var select_water_year = function(water_year){
   }
   
   return({methods: methods, landcover: landcover});
-};
+};//updated 5-15-17
 
 
 print(select_water_year(2015).landcover);
