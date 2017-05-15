@@ -38,100 +38,39 @@ var select_water_year = function(water_year){
 };//updated 5-15-17
 
 // fusion table with the station points
+var station_points = ee.FeatureCollection('ft:1TedFG6u5KqIKghK23OyhPQC7ZIk-H_Qy74rkBvYL');
+Map.addLayer(station_points);
 
 
-
-/*
-print(select_water_year(2015).landcover);
-
-Map.addLayer(select_water_year(2015).landcover);
-
-// fusion tables with regions to clip
-var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZllv');
-var LEGALregion = ee.FeatureCollection('ft:1pwTPCh-j_aDA2MUbk12LxorHFrW-DnEgYqqySPk5');
-
-
-// function to return an image clipped to a specific AOI from a fusion table
-var clip_ET_region = function(image, AOI){
-  var clipped = image.clipToCollection(AOI);
-  return clipped;
-};
-
-
-// Grouped reducer for mean/median/quartiles/count
-var GroupedStatReducers = ee.Reducer.mean()
-  .combine(ee.Reducer.median(), "", true)
-  .combine(ee.Reducer.percentile([9, 25, 75, 91]), "", true)
-  .combine(ee.Reducer.count(), "", true);
-
-// Function to use ReduceRegions to calculate GroupedStatReducers by landcover type for a single band 
-var LUstats = function(monthlyETwy12band, bandname, landcover){
-  var LUstatsSingleBand = monthlyETwy12band.select(bandname)
-    .addBands(landcover)
-    .reduceRegion({
-      reducer: GroupedStatReducers.group({
-        groupField: 1, 
-        groupName: 'level_2',}), 
-      scale: 30, // note scale is set to 200 meters!
-      maxPixels: 1e8 });
-  return LUstatsSingleBand;
-};
-
-
-// loop through each band in the 12 band monthly ET and calc stats about the landuse 
-var LUstatsMonthlyET = function(monthlyETwy12band, landcover){
- 
+var reduce_station = function(image){
+  
   // months in wy order
   var m = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
-
+  
   // rename band to months (They are in order by water year)
-  monthlyETwy12band=monthlyETwy12band.select([0,1,2,3,4,5,6,7,8,9,10,11],m);
+  image=image.select([0,1,2,3,4,5,6,7,8,9,10,11],m);
   
-  // create dictionary to store each month for the water year
-  var wydict = ee.Dictionary();
-  
-  for(var i=0;i<m.length;i++){
-    var statsMonth = LUstats(monthlyETwy12band, m[i], landcover);
-    statsMonth = ee.Dictionary(statsMonth);
-    statsMonth = statsMonth.rename(['groups'], [m[i]]);
-    wydict = wydict.combine(statsMonth, false);
-  }
-  return(wydict); // return results as dictionary of monthly dictionarys broken down by level 2 crop id
+  // reduce regions at all the points in the feature collection
+  var MeanFeatures = image.reduceRegions({
+    collection: station_points,
+    reducer: ee.Reducer.mean(),
+    scale: 30,
+  });
+  return(MeanFeatures);
 };
 
 
-var region_names = {
-  "dsa": DSAregion, 
-  "legal": LEGALregion,
-  "dsa_1": DSAregion.filterMetadata("subarea", "equals", 1),
-  "dsa_2": DSAregion.filterMetadata("subarea", "equals", 2),
-  "dsa_51": DSAregion.filterMetadata("subarea", "equals", 51),
-  "dsa_103": DSAregion.filterMetadata("subarea", "equals", 103),
-  "dsa_119": DSAregion.filterMetadata("subarea", "equals", 119),
-  "dsa_153": DSAregion.filterMetadata("subarea", "equals", 153)
-};
-
-
-var exportEEjson = function(region, wateryear){
+var exportEEjson = function(wateryear){
   var methods = select_water_year(wateryear).methods;
-  var landcover = select_water_year(wateryear).landcover;
-    //loop through all the et sources, calc stats for areas
+  //loop through all the et sources, calc stats for stations
   for (var key in methods) {
-  
-    var filename = key + "-" + region + "-" + wateryear;
+    var filename = key + "-" + "fieldstation" + "-" + wateryear;
     print(filename);
-    var e =  LUstatsMonthlyET(clip_ET_region(methods[key].image, region_names[region]), landcover);
-    print(e);
-    
-      var FC = ee.FeatureCollection([
-      ee.Feature(null, ee.Dictionary(e))
-    ]);
-  
-    Export.table.toDrive(FC, filename, "ET_comparisons_geojson", filename, "GeoJSON");
+    var e =  reduce_station(methods[key].image);
+    Export.table.toDrive(e, filename, "ET_comparisons_geojson", filename, "GeoJSON");
     }
   
 };
-*/
 
-//exportEEjson("dsa", 2015);
-//exportEEjson("dsa", 2016);
+
+//exportEEjson(2016);
