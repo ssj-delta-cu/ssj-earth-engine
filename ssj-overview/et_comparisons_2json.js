@@ -3,14 +3,14 @@ var select_water_year = function(water_year){
   if(water_year == 2015){
 
     var methods={
-      //itrc_co:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-1-0")},
-      //itrc_or:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1")},
-      //disalexi_or:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-0-0")},
-      //disalexi_co:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-1-0")},
-      //ucd_pt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2015_v2-1-1")},
+      itrc_co:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-1-0")},
+      itrc_or:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1")},
+      disalexi_or:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-0-0")},
+      disalexi_co:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-1-0")},
+      ucd_pt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2015_v2-1-1")},
       ucd_metric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2015_v2-0-0")},
-      //sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2015_v2-0-0")},
-      //eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2015")},
+      sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2015_v2-0-0")},
+      eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2015")},
       
     };
     
