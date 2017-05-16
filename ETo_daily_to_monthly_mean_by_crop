@@ -1,0 +1,57 @@
+// turns daily ETo from spatial cimis into a 12 band raster for each water year
+
+// image collection with daily cimis ETo as individual raster with dates, note there is also an
+//  collection for the other variables in spatial cimis as a multiband raster
+var dailyCIMIS = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/cimis_eto');
+//var dailyCIMIS = ee.ImageCollection('users/qjhart/ssj-delta-cu/ssj-weather/cimis_eto');
+print(dailyCIMIS);
+
+// construct start dates (1st of the month) for each of the months in a water year
+var start_dates = function(wateryear){
+  var d = [];
+  var months = [10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  for(var i=0; i<months.length; i++){
+    if(months[i]>=10){
+    d.push((wateryear - 1) + '-' + months[i]+'-'+'01');}
+    else{d.push(wateryear + '-' + months[i]+'-'+'01');}}
+  return(d);
+};
+
+// create a 12 band raster for the water year of average values in tenths of mm/day
+var monthly_avg_eto = function(water_year){
+  var dates = start_dates(water_year);
+  var months = null;
+  
+  // calculate monthly average by looping over start dates and adding to months as a band
+  for (var i=0; i<dates.length; i++) {
+      var b = 'b'+(i+1);
+      var start = ee.Date(dates[i]);
+      var stop = start.advance(1,'month');  // get the end date for the month based on the start date
+      var c_filter = dailyCIMIS.filterDate(start,stop);  // filter the image collection to the date range for the month
+      var m = c_filter.mean();  // get the mean value
+      if (months) {
+        months = months.addBands(m.select([0],[b]));  // add a new band to the monthly raster for this month
+      } else {
+        months = m.select([0],[b]);}
+  }
+
+  // multipy by 10 and cast to byte
+  var monthsx10 = months.multiply(ee.Image.constant(10));
+  var t = monthsx10.toByte();
+  return(t);
+};
+
+
+var bbox =  ee.FeatureCollection('ft:1OE_ETOZ9Wc2ffFa_B7YWTof9LP2YcuWNcOccSHO7').geometry().bounds();
+
+// water year 2015  
+var eto_wy2015 = monthly_avg_eto(2015);
+print(eto_wy2015);
+Map.addLayer(eto_wy2015, {bands:['b1'], min: 20, max:35}, "ETO water year 2015");
+
+
+// water year 2016  
+var eto_wy2016 = monthly_avg_eto(2016);
+print(eto_wy2016);
+Map.addLayer(eto_wy2016, {bands:['b1'], min: 20, max:35}, "ETO water year 2016");
+
