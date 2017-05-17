@@ -6,8 +6,8 @@ var select_water_year = function(water_year){
       itrc_co:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-1-0")},
       itrc_or:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1")},
       disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-1-0")},
-      ucd_pt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2015_v2-2-0")},
-      ucd_metric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2015_v2-0-0")},
+      ucdpt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2015_v2-2-0")},
+      ucdmetric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2015_v2-0-0")},
       sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2015_v2-0-0")},
       eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2015")},
       
@@ -22,8 +22,8 @@ var select_water_year = function(water_year){
       itrc_co:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2016_v2-1-0")},
       itrc_or:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2016_v2-0-1")},
       disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2016_v2-1-0")},
-      ucd_pt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2016_v2-2-0")},
-      ucd_metric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2016_v2-0-0")},
+      ucdpt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2016_v2-2-0")},
+      ucdmetric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2016_v2-0-0")},
       sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2015_v2-0-0")},
       eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2016")},
       
@@ -34,7 +34,7 @@ var select_water_year = function(water_year){
   }
   
   return({methods: methods, landcover: landcover});
-};//updated 5-15-17
+};//updated 5-17-17
 
 
 print(select_water_year(2015).landcover);
