@@ -116,7 +116,7 @@ var exportEEjson = function(region, wateryear){
     var filename = key + "-" + region + "-" + wateryear;
     print(filename);
     var e =  LUstatsMonthlyET(clip_ET_region(methods[key].image, region_names[region]), landcover);
-    print(e);
+    //print(e);
     
       var FC = ee.FeatureCollection([
       ee.Feature(null, ee.Dictionary(e))
@@ -128,5 +128,5 @@ var exportEEjson = function(region, wateryear){
 };
 
 
-exportEEjson("dsa", 2015);
-//exportEEjson("dsa", 2016);
+exportEEjson("legal", 2015);
+exportEEjson("legal", 2016);
