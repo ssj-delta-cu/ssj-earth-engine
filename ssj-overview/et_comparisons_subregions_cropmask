@@ -45,7 +45,8 @@ var landcover = select_water_year(2015).landcover;
 
 // mask to crops using land cover
 var crops_only = function(image, landcover_level2){
-    var mask_bands = landcover_level2.eq([0, 12, 22, 425, 2002, 2004, 2005, 2006, 2007]);
+    //var mask_bands = landcover_level2.eq([0, 12, 22, 425, 2002, 2004, 2005, 2006, 2007]);
+    var mask_bands = landcover_level2.eq([913, 2002, 2004, 2005, 2006, 2007, 2008]); // excludes semi-ag + we herb
     var mask = mask_bands.reduce(ee.Reducer.anyNonZero()).eq(0);
     var image_masked = image.updateMask(mask);
     return image_masked;
