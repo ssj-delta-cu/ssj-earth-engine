@@ -20,5 +20,16 @@ print(itrc_12);
 print(itrc_12.bandNames().length());
 
 // save as an asset
-Export.image.toAsset(itrc_12, "ITRC 2016 as 12 band", 
-  "users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2016_v2-0-2", 'mean', scal, crs, crsTransform, maxPixels)
+Export.image.toAsset({
+  image:itrc_12,
+  description:'ITRC_12_band',
+  assetId:'users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2016_v2-0-2',
+  pyramidingPolicy: {
+        '.default': 'mean',
+      },
+  scale:30
+});
+
+//crs:"EPSG:26910",
+//crs_transform:[30,0,596898,0,-30,4276385],
+//dimensions:'1995x3793',
