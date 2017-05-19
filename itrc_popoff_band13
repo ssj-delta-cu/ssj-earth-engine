@@ -1,3 +1,6 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #d63000 */ee.Geometry.MultiPoint();
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 // ITRC raster has 13 bands (included Oct 2016 from water year 2017)
 // need to pop of the last band and save as an new version of the asset
 
@@ -22,14 +25,17 @@ print(itrc_12.bandNames().length());
 // save as an asset
 Export.image.toAsset({
   image:itrc_12,
-  description:'ITRC_12_band',
-  assetId:'users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2016_v2-0-2',
+  description:'ITRC_12_band_CRS',
+  assetId:'users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2016_v2-0-3',
   pyramidingPolicy: {
         '.default': 'mean',
       },
-  scale:30
+  crs:"EPSG:32610",
+  crsTransform:[30,0,590248,0,-30,4273015],
+  dimensions:'2367x3634'
 });
 
-//crs:"EPSG:26910",
-//crs_transform:[30,0,596898,0,-30,4276385],
-//dimensions:'1995x3793',
+//crs:"EPSG:32610",
+//crs_transform:[30,0,590248,0,-30,4273015],
+//dimensions:'2367x3634',
+//   crs_transform:[30,0,596898,0,-30,4276385],
