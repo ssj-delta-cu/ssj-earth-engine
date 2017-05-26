@@ -27,7 +27,7 @@ var select_water_year = function(water_year){
       sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2016_v2-0-0")},
       eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2016")},
       calsimetaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-calsimetaw/calsimetaw_et_wy2016_v2-0-2")},
-      detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2016_v2-0-0")},
+      detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2016_v2-0-1")},
     };
     
     var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2016_v2017-04-25');
@@ -35,7 +35,7 @@ var select_water_year = function(water_year){
   }
   
   return({methods: methods, landcover: landcover});
-};//updated 5-26-17
+};//updated 5-26-17 4:15pm
 
 
 print(select_water_year(2015).landcover);
