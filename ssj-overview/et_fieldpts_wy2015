@@ -34,8 +34,7 @@ var select_water_year = function(water_year){
   }
   
   return({methods: methods, landcover: landcover});
-};//updated 5-26-17 4:15pmhods, landcover: landcover});
-};//updated 5-26-17
+};//updated 5-26-17 4:15pm
 
 
 // fusion table with the station points
