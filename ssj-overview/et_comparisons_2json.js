@@ -1,4 +1,3 @@
-
 var select_water_year = function(water_year){
   if(water_year == 2015){
 
@@ -16,6 +15,10 @@ var select_water_year = function(water_year){
     
     var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2015_v2016-06-16');
     var landcover = landIQ.select(['b2']).rename('level_2');
+    
+    // fusion table with the station points 2015
+    var station_points = ee.FeatureCollection('ft:1vGYHsi1INwYjWj62xbrcQMewrRJQLbbE_jyqFwL7');
+    
   }
   else if(water_year == 2016){
 
@@ -32,10 +35,12 @@ var select_water_year = function(water_year){
     
     var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2016_v2017-04-25');
     var landcover = landIQ.select(['b1']).rename('level_2');
+    // fusion table with the station points 2016
+    var station_points = ee.FeatureCollection('ft:1TedFG6u5KqIKghK23OyhPQC7ZIk-H_Qy74rkBvYL');
   }
   
-  return({methods: methods, landcover: landcover});
-};//updated 5-26-17 4:15pm
+  return({methods: methods, landcover: landcover, stations: station_points});
+};//updated 5-30-17
 
 
 print(select_water_year(2015).landcover);
