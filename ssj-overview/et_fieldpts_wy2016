@@ -44,7 +44,7 @@ var select_water_year = function(water_year){
 
  
 
-var reduce_station = function(image){
+var reduce_station = function(image, station_points){
   
   // months in wy order
   var m = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
@@ -64,11 +64,14 @@ var reduce_station = function(image){
 
 var exportEEjson = function(wateryear){
   var methods = select_water_year(wateryear).methods;
+  
+  var stations = select_water_year(wateryear).stations;
+  
   //loop through all the et sources, calc stats for stations
   for (var key in methods) {
     var filename = key + "-" + "fieldstation" + "-" + wateryear;
     print(filename);
-    var e =  reduce_station(methods[key].image);
+    var e =  reduce_station(methods[key].image, stations);
     Export.table.toDrive(e, filename, "ET_comparisons_geojson", filename, "GeoJSON");
     }
   
