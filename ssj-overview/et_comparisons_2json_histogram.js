@@ -80,10 +80,11 @@ var LUstats = function(monthlyETwy12band, bandname, landcover){
 var LUstatsMonthlyET = function(monthlyETwy12band, landcover){
  
   // months in wy order
-  var m = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
+  //var m = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
+  var m = ["JUL"];
 
   // rename band to months (They are in order by water year)
-  monthlyETwy12band=monthlyETwy12band.select([0,1,2,3,4,5,6,7,8,9,10,11],m);
+  monthlyETwy12band=monthlyETwy12band.select([9],m);
   
   // create dictionary to store each month for the water year
   var wydict = ee.Dictionary();
