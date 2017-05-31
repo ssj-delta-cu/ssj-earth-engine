@@ -63,7 +63,8 @@ var clip_ET_region = function(image, AOI){
 var GroupedStatReducers = ee.Reducer.mean()
   .combine(ee.Reducer.median(), "", true)
   .combine(ee.Reducer.percentile([9, 25, 75, 91]), "", true)
-  .combine(ee.Reducer.count(), "", true);
+  .combine(ee.Reducer.count(), "", true)
+  .combine(ee.Reducer.stdDev(), "", true);
 
 // Function to use ReduceRegions to calculate GroupedStatReducers by landcover type for a single band 
 var LUstats = function(monthlyETwy12band, bandname, landcover){
