@@ -117,7 +117,7 @@ var exportEEjson = function(region, wateryear){
     //loop through all the et sources, calc stats for areas
   for (var key in methods) {
   
-    var filename = key + "-" + region + "-" + wateryear;
+    var filename = key + "-" + "histogram" + "-" + wateryear;
     print(filename);
     var e =  LUstatsMonthlyET(clip_ET_region(methods[key].image, region_names[region]), landcover);
     //print(e);
@@ -126,6 +126,7 @@ var exportEEjson = function(region, wateryear){
       ee.Feature(null, ee.Dictionary(e))
     ]);
   
+    print(e);  
     Export.table.toDrive(FC, filename, "ET_comparisons_geojson", filename, "GeoJSON");
     }
   
