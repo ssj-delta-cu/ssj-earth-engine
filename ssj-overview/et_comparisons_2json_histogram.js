@@ -60,7 +60,7 @@ var clip_ET_region = function(image, AOI){
 
 
 // Grouped reducer for mean/median/quartiles/count
-var GroupedStatReducers = ee.Reducer.fixedHistogram(0,150, 1);
+var GroupedStatReducers = ee.Reducer.histogram(100,1);
 
 // Function to use ReduceRegions to calculate GroupedStatReducers by landcover type for a single band 
 var LUstats = function(monthlyETwy12band, bandname, landcover){
