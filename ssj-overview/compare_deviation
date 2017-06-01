@@ -60,12 +60,6 @@ var bbox=DELTA.bbox();
 var dsa=DELTA.delta_service_region();
 Map.centerObject(bbox);
 
-
-var methods = select_water_year(2015).methods;
-var landcover = select_water_year(2015).landcover;
-
-
-
 // loop through all the et sources and crop to dsa region
 var listImages = [];
 for (var key in methods) {
@@ -158,8 +152,11 @@ var turn_layers_off = function(){
 };
 
 // compare how each individual method relates to the average (relative difference & zscore)
-var zscore = function(selected_method, selected_month, selected_crop){
+var zscore = function(selected_method, selected_month, selected_year, selected_crop){
   turn_layers_off();
+
+  var methods = select_water_year(selected_year).methods;
+  var landcover = select_water_year(selected_year).landcover;
 
   var et_est = methods[selected_method].image;
 
