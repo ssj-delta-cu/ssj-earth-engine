@@ -193,7 +193,7 @@ var selectMethod = ui.Select({
   items: Object.keys(select_water_year(selected.wy).methods),
   placeholder: selected.model,
   onChange: function(key) {
-    selected["model"] = key;
+    selected.model = key;
     zscore(selected.model, selected.month, selected.wy, selected.crop);
   }
 });
@@ -202,7 +202,7 @@ var selectBand = ui.Select({
   items: Object.keys(month_bands),
   placeholder: selected.month,
   onChange: function(key) {
-    selected["month"] = key;
+    selected.month = key;
     zscore(selected.model, selected.month, selected.wy, selected.crop);
   }
 });
@@ -220,7 +220,7 @@ var selectCrop = ui.Select({
   items: Object.keys(crops),
   placeholder: selected.crop,
   onChange: function(key) {
-    selected["crop"] = key;
+    selected.crop = key;
     zscore(selected.model, selected.month, selected.wy, selected.crop);
   }
 });
