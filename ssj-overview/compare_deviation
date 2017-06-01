@@ -149,6 +149,8 @@ var zscore = function(selected_method, selected_month, selected_year, selected_c
   var methods = select_water_year(selected_year).methods;
   var landcover = select_water_year(selected_year).landcover;
   
+  print(methods)
+  
   // loop through all the et sources and crop to dsa region
   var listImages = [];
   for (var key in methods) {
