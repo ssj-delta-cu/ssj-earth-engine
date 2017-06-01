@@ -246,7 +246,7 @@ panel.add(selectBand);
 panel.add(selectWY);
 panel.add(selectCrop);
 panel.add(button);
-zscore(selected.model, selected.month, selected.crop);
+zscore(selected.model, selected.month, selected.wy, selected.crop);
 
 var plot_hist = function(selected_method, selected_month, selected_crop){
   var et_est = methods[selected_method].image;
