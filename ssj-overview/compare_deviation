@@ -190,7 +190,7 @@ var selected = {
 
 // select method
 var selectMethod = ui.Select({
-  items: Object.keys(methods),
+  items: Object.keys(select_water_year(selected.wy).methods),
   placeholder: selected.model,
   onChange: function(key) {
     selected["model"] = key;
