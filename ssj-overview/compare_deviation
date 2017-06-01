@@ -191,7 +191,7 @@ var selectMethod = ui.Select({
   placeholder: selected.model,
   onChange: function(key) {
     selected["model"] = key;
-    zscore(selected.model, selected.month, selected.crop);
+    zscore(selected.model, selected.month, selected.wy, selected.crop);
   }
 });
 
@@ -200,7 +200,7 @@ var selectBand = ui.Select({
   placeholder: selected.month,
   onChange: function(key) {
     selected["month"] = key;
-    zscore(selected.model, selected.month, selected.crop);
+    zscore(selected.model, selected.month, selected.wy, selected.crop);
   }
 });
 
@@ -209,7 +209,7 @@ var selectWY = ui.Select({
   placeholder: selected.wy,
   onChange: function(key) {
     selected.wy = key;
-    zscore(selected.model, selected.month, selected.crop);
+    zscore(selected.model, selected.month, selected.wy, selected.crop);
   }
 });
 
@@ -218,14 +218,14 @@ var selectCrop = ui.Select({
   placeholder: selected.crop,
   onChange: function(key) {
     selected["crop"] = key;
-    zscore(selected.model, selected.month, selected.crop);
+    zscore(selected.model, selected.month, selected.wy, selected.crop);
   }
 });
 
 var button = ui.Button({
   label: 'Plot Histogram',
   onClick: function() {
-    plot_hist(selected.model, selected.month, selected.crop);
+    plot_hist(selected.model, selected.month, selected.wy, selected.crop);
   }
 });
 
