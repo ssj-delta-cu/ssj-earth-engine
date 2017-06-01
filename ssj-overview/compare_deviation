@@ -208,7 +208,7 @@ var selectBand = ui.Select({
 });
 
 var selectWY = ui.Select({
-  items: [2015, 2016],
+  items: ["2015", "2016"],
   placeholder: selected.wy,
   onChange: function(key) {
     selected.wy = key;
