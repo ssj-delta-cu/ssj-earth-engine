@@ -246,14 +246,18 @@ panel.add(selectCrop);
 panel.add(button);
 zscore(selected.model, selected.month, selected.wy, selected.crop);
 
-var plot_hist = function(selected_method, selected_month, selected_crop){
+var plot_hist = function(selected_method, selected_month, selected_wy, selected_crop){
+  var methods = select_water_year(selected_wy).methods;
+  var landcover = select_water_year(selected_wy).landcover;
+  
+  
   var et_est = methods[selected_method].image;
   var et_est_single = et_est.select(month_bands[selected_month]);
   var mean_single = mean.select(month_bands[selected_month]);
   
   //mask by selected crop
-  var et_est_single_mask = landcover_mask(et_est_single, selected_crop);
-  var mean_single_mask = landcover_mask(mean_single, selected_crop);
+  var et_est_single_mask = landcover_mask(et_est_single, selected_crop, landcover);
+  var mean_single_mask = landcover_mask(mean_single, selected_crop, landcover);
   
   // rename band
   et_est_single_mask = et_est_single_mask.rename(selected_method);
