@@ -211,7 +211,7 @@ var selectWY = ui.Select({
   items: [2015, 2016],
   placeholder: selected.wy,
   onChange: function(key) {
-    selected["wy"] = key;
+    selected.wy = key;
     zscore(selected.model, selected.month, selected.crop);
   }
 });
