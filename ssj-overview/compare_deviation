@@ -1,0 +1,243 @@
+var select_water_year = function(water_year){
+  if(water_year == 2015){
+    
+    var methods={
+      itrc:{image:ee.Image("users/qjhart/ssj-delta-cu/ssj-itrc-metric/et_wy2015")},
+      calsimetaw:{image:ee.Image("users/qjhart/ssj-delta-cu/ssj-calsimetaw/et_wy2015")},
+      ucd_pt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_wy2015_v2")},
+      disalexi:{image:ee.Image("users/qjhart/ssj-delta-cu/ssj-disalexi/et_wy2015")},
+      sims:{image: ee.Image("users/qjhart/ssj-delta-cu/ssj-nasa-tops/et_wy2015")},
+      detaw:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2015")},
+      ucd_metric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd_metric")},
+    };
+    
+    // Convert average ETO to WaterYear order
+    var eto = ee.Image("users/qjhart/eto_monthly_avg");
+    eto=eto.select([9,10,11,0,1,2,3,4,5,6,7,8]);
+    
+    var landIQ_wy2015 = ee.Image('users/qjhart/ssj-delta-cu/ssj-landuse/landuse/2015');
+    var landcover = landIQ_wy2015.select(['level_2']);
+    
+  }
+  return({methods: methods, landcover: landcover, eto: eto});
+};
+
+
+var DELTA = (function() {
+  function bbox() {
+    return delta_service_region().geometry().bounds();
+  }
+  function delta_service_region() {
+        var dsa_w_bbx = ee.FeatureCollection('ft:1OE_ETOZ9Wc2ffFa_B7YWTof9LP2YcuWNcOccSHO7');
+        var dsa = dsa_w_bbx.filterMetadata("name", "equals", "Delta Service Area");
+        return dsa;
+  }
+
+  return {
+    bbox:bbox,
+    delta_service_region:delta_service_region};
+}());
+
+var bbox=DELTA.bbox();
+var dsa=DELTA.delta_service_region();
+Map.centerObject(bbox);
+
+
+var methods = select_water_year(2015).methods;
+var landcover = select_water_year(2015).landcover;
+
+
+
+// loop through all the et sources and crop to dsa region
+var listImages = [];
+for (var key in methods) {
+  var etimage =  methods[key].image.clip(dsa); // clip to DSA region
+  listImages.push(etimage);
+}
+
+var methodsIC = ee.ImageCollection(listImages); // turn into an ImageCollection 
+var mean = methodsIC.mean(); // reduce to mean value of all methods
+var std = methodsIC.reduce(ee.Reducer.stdDev()); // using standard deviation reducer
+
+// select month
+var month_bands = {
+  'October': 'b1',
+  'November': 'b2',
+  'December': 'b3',
+  'January': 'b4',
+  'February': 'b5',
+  'March': 'b6',
+  'April': 'b7',
+  'May': 'b8',
+  'June': 'b9',
+  'July': 'b10',
+  'August': 'b11',
+  'September': 'b12',
+};
+
+// Level 2 crops
+var crops = {
+    "Alfalfa": 1,
+    "Safflower": 12,
+    "Sunflower": 22,
+    "Corn": 23,
+    "Rice": 24,
+    "Bush Berries": 108,
+    "Vineyards": 109,
+    "Potatoes": 246,
+    "Cucurbit": 277,
+    "Tomatoes": 278,
+    "Truck Crops": 279,
+    "Cherries": 403,
+    "Olives": 409,
+    "Pears": 412,
+    "Citrus": 425,
+    "Almonds": 500,
+    "Pistachios": 502,
+    "Walnuts": 503,
+    "Pasture": 800,
+    "Turf": 908,
+    "Semi-agricultural/ROW": 913,
+    "Other Deciduous": 914,
+    "Fallow": 916,
+    "Floating Vegetation": 2002,
+    "Forage Grass": 2003,
+    "Riparian": 2004,
+    "Upland Herbaceous": 2005,
+    "Urban": 2006,
+    "Water": 2007,
+    "Wet herbaceous/sub irrigated pasture": 2008,
+    "No Filter" : -1, 
+    "Crop Filter": -2
+};
+
+
+// Masks to landcover category
+var landcover_mask = function(image, landcover_cat){
+ var id = crops[landcover_cat];
+ if(id == -1){
+   return image;
+ }
+ else if(id == -2){
+    // mask by all the non-crops 
+    var mask_bands = landcover.eq([0, 12, 22, 425, 2002, 2004, 2005, 2006, 2007]);
+    var mask = mask_bands.reduce(ee.Reducer.anyNonZero()).eq(0);
+    var image_masked = image.updateMask(mask);
+    return image_masked;
+ }
+ else{
+   var mask = landcover.eq(id);
+   var image_masked = image.updateMask(mask);
+   return image_masked;
+ }
+};
+
+var turn_layers_off = function(){
+  var layers = Map.layers();
+  layers.forEach(function(layer){
+        layer.setShown(false);
+    });
+};
+
+// compare how each individual method relates to the average (relative difference & zscore)
+var zscore = function(selected_method, selected_month, selected_crop){
+  turn_layers_off();
+
+  var et_est = methods[selected_method].image;
+
+  //zscore - how many standard deviations an element is from the mean
+  var zscore = et_est.subtract(mean).divide(std).select(month_bands[selected_month]);
+  
+  // mask by selected crop
+  var z_masked = landcover_mask(zscore, selected_crop);
+  
+  var ZlayerName = selected_method + " " + selected_month + " " + selected_crop;
+  
+  var selected_band = month_bands[selected_month];
+  
+  Map.addLayer(z_masked, {bands:[selected_band],min:-2,max:2, palette: ['2971b1', '6bacd0', 'c2ddeb', 'f7f6f6', 'faccb4', 'e48065', 'b92732']}, ZlayerName);
+};
+
+
+
+// UI
+
+var selected = {
+  model: 'sims',
+  month: 'July',
+  crop: 'Crop Filter'
+};
+
+
+// select method
+var selectMethod = ui.Select({
+  items: Object.keys(methods),
+  placeholder: selected.model,
+  onChange: function(key) {
+    selected["model"] = key;
+    zscore(selected.model, selected.month, selected.crop);
+  }
+});
+
+var selectBand = ui.Select({
+  items: Object.keys(month_bands),
+  placeholder: selected.month,
+  onChange: function(key) {
+    selected["month"] = key;
+    zscore(selected.model, selected.month, selected.crop);
+  }
+});
+
+var selectCrop = ui.Select({
+  items: Object.keys(crops),
+  placeholder: selected.crop,
+  onChange: function(key) {
+    selected["crop"] = key;
+    zscore(selected.model, selected.month, selected.crop);
+  }
+});
+
+var button = ui.Button({
+  label: 'Plot Histogram',
+  onClick: function() {
+    plot_hist(selected.model, selected.month, selected.crop);
+  }
+});
+
+
+// Create a panel to hold to UI dropdowns
+var panel = ui.Panel({
+  layout: ui.Panel.Layout.flow('horizontal')
+});
+Map.setOptions("SATELLITE");
+Map.add(panel);
+panel.add(selectMethod);
+panel.add(selectBand);
+panel.add(selectCrop);
+panel.add(button);
+zscore(selected.model, selected.month, selected.crop);
+
+var plot_hist = function(selected_method, selected_month, selected_crop){
+  var et_est = methods[selected_method].image;
+  var et_est_single = et_est.select(month_bands[selected_month]);
+  var mean_single = mean.select(month_bands[selected_month]);
+  
+  //mask by selected crop
+  var et_est_single_mask = landcover_mask(et_est_single, selected_crop);
+  var mean_single_mask = landcover_mask(mean_single, selected_crop);
+  
+  // rename band
+  et_est_single_mask = et_est_single_mask.rename(selected_method);
+  mean_single_mask = mean_single_mask.rename("average");
+  
+  // add mean to est
+  var cat = et_est_single_mask.addBands(mean_single_mask);
+  
+  // histogram
+  var hist = ui.Chart.image.histogram({image:cat, scale:200, minBucketWidth: 1});
+  hist.setOptions({title: "Histogram: "+ selected_crop + " in " + selected_month, colors: ['#528881', '#e6693e']});
+  hist.setSeriesNames([selected_method, "mean of all models"]);
+  print(hist);
+};
+
+
