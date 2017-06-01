@@ -253,6 +253,20 @@ var plot_hist = function(selected_method, selected_month, selected_wy, selected_
   
   var et_est = methods[selected_method].image;
   var et_est_single = et_est.select(month_bands[selected_month]);
+  
+  
+    // loop through all the et sources and crop to dsa region
+  var listImages = [];
+  for (var key in methods) {
+    var etimage =  methods[key].image.clip(dsa); // clip to DSA region
+    listImages.push(etimage);
+  }
+  
+  var methodsIC = ee.ImageCollection(listImages); // turn into an ImageCollection 
+  var mean = methodsIC.mean(); // reduce to mean value of all methods
+  var std = methodsIC.reduce(ee.Reducer.stdDev()); // using standard deviation reducer
+  
+  
   var mean_single = mean.select(month_bands[selected_month]);
   
   //mask by selected crop
