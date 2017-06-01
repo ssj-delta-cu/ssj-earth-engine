@@ -241,6 +241,7 @@ Map.setOptions("SATELLITE");
 Map.add(panel);
 panel.add(selectMethod);
 panel.add(selectBand);
+panel.add(selectWY);
 panel.add(selectCrop);
 panel.add(button);
 zscore(selected.model, selected.month, selected.crop);
