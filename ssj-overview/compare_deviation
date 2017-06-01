@@ -116,7 +116,7 @@ var crops = {
 
 
 // Masks to landcover category
-var landcover_mask = function(image, landcover_cat){
+var landcover_mask = function(image, landcover_cat, landcover){
  var id = crops[landcover_cat];
  if(id == -1){
    return image;
@@ -149,8 +149,6 @@ var zscore = function(selected_method, selected_month, selected_year, selected_c
   var methods = select_water_year(selected_year).methods;
   var landcover = select_water_year(selected_year).landcover;
   
-  print(methods);
-  
   // loop through all the et sources and crop to dsa region
   var listImages = [];
   for (var key in methods) {
@@ -169,7 +167,7 @@ var zscore = function(selected_method, selected_month, selected_year, selected_c
   var zscore = et_est.subtract(mean).divide(std).select(month_bands[selected_month]);
   
   // mask by selected crop
-  var z_masked = landcover_mask(zscore, selected_crop);
+  var z_masked = landcover_mask(zscore, selected_crop, landcover);
   
   var ZlayerName = selected_method + " " + selected_month + " " + selected_crop;
   
