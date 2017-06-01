@@ -183,7 +183,7 @@ var zscore = function(selected_method, selected_month, selected_crop){
 var selected = {
   model: 'sims',
   month: 'July',
-  wy: 2015,
+  wy: '2015',
   crop: 'Crop Filter'
 };
 
