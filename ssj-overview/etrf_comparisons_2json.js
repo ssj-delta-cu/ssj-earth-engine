@@ -30,10 +30,12 @@ var select_water_year = function(water_year){
       ucdpt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2016_v2-2-0")},
       ucdmetric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2016_v2-1-0")},
       sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2016_v2-0-0")},
-      eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2016")},
       calsimetaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-calsimetaw/calsimetaw_et_wy2016_v2-0-2")},
       detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2016_v2-0-1")},
     };
+    
+    var eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2016");
+
     
     var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2016_v2017-04-25');
     var landcover = landIQ.select(['b1']).rename('level_2');
@@ -41,7 +43,7 @@ var select_water_year = function(water_year){
     var station_points = ee.FeatureCollection('ft:1TedFG6u5KqIKghK23OyhPQC7ZIk-H_Qy74rkBvYL');
   }
   
-  return({methods: methods, landcover: landcover, stations: station_points});
+  return({methods: methods, landcover: landcover, stations: station_points, eto: eto});
 };//updated 6-6-17
 
 
