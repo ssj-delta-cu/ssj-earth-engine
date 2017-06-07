@@ -121,12 +121,18 @@ var region_names = {
 var exportEEjson = function(region, wateryear){
   var methods = select_water_year(wateryear).methods;
   var landcover = select_water_year(wateryear).landcover;
+  var eto = select_water_year(wateryear).eto;
     //loop through all the et sources, calc stats for areas
   for (var key in methods) {
   
-    var filename = key + "-" + region + "-" + wateryear;
+    var filename = key + "-" + region + "-" + wateryear + "-etrf";
     print(filename);
-    var e =  LUstatsMonthlyET(clip_ET_region(methods[key].image, region_names[region]), landcover);
+    
+    // calculate etrf (et / spatial cimis eto) for the image
+    var model_et = methods[key].image;
+    var etrf = model_et.divide(eto);
+    
+    var e =  LUstatsMonthlyET(clip_ET_region(etrf, region_names[region]), landcover);
     //print(e);
     
       var FC = ee.FeatureCollection([
