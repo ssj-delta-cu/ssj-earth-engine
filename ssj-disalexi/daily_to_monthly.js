@@ -1,3 +1,6 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var imageCollection = ee.ImageCollection("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto_collection");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 // UPDATING FOR A NEW WATER YEAR
 // In order to update this code to work for a new water year, you must do a few short things
 // 1) Add the daily disalexi rasters for the new water year to the image collection at
@@ -76,7 +79,7 @@ var wy_2015 = {'name': 'wy_2015',
 };
 
 var eto = {'name': 'disalexi_eto',
-  'collection':'/users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto',
+  'collection':'/users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto_collection',
   'dates': [
         '2015-10-01','2015-11-01','2015-12-01',
         '2015-01-01','2015-02-01','2015-03-01',
