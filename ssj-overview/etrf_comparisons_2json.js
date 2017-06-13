@@ -49,13 +49,8 @@ var select_water_year = function(water_year){
 };//updated 6-6-17
 
 
-print(select_water_year(2015).landcover);
-
-Map.addLayer(select_water_year(2015).landcover);
-
 // fusion tables with regions to clip
 var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZllv');
-var LEGALregion = ee.FeatureCollection('ft:1pwTPCh-j_aDA2MUbk12LxorHFrW-DnEgYqqySPk5');
 
 
 // function to return an image clipped to a specific AOI from a fusion table
@@ -109,21 +104,14 @@ var LUstatsMonthlyET = function(monthlyETwy12band, landcover){
 
 
 var region_names = {
-  "dsa": DSAregion, 
-  "legal": LEGALregion,
-  "dsa_1": DSAregion.filterMetadata("subarea", "equals", 1),
-  "dsa_2": DSAregion.filterMetadata("subarea", "equals", 2),
-  "dsa_51": DSAregion.filterMetadata("subarea", "equals", 51),
-  "dsa_103": DSAregion.filterMetadata("subarea", "equals", 103),
-  "dsa_119": DSAregion.filterMetadata("subarea", "equals", 119),
-  "dsa_153": DSAregion.filterMetadata("subarea", "equals", 153)
+  "dsa": DSAregion,
 };
 
 
 var exportEEjson = function(region, wateryear){
   var methods = select_water_year(wateryear).methods;
   var landcover = select_water_year(wateryear).landcover;
-  var eto = select_water_year(wateryear).eto;
+ 
     //loop through all the et sources, calc stats for areas
   for (var key in methods) {
   
@@ -132,6 +120,7 @@ var exportEEjson = function(region, wateryear){
     
     // calculate etrf (et / spatial cimis eto) for the image
     var model_et = methods[key].image;
+    var eto = methods[key].eto;
     var etrf = model_et.divide(eto);
     
     var e =  LUstatsMonthlyET(clip_ET_region(etrf, region_names[region]), landcover);
