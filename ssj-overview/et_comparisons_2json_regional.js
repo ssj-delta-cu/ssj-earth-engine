@@ -44,13 +44,15 @@ var select_water_year = function(water_year){
 };//updated 6-6-17
 
 
-print(select_water_year(2015).landcover);
+//print(select_water_year(2015).landcover);
 
-Map.addLayer(select_water_year(2015).landcover);
 
 // fusion tables with regions to clip
 var DSAregion = ee.FeatureCollection('ft:1iEdfthNTvZDo9hs1C2pqs8UoU8qB_-f17tmApFqe');
 var LEGALregion = ee.FeatureCollection('ft:1pwTPCh-j_aDA2MUbk12LxorHFrW-DnEgYqqySPk5');
+
+
+Map.addLayer(DSAregion);
 
 
 // function to return an image clipped to a specific AOI from a fusion table
