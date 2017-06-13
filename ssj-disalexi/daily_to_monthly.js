@@ -79,7 +79,7 @@ var wy_2015 = {'name': 'wy_2015',
 };
 
 var eto_2015 = {'name': 'disalexi_eto_2015',
-  'collection':'/users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto_collection',
+  'collection':'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto_collection',
   'dates': wy_2015.dates
 };
 
