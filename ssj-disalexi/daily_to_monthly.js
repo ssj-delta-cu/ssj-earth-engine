@@ -75,6 +75,19 @@ var wy_2015 = {'name': 'wy_2015',
         ]
 };
 
+var eto = {'name': 'disalexi_eto',
+  'collection':'/users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto',
+  'dates': [
+        '2015-10-01','2015-11-01','2015-12-01',
+        '2015-01-01','2015-02-01','2015-03-01',
+        '2015-04-01','2015-05-01','2015-06-01',
+        '2015-07-01','2015-08-01','2015-09-01',
+        '2015-11-01','2015-12-01','2016-01-01',
+        '2016-02-01','2016-03-01','2016-04-01',
+        '2016-05-01','2016-06-01','2016-07-01',
+        '2016-08-01','2016-09-01'
+        ]
+
 var wy_2015_corr = {'name': 'wy_2015_corr',
     'collection': 'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr',
     'dates': wy_2015.dates,
