@@ -86,7 +86,8 @@ var eto = {'name': 'disalexi_eto',
         '2016-02-01','2016-03-01','2016-04-01',
         '2016-05-01','2016-06-01','2016-07-01',
         '2016-08-01','2016-09-01'
-        ]
+        ],
+};
 
 var wy_2015_corr = {'name': 'wy_2015_corr',
     'collection': 'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr',
@@ -114,7 +115,7 @@ var wy_2016_corr = {'name': 'wy_2016_corr',
     'dates': wy_2016.dates
 };
 
-var water_years = [wy_2015, wy_2016, wy_2015_corr, wy_2016_corr];  // add any new years to run here
+var water_years = [eto];  // add any new years to run here
 
 
 // PROCESSING CODE ============================================================
