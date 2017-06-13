@@ -2,7 +2,7 @@ var select_water_year = function(water_year){
   if(water_year == 2015){
 
     var spatial_cimis_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2015");
-
+    var detaw_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_eto_wy2015");
 
     var methods={
       itrc:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1"), eto:spatial_cimis_eto},
@@ -11,7 +11,7 @@ var select_water_year = function(water_year){
       ucdmetric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2015_v2-1-0"), eto:spatial_cimis_eto},
       sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2015_v2-0-0"), eto:spatial_cimis_eto},
       calsimetaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-calsimetaw/calsimetaw_et_wy2015_v2-0-0"), eto:spatial_cimis_eto},
-      detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2015_v2-0-1"), eto:spatial_cimis_eto},
+      detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2015_v2-0-1"), eto:detaw_eto},
     };
     
 
@@ -26,6 +26,8 @@ var select_water_year = function(water_year){
   else if(water_year == 2016){
 
     var spatial_cimis_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2016");
+    var detaw_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_eto_wy2016");
+
 
     var methods={
       itrc:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2016_v2-0-3"), eto:spatial_cimis_eto},
@@ -34,7 +36,7 @@ var select_water_year = function(water_year){
       ucdmetric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2016_v2-1-0"), eto:spatial_cimis_eto},
       sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2016_v2-0-0"), eto:spatial_cimis_eto},
       calsimetaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-calsimetaw/calsimetaw_et_wy2016_v2-0-2"), eto:spatial_cimis_eto},
-      detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2016_v2-0-1"), eto:spatial_cimis_eto},
+      detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2016_v2-0-1"), eto:detaw_eto},
     };
     
     var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2016_v2017-04-25');
