@@ -12,7 +12,7 @@ var select_water_year = function(water_year){
 
     };
     
-    var eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2015");
+    var spatial_cimis_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2015");
 
     
     var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2015_v2016-06-16');
@@ -34,7 +34,7 @@ var select_water_year = function(water_year){
       detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2016_v2-0-1")},
     };
     
-    var eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2016");
+    var spatial_cimis_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2016");
 
     
     var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2016_v2017-04-25');
