@@ -3,6 +3,7 @@ var select_water_year = function(water_year){
 
     var spatial_cimis_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2015");
     var detaw_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_eto_wy2015");
+    var disalexi_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_monthly/eto_2015_monthly");
 
     var methods={
       itrc:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1"), eto:spatial_cimis_eto},
@@ -27,7 +28,7 @@ var select_water_year = function(water_year){
 
     var spatial_cimis_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2016");
     var detaw_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_eto_wy2016");
-
+    var disalexi_eto = ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_monthly/eto_2016_monthly");
 
     var methods={
       itrc:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2016_v2-0-3"), eto:spatial_cimis_eto},
