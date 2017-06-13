@@ -134,7 +134,14 @@ var exportEEjson = function(region, wateryear){
   
 };
 
-exportEEjson("legal", 2015);
-exportEEjson("dsa", 2015);
-exportEEjson("legal", 2016);
-exportEEjson("dsa", 2016);
+exportEEjson("South", 2015);
+exportEEjson("North", 2015);
+exportEEjson("West", 2015);
+exportEEjson("Yolo", 2015);
+exportEEjson("Central", 2015);
+
+exportEEjson("South", 2016);
+exportEEjson("North", 2016);
+exportEEjson("West", 2016);
+exportEEjson("Yolo", 2016);
+exportEEjson("Central", 2016);
