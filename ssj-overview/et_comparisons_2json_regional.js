@@ -49,7 +49,7 @@ print(select_water_year(2015).landcover);
 Map.addLayer(select_water_year(2015).landcover);
 
 // fusion tables with regions to clip
-var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZllv');
+var DSAregion = ee.FeatureCollection('ft:1iEdfthNTvZDo9hs1C2pqs8UoU8qB_-f17tmApFqe');
 var LEGALregion = ee.FeatureCollection('ft:1pwTPCh-j_aDA2MUbk12LxorHFrW-DnEgYqqySPk5');
 
 
