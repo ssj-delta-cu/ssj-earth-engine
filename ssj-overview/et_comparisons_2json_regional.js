@@ -106,12 +106,11 @@ var LUstatsMonthlyET = function(monthlyETwy12band, landcover){
 var region_names = {
   "dsa": DSAregion, 
   "legal": LEGALregion,
-  "dsa_1": DSAregion.filterMetadata("subarea", "equals", 1),
-  "dsa_2": DSAregion.filterMetadata("subarea", "equals", 2),
-  "dsa_51": DSAregion.filterMetadata("subarea", "equals", 51),
-  "dsa_103": DSAregion.filterMetadata("subarea", "equals", 103),
-  "dsa_119": DSAregion.filterMetadata("subarea", "equals", 119),
-  "dsa_153": DSAregion.filterMetadata("subarea", "equals", 153)
+  "South": DSAregion.filterMetadata("region_name", "equals","South"),
+  "North": DSAregion.filterMetadata("region_name", "equals", "North"),
+  "Central": DSAregion.filterMetadata("region_name", "equals", "Central"),
+  "Yolo": DSAregion.filterMetadata("region_name", "equals", "Yolo"),
+  "West": DSAregion.filterMetadata("region_name", "equals", "West")
 };
 
 
