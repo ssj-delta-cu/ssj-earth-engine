@@ -104,7 +104,7 @@ var wy_2016 = {'name': 'wy_2016',
     '2016-09-01']
     };
 
-var eto_2015 = {'name': 'disalexi_eto_2015',
+var eto_2016 = {'name': 'disalexi_eto_2016',
   'collection':'/users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto_collection',
   'dates': wy_2016.dates
 };
@@ -114,7 +114,7 @@ var wy_2016_corr = {'name': 'wy_2016_corr',
     'dates': wy_2016.dates
 };
 
-var water_years = [eto];  // add any new years to run here
+var water_years = [eto_2015, eto_2016];  // add any new years to run here
 
 
 // PROCESSING CODE ============================================================
