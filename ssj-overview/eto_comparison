@@ -44,9 +44,7 @@ var LUstats = function(monthlyETwy12band, bandname, landcover){
   var LUstatsSingleBand = monthlyETwy12band.select(bandname)
     .addBands(landcover)
     .reduceRegion({
-      reducer: GroupedStatReducers.group({
-        groupField: 1, 
-        groupName: 'level_2',}), 
+      reducer: GroupedStatReducers, 
       scale: 30, // note scale is set to 200 meters!
       maxPixels: 1e8 });
   return LUstatsSingleBand;
