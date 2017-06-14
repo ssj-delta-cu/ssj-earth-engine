@@ -40,10 +40,9 @@ var GroupedStatReducers = ee.Reducer.mean()
   .combine(ee.Reducer.count(), "", true)
   .combine(ee.Reducer.stdDev(), "", true);
 
-// Function to use ReduceRegions to calculate GroupedStatReducers by landcover type for a single band 
-var LUstats = function(monthlyETwy12band, bandname, landcover){
+// Function to use ReduceRegions to calculate GroupedStatReducers for a single band 
+var LUstats = function(monthlyETwy12band, bandname){
   var LUstatsSingleBand = monthlyETwy12band.select(bandname)
-    .addBands(landcover)
     .reduceRegion({
       reducer: GroupedStatReducers, 
       scale: 30, // note scale is set to 200 meters!
