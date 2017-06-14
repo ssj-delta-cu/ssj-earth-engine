@@ -46,7 +46,7 @@ var select_water_year = function(water_year){
     var station_points = ee.FeatureCollection('ft:1TedFG6u5KqIKghK23OyhPQC7ZIk-H_Qy74rkBvYL');
   }
   
-  return({methods: methods, landcover: landcover, stations: station_points, eto: eto});
+  return({methods: methods, landcover: landcover, stations: station_points});
 };//updated 6-6-17
 
 
