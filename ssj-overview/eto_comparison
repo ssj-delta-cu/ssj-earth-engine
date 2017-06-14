@@ -52,7 +52,7 @@ var LUstats = function(monthlyETwy12band, bandname){
 
 
 // loop through each band in the 12 band monthly ET and calc stats about the landuse 
-var LUstatsMonthlyET = function(monthlyETwy12band, landcover){
+var LUstatsMonthlyET = function(monthlyETwy12band){
  
   // months in wy order
   var m = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
@@ -64,7 +64,7 @@ var LUstatsMonthlyET = function(monthlyETwy12band, landcover){
   var wydict = ee.Dictionary();
   
   for(var i=0;i<m.length;i++){
-    var statsMonth = LUstats(monthlyETwy12band, m[i], landcover);
+    var statsMonth = LUstats(monthlyETwy12band, m[i]);
     statsMonth = ee.Dictionary(statsMonth);
     statsMonth = statsMonth.rename(['groups'], [m[i]]);
     wydict = wydict.combine(statsMonth, false);
