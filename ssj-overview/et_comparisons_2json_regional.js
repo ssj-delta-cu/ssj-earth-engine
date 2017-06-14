@@ -48,7 +48,7 @@ var select_water_year = function(water_year){
 
 
 // fusion tables with regions to clip
-var DSAregion = ee.FeatureCollection('ft:1iEdfthNTvZDo9hs1C2pqs8UoU8qB_-f17tmApFqe');
+var DSAregion = ee.FeatureCollection('ft:1RmuOccaSI1eOkXCPZ5ca95DWCvXk4d7mQ6xhqLGe');
 var LEGALregion = ee.FeatureCollection('ft:1pwTPCh-j_aDA2MUbk12LxorHFrW-DnEgYqqySPk5');
 
 
