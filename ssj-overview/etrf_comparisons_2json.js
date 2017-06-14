@@ -7,7 +7,7 @@ var select_water_year = function(water_year){
 
     var methods={
       itrc:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1"), eto:spatial_cimis_eto},
-      disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-1-0"), eto:spatial_cimis_eto},
+      disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-1-0"), eto:disalexi_eto},
       ucdpt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2015_v2-2-0"), eto:spatial_cimis_eto},
       ucdmetric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2015_v2-1-0"), eto:spatial_cimis_eto},
       sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2015_v2-0-0"), eto:spatial_cimis_eto},
@@ -32,7 +32,7 @@ var select_water_year = function(water_year){
 
     var methods={
       itrc:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2016_v2-0-3"), eto:spatial_cimis_eto},
-      disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2016_v2-1-0"), eto:spatial_cimis_eto},
+      disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2016_v2-1-0"), eto:disalexi_eto},
       ucdpt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2016_v2-2-0"), eto:spatial_cimis_eto},
       ucdmetric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2016_v2-1-0"), eto:spatial_cimis_eto},
       sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2016_v2-0-0"), eto:spatial_cimis_eto},
