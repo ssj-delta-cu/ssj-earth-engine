@@ -66,7 +66,7 @@ var LUstatsMonthlyET = function(monthlyETwy12band){
   for(var i=0;i<m.length;i++){
     var statsMonth = LUstats(monthlyETwy12band, m[i]);
     statsMonth = ee.Dictionary(statsMonth);
-    statsMonth = statsMonth.rename(['groups'], [m[i]]);
+    //statsMonth = statsMonth.rename(['groups'], [m[i]]);
     wydict = wydict.combine(statsMonth, false);
   }
   return(wydict); // return results as dictionary of monthly dictionarys broken down by level 2 crop id
