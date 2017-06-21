@@ -1,3 +1,4 @@
 var imageCollection = ee.ImageCollection("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto_collection");
 
-
+// field station locations for wy 2016
+var station_points = ee.FeatureCollection('ft:1TedFG6u5KqIKghK23OyhPQC7ZIk-H_Qy74rkBvYL');
