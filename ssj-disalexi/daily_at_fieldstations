@@ -1,0 +1,3 @@
+var imageCollection = ee.ImageCollection("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto_collection");
+
+
