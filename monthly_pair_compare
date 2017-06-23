@@ -134,16 +134,16 @@ var landcover_mask = function(image, landcover_cat, landcover){
  }
 };
 
-var turn_layers_off = function(){
-  var layers = Map.layers();
+var turn_layers_off = function(map_index){
+  var layers = maps[map_index].layers();
   layers.forEach(function(layer){
         layer.setShown(false);
     });
 };
 
 // compare how each individual method relates to the average (relative difference & zscore)
-var zscore = function(selected_method, selected_month, selected_year, selected_crop){
-  turn_layers_off();
+var zscore = function(selected_method, selected_month, selected_year, selected_crop, map_index){
+  turn_layers_off(map_index);
 
   var methods = select_water_year(selected_year).methods;
   var landcover = select_water_year(selected_year).landcover;
@@ -172,7 +172,7 @@ var zscore = function(selected_method, selected_month, selected_year, selected_c
   
   var selected_band = month_bands[selected_month];
   
-  maps[0].addLayer(z_masked, {bands:[selected_band],min:-2,max:2, palette: ['2971b1', '6bacd0', 'c2ddeb', 'f7f6f6', 'faccb4', 'e48065', 'b92732']}, ZlayerName);
+  maps[map_index].addLayer(z_masked, {bands:[selected_band],min:-2,max:2, palette: ['2971b1', '6bacd0', 'c2ddeb', 'f7f6f6', 'faccb4', 'e48065', 'b92732']}, ZlayerName);
 };
 
 
