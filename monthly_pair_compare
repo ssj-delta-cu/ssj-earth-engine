@@ -341,7 +341,7 @@ panel.add(selectCrop_a);
 add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
 
 var panel = ui.Panel({
-  layout: ui.Panel.Layout.flow('both')
+  layout: ui.Panel.Layout.flow('horizontal')
 });
 maps[1].setOptions("SATELLITE");
 maps[1].add(panel);
