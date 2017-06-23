@@ -177,9 +177,9 @@ var zscore = function(selected_method, selected_month, selected_year, selected_c
 
 
 
-// UI
+// UI Settings
 
-var selected = {
+var a = {
   model: 'sims',
   month: 'July',
   wy: '2015',
@@ -188,83 +188,54 @@ var selected = {
 
 
 // select method
-var selectMethodA = ui.Select({
-  items: Object.keys(select_water_year(selected.wy).methods),
-  placeholder: selected.model,
+var selectMethod_a = ui.Select({
+  items: Object.keys(select_water_year(a.wy).methods),
+  placeholder: a.model,
   onChange: function(key) {
-    selected.model = key;
-    zscore(selected.model, selected.month, selected.wy, selected.crop);
+    a.model = key;
+    zscore(a.model, a.month, a.wy, a.crop);
   }
 });
 
-var selectMethodB = ui.Select({
-  items: Object.keys(select_water_year(selected.wy).methods),
-  placeholder: selected.model,
+var selectMethod_a = ui.Select({
+  items: Object.keys(select_water_year(a.wy).methods),
+  placeholder: a.model,
   onChange: function(key) {
-    selected.model = key;
-    zscore(selected.model, selected.month, selected.wy, selected.crop);
+    a.model = key;
+    zscore(a.model, a.month, a.wy, a.crop);
   }
 });
 
-var selectBand = ui.Select({
+var selectBand_a = ui.Select({
   items: Object.keys(month_bands),
-  placeholder: selected.month,
+  placeholder: a.month,
   onChange: function(key) {
-    selected.month = key;
-    zscore(selected.model, selected.month, selected.wy, selected.crop);
+    a.month = key;
+    zscore(a.model, a.month, a.wy, a.crop);
   }
 });
 
-var selectWY = ui.Select({
+var selectWY_a = ui.Select({
   items: ["2015", "2016"],
-  placeholder: selected.wy,
+  placeholder: a.wy,
   onChange: function(key) {
-    selected.wy = key;
-    zscore(selected.model, selected.month, selected.wy, selected.crop);
+    a.wy = key;
+    zscore(a.model, a.month, a.wy, a.crop);
   }
 });
 
-var selectCrop = ui.Select({
+var selectCrop_a = ui.Select({
   items: Object.keys(crops),
-  placeholder: selected.crop,
+  placeholder: a.crop,
   onChange: function(key) {
-    selected.crop = key;
-    zscore(selected.model, selected.month, selected.wy, selected.crop);
+    a.crop = key;
+    zscore(a.model, a.month, a.wy, a.crop);
   }
 });
 
-
-
-
-
-
-// Display a grid of linked maps, each with a different visualization.
-
-var image = ee.Image('LANDSAT/LC8_L1T_ANNUAL_TOA/2013');
-
-var NAMES = [
-  'Natural Color (B4/B3/B2)',
-  'Shortwave IR (B7/B5/B4)',
-  'Color Infrared (B5/B4/B3)',
-  'Agriculture (B6/B5/B2)'
-];
-
-var VIS_PARAMS = [
-  {gamma: 1.3, min: 0, max: 0.3, bands: ['B4', 'B3', 'B2']},
-  {gamma: 1.3, min: 0, max: 0.3, bands: ['B7', 'B5', 'B4']},
-  {gamma: 1.3, min: 0, max: 0.3, bands: ['B5', 'B4', 'B3']},
-  {gamma: 1.3, min: 0, max: 0.3, bands: ['B6', 'B5', 'B2']}
-];
 
 // Create a map for each visualization option.
-var maps = [];
-NAMES.forEach(function(name, index) {
-  var map = ui.Map();
-  map.add(ui.Label(name));
-  map.addLayer(image, VIS_PARAMS[index], name);
-  map.setControlVisibility(false);
-  maps.push(map);
-});
+var maps = [ui.Map(), ui.Map()];
 
 var linker = ui.Map.Linker(maps);
 
@@ -295,11 +266,11 @@ var panel = ui.Panel({
 });
 maps[0].setOptions("SATELLITE");
 maps[0].add(panel);
-panel.add(selectMethodA);
-panel.add(selectBand);
-panel.add(selectWY);
-panel.add(selectCrop);
-zscore(selected.model, selected.month, selected.wy, selected.crop);
+panel.add(selectMethod_a);
+panel.add(selectBand_a);
+panel.add(selectWY_a);
+panel.add(selectCrop_a);
+zscore(a.model, a.month, a.wy, a.crop);
 
 
 
