@@ -330,7 +330,7 @@ ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
 
 // Create a panel to hold to UI dropdowns
 var panel = ui.Panel({
-  layout: ui.Panel.Layout.flow('horizontal')
+  layout: ui.Panel.Layout.flow('horizontal'),
   style: {
     position: 'bottom-left',
     padding: '8px 15px'
