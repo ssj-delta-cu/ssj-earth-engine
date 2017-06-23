@@ -293,7 +293,7 @@ var mapGrid = ui.Panel(
 
 // Add the maps and title to the ui.root.
 ui.root.widgets().reset([title, mapGrid]);
-//ui.root.setLayout(ui.Panel.Layout.Flow('vertical'));
+ui.root.setLayout(ui.Panel.Layout.Flow('vertical'));
 
 
 // Create a panel to hold to UI dropdowns
@@ -301,7 +301,7 @@ var panel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal')
 });
 //Map.setOptions("SATELLITE");
-//Map.add(panel);
+Map.add(panel);
 panel.add(ui.Label('Left'));
 panel.add(selectMethodA);
 panel.add(ui.Label('Right'));
@@ -310,7 +310,7 @@ panel.add(selectBand);
 panel.add(selectWY);
 panel.add(selectCrop);
 zscore(selected.model, selected.month, selected.wy, selected.crop);
-ui.root.setLayout(panel);
+
 
 
 // Center the maps
