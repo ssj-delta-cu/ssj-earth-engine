@@ -172,7 +172,7 @@ var redyellowgreen = ['FF0000',
 '33FF00',
 '22FF00',
 '11FF00',
-'00FF00']
+'00FF00'];
 
 // add the monthly ET band for the selected options
 var add_monthly_band = function(selected_method, selected_month, selected_year, selected_crop, map_index){
