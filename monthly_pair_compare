@@ -172,7 +172,7 @@ var zscore = function(selected_method, selected_month, selected_year, selected_c
   
   var selected_band = month_bands[selected_month];
   
-  Map.addLayer(z_masked, {bands:[selected_band],min:-2,max:2, palette: ['2971b1', '6bacd0', 'c2ddeb', 'f7f6f6', 'faccb4', 'e48065', 'b92732']}, ZlayerName);
+  maps[0].addLayer(z_masked, {bands:[selected_band],min:-2,max:2, palette: ['2971b1', '6bacd0', 'c2ddeb', 'f7f6f6', 'faccb4', 'e48065', 'b92732']}, ZlayerName);
 };
 
 
