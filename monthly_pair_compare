@@ -331,6 +331,10 @@ ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
 // Create a panel to hold to UI dropdowns
 var panel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal')
+  style: {
+    position: 'bottom-left',
+    padding: '8px 15px'
+  }
 });
 maps[0].setOptions("SATELLITE");
 maps[0].add(panel);
