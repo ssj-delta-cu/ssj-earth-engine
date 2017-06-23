@@ -191,7 +191,7 @@ var add_monthly_band = function(selected_method, selected_month, selected_year, 
   
   var selected_band = month_bands[selected_month];
   
-  maps[map_index].addLayer(et_masked, {bands:[selected_band],min:0,max:100, palette: ['2971b1', '6bacd0', 'c2ddeb', 'f7f6f6', 'faccb4', 'e48065', 'b92732']}, ZlayerName);
+  maps[map_index].addLayer(et_masked, {bands:[selected_band],min:0,max:100, palette: redyellowgreen}, ZlayerName);
 };
 
 
