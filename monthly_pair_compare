@@ -193,7 +193,7 @@ var selectMethod_a = ui.Select({
   placeholder: a.model,
   onChange: function(key) {
     a.model = key;
-    zscore(a.model, a.month, a.wy, a.crop);
+    zscore(a.model, a.month, a.wy, a.crop, 0);
   }
 });
 
@@ -202,7 +202,7 @@ var selectMethod_a = ui.Select({
   placeholder: a.model,
   onChange: function(key) {
     a.model = key;
-    zscore(a.model, a.month, a.wy, a.crop);
+    zscore(a.model, a.month, a.wy, a.crop, 0);
   }
 });
 
@@ -211,7 +211,7 @@ var selectBand_a = ui.Select({
   placeholder: a.month,
   onChange: function(key) {
     a.month = key;
-    zscore(a.model, a.month, a.wy, a.crop);
+    zscore(a.model, a.month, a.wy, a.crop, 0);
   }
 });
 
@@ -220,7 +220,7 @@ var selectWY_a = ui.Select({
   placeholder: a.wy,
   onChange: function(key) {
     a.wy = key;
-    zscore(a.model, a.month, a.wy, a.crop);
+    zscore(a.model, a.month, a.wy, a.crop, 0);
   }
 });
 
@@ -229,7 +229,7 @@ var selectCrop_a = ui.Select({
   placeholder: a.crop,
   onChange: function(key) {
     a.crop = key;
-    zscore(a.model, a.month, a.wy, a.crop);
+    zscore(a.model, a.month, a.wy, a.crop, 0);
   }
 });
 
@@ -270,7 +270,7 @@ panel.add(selectMethod_a);
 panel.add(selectBand_a);
 panel.add(selectWY_a);
 panel.add(selectCrop_a);
-zscore(a.model, a.month, a.wy, a.crop);
+zscore(a.model, a.month, a.wy, a.crop, 0);
 
 
 
