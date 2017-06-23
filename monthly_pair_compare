@@ -141,6 +141,39 @@ var turn_layers_off = function(map_index){
     });
 };
 
+
+var redyellowgreen = ['FF0000', 
+'FF1100',
+'FF2200',
+'FF3300',
+'FF4400',
+'FF5500',
+'FF6600',
+'FF7700',
+'FF8800',
+'FF9900',
+'FFAA00',
+'FFBB00',
+'FFCC00',
+'FFDD00',
+'FFEE00',
+'FFFF00',
+'EEFF00',
+'DDFF00',
+'CCFF00',
+'BBFF00',
+'AAFF00',
+'99FF00',
+'88FF00',
+'77FF00',
+'66FF00',
+'55FF00',
+'44FF00',
+'33FF00',
+'22FF00',
+'11FF00',
+'00FF00']
+
 // add the monthly ET band for the selected options
 var add_monthly_band = function(selected_method, selected_month, selected_year, selected_crop, map_index){
   turn_layers_off(map_index);
@@ -158,7 +191,7 @@ var add_monthly_band = function(selected_method, selected_month, selected_year, 
   
   var selected_band = month_bands[selected_month];
   
-  maps[map_index].addLayer(et_masked, {bands:[selected_band],min:-2,max:2, palette: ['2971b1', '6bacd0', 'c2ddeb', 'f7f6f6', 'faccb4', 'e48065', 'b92732']}, ZlayerName);
+  maps[map_index].addLayer(et_masked, {bands:[selected_band],min:0,max:100, palette: ['2971b1', '6bacd0', 'c2ddeb', 'f7f6f6', 'faccb4', 'e48065', 'b92732']}, ZlayerName);
 };
 
 
