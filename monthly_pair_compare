@@ -250,7 +250,9 @@ var panel = ui.Panel({
 });
 Map.setOptions("SATELLITE");
 Map.add(panel);
+panel.add(ui.Label('Left'));
 panel.add(selectMethodA);
+panel.add(ui.Label('Right'));
 panel.add(selectMethodB);
 panel.add(selectBand);
 panel.add(selectWY);
