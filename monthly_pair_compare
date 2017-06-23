@@ -191,7 +191,16 @@ var selected = {
 
 
 // select method
-var selectMethod = ui.Select({
+var selectMethodA = ui.Select({
+  items: Object.keys(select_water_year(selected.wy).methods),
+  placeholder: selected.model,
+  onChange: function(key) {
+    selected.model = key;
+    zscore(selected.model, selected.month, selected.wy, selected.crop);
+  }
+});
+
+var selectMethodB = ui.Select({
   items: Object.keys(select_water_year(selected.wy).methods),
   placeholder: selected.model,
   onChange: function(key) {
@@ -241,7 +250,8 @@ var panel = ui.Panel({
 });
 Map.setOptions("SATELLITE");
 Map.add(panel);
-panel.add(selectMethod);
+panel.add(selectMethodA);
+panel.add(selectMethodB);
 panel.add(selectBand);
 panel.add(selectWY);
 panel.add(selectCrop);
