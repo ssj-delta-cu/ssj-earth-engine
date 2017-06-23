@@ -186,6 +186,7 @@ var a = {
   crop: 'Crop Filter'
 };
 
+var b = a;
 
 // select method
 var selectMethod_a = ui.Select({
@@ -232,6 +233,54 @@ var selectCrop_a = ui.Select({
     zscore(a.model, a.month, a.wy, a.crop, 0);
   }
 });
+
+
+var selectMethod_b = ui.Select({
+  items: Object.keys(select_water_year(b.wy).methods),
+  placeholder: b.model,
+  onChange: function(key) {
+    b.model = key;
+    zscore(b.model, b.month, b.wy, b.crop, 1);
+  }
+});
+
+var selectMethod_b = ui.Select({
+  items: Object.keys(select_water_year(a.wy).methods),
+  placeholder: b.model,
+  onChange: function(key) {
+    b.model = key;
+    zscore(b.model, b.month, b.wy, b.crop, 1);
+  }
+});
+
+var selectBand_b = ui.Select({
+  items: Object.keys(month_bands),
+  placeholder: b.month,
+  onChange: function(key) {
+    b.month = key;
+    zscore(b.model, b.month, b.wy, b.crop, 1);
+  }
+});
+
+var selectWY_b = ui.Select({
+  items: ["2015", "2016"],
+  placeholder: b.wy,
+  onChange: function(key) {
+    b.wy = key;
+    zscore(b.model, b.month, b.wy, b.crop, 1);
+  }
+});
+
+var selectCrop_b = ui.Select({
+  items: Object.keys(crops),
+  placeholder: b.crop,
+  onChange: function(key) {
+    b.crop = key;
+    zscore(b.model, b.month, b.wy, b.crop, 1);
+  }
+});
+
+
 
 
 // Create a map for each visualization option.
