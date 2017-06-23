@@ -332,8 +332,8 @@ ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
 var panel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
   style: {
-    position: 'bottom-left',
-    padding: '8px 15px'
+    position: 'top-left',
+    padding: '10px 10px'
   }
 });
 maps[0].setOptions("SATELLITE");
@@ -345,7 +345,11 @@ panel.add(selectCrop_a);
 add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
 
 var panel = ui.Panel({
-  layout: ui.Panel.Layout.flow('horizontal')
+  layout: ui.Panel.Layout.flow('horizontal'),
+    style: {
+    position: 'top-left',
+    padding: '10px 10px'
+  }
 });
 maps[1].setOptions("SATELLITE");
 maps[1].add(panel);
