@@ -364,3 +364,4 @@ add_monthly_band(b.model, b.month, b.wy, b.crop, 1);
 // Center the maps
 maps[0].centerObject(bbox);
 
+//maps[0].addLayer(select_water_year(2016).stations);
