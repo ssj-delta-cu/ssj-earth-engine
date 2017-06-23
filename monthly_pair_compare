@@ -236,13 +236,6 @@ var selectCrop = ui.Select({
   }
 });
 
-var button = ui.Button({
-  label: 'Plot Histogram',
-  onClick: function() {
-    plot_hist(selected.model, selected.month, selected.wy, selected.crop);
-  }
-});
-
 
 // Create a panel to hold to UI dropdowns
 var panel = ui.Panel({
@@ -257,48 +250,68 @@ panel.add(selectMethodB);
 panel.add(selectBand);
 panel.add(selectWY);
 panel.add(selectCrop);
-panel.add(button);
 zscore(selected.model, selected.month, selected.wy, selected.crop);
 
-var plot_hist = function(selected_method, selected_month, selected_wy, selected_crop){
-  var methods = select_water_year(selected_wy).methods;
-  var landcover = select_water_year(selected_wy).landcover;
-  
-  
-  var et_est = methods[selected_method].image;
-  var et_est_single = et_est.select(month_bands[selected_month]);
-  
-  
-    // loop through all the et sources and crop to dsa region
-  var listImages = [];
-  for (var key in methods) {
-    var etimage =  methods[key].image.clip(dsa); // clip to DSA region
-    listImages.push(etimage);
-  }
-  
-  var methodsIC = ee.ImageCollection(listImages); // turn into an ImageCollection 
-  var mean = methodsIC.mean(); // reduce to mean value of all methods
-  var std = methodsIC.reduce(ee.Reducer.stdDev()); // using standard deviation reducer
-  
-  
-  var mean_single = mean.select(month_bands[selected_month]);
-  
-  //mask by selected crop
-  var et_est_single_mask = landcover_mask(et_est_single, selected_crop, landcover);
-  var mean_single_mask = landcover_mask(mean_single, selected_crop, landcover);
-  
-  // rename band
-  et_est_single_mask = et_est_single_mask.rename(selected_method);
-  mean_single_mask = mean_single_mask.rename("average");
-  
-  // add mean to est
-  var cat = et_est_single_mask.addBands(mean_single_mask);
-  
-  // histogram
-  var hist = ui.Chart.image.histogram({image:cat, scale:200, minBucketWidth: 1});
-  hist.setOptions({title: "Histogram: "+ selected_crop + " in " + selected_month, colors: ['#528881', '#e6693e']});
-  hist.setSeriesNames([selected_method, "mean of all models"]);
-  print(hist);
-};
+
+
+// Display a grid of linked maps, each with a different visualization.
+
+var image = ee.Image('LANDSAT/LC8_L1T_ANNUAL_TOA/2013');
+
+var NAMES = [
+  'Natural Color (B4/B3/B2)',
+  'Shortwave IR (B7/B5/B4)',
+  'Color Infrared (B5/B4/B3)',
+  'Agriculture (B6/B5/B2)'
+];
+
+var VIS_PARAMS = [
+  {gamma: 1.3, min: 0, max: 0.3, bands: ['B4', 'B3', 'B2']},
+  {gamma: 1.3, min: 0, max: 0.3, bands: ['B7', 'B5', 'B4']},
+  {gamma: 1.3, min: 0, max: 0.3, bands: ['B5', 'B4', 'B3']},
+  {gamma: 1.3, min: 0, max: 0.3, bands: ['B6', 'B5', 'B2']}
+];
+
+// Create a map for each visualization option.
+var maps = [];
+NAMES.forEach(function(name, index) {
+  var map = ui.Map();
+  map.add(ui.Label(name));
+  map.addLayer(image, VIS_PARAMS[index], name);
+  map.setControlVisibility(false);
+  maps.push(map);
+});
+
+var linker = ui.Map.Linker(maps);
+
+// Enable zooming on the top-left map.
+maps[0].setControlVisibility({zoomControl: true});
+
+// Show the scale (e.g. '500m') on the bottom-right map.
+maps[1].setControlVisibility({scaleControl: true});
+
+// Create a title.
+var title = ui.Label('2013 Landsat 8 TOA Visualizations', {
+  stretch: 'horizontal',
+  textAlign: 'center',
+  fontWeight: 'bold',
+  fontSize: '24px'
+});
+
+// Create a grid of maps.
+var mapGrid = ui.Panel(
+  [
+    ui.Panel([maps[0]], null, {stretch: 'both'}),
+    ui.Panel([maps[1]], null, {stretch: 'both'})
+  ],
+  ui.Panel.Layout.Flow('horizontal'), {stretch: 'both'}
+);
+
+// Add the maps and title to the ui.root.
+ui.root.widgets().reset([title, mapGrid]);
+ui.root.setLayout(ui.Panel.Layout.Flow('vertical'));
+
+// Center the maps near Sacramento.
+maps[0].setCenter(-121.4291, 38.5868, 11);
 
 
