@@ -141,38 +141,24 @@ var turn_layers_off = function(map_index){
     });
 };
 
-// compare how each individual method relates to the average (relative difference & zscore)
-var zscore = function(selected_method, selected_month, selected_year, selected_crop, map_index){
+// add the monthly ET band for the selected options
+var add_monthly_band = function(selected_method, selected_month, selected_year, selected_crop, map_index){
   turn_layers_off(map_index);
 
   var methods = select_water_year(selected_year).methods;
   var landcover = select_water_year(selected_year).landcover;
   
-  // loop through all the et sources and crop to dsa region
-  var listImages = [];
-  for (var key in methods) {
-    var etimage =  methods[key].image.clip(dsa); // clip to DSA region
-    listImages.push(etimage);
-  }
-  
-  var methodsIC = ee.ImageCollection(listImages); // turn into an ImageCollection 
-  var mean = methodsIC.mean(); // reduce to mean value of all methods
-  var std = methodsIC.reduce(ee.Reducer.stdDev()); // using standard deviation reducer
-  
 
-  var et_est = methods[selected_method].image;
+  var et = methods[selected_method].image;
 
-  //zscore - how many standard deviations an element is from the mean
-  var zscore = et_est.subtract(mean).divide(std).select(month_bands[selected_month]);
-  
   // mask by selected crop
-  var z_masked = landcover_mask(zscore, selected_crop, landcover);
+  var et_masked = landcover_mask(et, selected_crop, landcover);
   
   var ZlayerName = selected_method + " " + selected_month + " " + selected_crop;
   
   var selected_band = month_bands[selected_month];
   
-  maps[map_index].addLayer(z_masked, {bands:[selected_band],min:-2,max:2, palette: ['2971b1', '6bacd0', 'c2ddeb', 'f7f6f6', 'faccb4', 'e48065', 'b92732']}, ZlayerName);
+  maps[map_index].addLayer(et_masked, {bands:[selected_band],min:-2,max:2, palette: ['2971b1', '6bacd0', 'c2ddeb', 'f7f6f6', 'faccb4', 'e48065', 'b92732']}, ZlayerName);
 };
 
 
@@ -194,7 +180,7 @@ var selectMethod_a = ui.Select({
   placeholder: a.model,
   onChange: function(key) {
     a.model = key;
-    zscore(a.model, a.month, a.wy, a.crop, 0);
+    add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
   }
 });
 
@@ -203,7 +189,7 @@ var selectMethod_a = ui.Select({
   placeholder: a.model,
   onChange: function(key) {
     a.model = key;
-    zscore(a.model, a.month, a.wy, a.crop, 0);
+    add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
   }
 });
 
@@ -212,7 +198,7 @@ var selectBand_a = ui.Select({
   placeholder: a.month,
   onChange: function(key) {
     a.month = key;
-    zscore(a.model, a.month, a.wy, a.crop, 0);
+    add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
   }
 });
 
@@ -221,7 +207,7 @@ var selectWY_a = ui.Select({
   placeholder: a.wy,
   onChange: function(key) {
     a.wy = key;
-    zscore(a.model, a.month, a.wy, a.crop, 0);
+    add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
   }
 });
 
@@ -230,7 +216,7 @@ var selectCrop_a = ui.Select({
   placeholder: a.crop,
   onChange: function(key) {
     a.crop = key;
-    zscore(a.model, a.month, a.wy, a.crop, 0);
+    add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
   }
 });
 
@@ -240,7 +226,7 @@ var selectMethod_b = ui.Select({
   placeholder: b.model,
   onChange: function(key) {
     b.model = key;
-    zscore(b.model, b.month, b.wy, b.crop, 1);
+    add_monthly_band(b.model, b.month, b.wy, b.crop, 1);
   }
 });
 
@@ -249,7 +235,7 @@ var selectMethod_b = ui.Select({
   placeholder: b.model,
   onChange: function(key) {
     b.model = key;
-    zscore(b.model, b.month, b.wy, b.crop, 1);
+    add_monthly_band(b.model, b.month, b.wy, b.crop, 1);
   }
 });
 
@@ -258,7 +244,7 @@ var selectBand_b = ui.Select({
   placeholder: b.month,
   onChange: function(key) {
     b.month = key;
-    zscore(b.model, b.month, b.wy, b.crop, 1);
+    add_monthly_band(b.model, b.month, b.wy, b.crop, 1);
   }
 });
 
@@ -267,7 +253,7 @@ var selectWY_b = ui.Select({
   placeholder: b.wy,
   onChange: function(key) {
     b.wy = key;
-    zscore(b.model, b.month, b.wy, b.crop, 1);
+    add_monthly_band(b.model, b.month, b.wy, b.crop, 1);
   }
 });
 
@@ -276,7 +262,7 @@ var selectCrop_b = ui.Select({
   placeholder: b.crop,
   onChange: function(key) {
     b.crop = key;
-    zscore(b.model, b.month, b.wy, b.crop, 1);
+    add_monthly_band(b.model, b.month, b.wy, b.crop, 1);
   }
 });
 
@@ -306,7 +292,7 @@ var mapGrid = ui.Panel(
 
 // Add the maps and title to the ui.root.
 ui.root.widgets().reset([mapGrid]);
-ui.root.setLayout(ui.Panel.Layout.Flow('vertical'));
+ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
 
 
 // Create a panel to hold to UI dropdowns
@@ -319,7 +305,18 @@ panel.add(selectMethod_a);
 panel.add(selectBand_a);
 panel.add(selectWY_a);
 panel.add(selectCrop_a);
-zscore(a.model, a.month, a.wy, a.crop, 0);
+add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
+
+var panel = ui.Panel({
+  layout: ui.Panel.Layout.flow('horizontal')
+});
+maps[1].setOptions("SATELLITE");
+maps[1].add(panel);
+panel.add(selectMethod_b);
+panel.add(selectBand_b);
+panel.add(selectWY_b);
+panel.add(selectCrop_b);
+add_monthly_band(b.model, b.month, b.wy, b.crop, 1);
 
 
 
