@@ -6,10 +6,24 @@ var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disale
 
 // reduce regions
 var reduce_station_regions = function(image){
-  
-  
+  // reduce regions at all the points in the feature collection
+  var MeanFeatures = image.reduceRegions({
+    collection: station_points_3x3,
+    reducer: GroupedStatReducers,
+    scale: 30,
+  });
+  return(MeanFeatures);
   
 };
+
+
+// Grouped reducer for mean/median/quartiles/count
+var GroupedStatReducers = ee.Reducer.mean();
+  //.combine(ee.Reducer.minMax(), "", true)
+  //.combine(ee.Reducer.count(), "", true)
+  //.combine(ee.Reducer.stdDev(), "", true);
+
+
 
 // map reducer over image collection
 
@@ -25,3 +39,6 @@ var vizParams = {
 };
 
 Map.addLayer(image_c_ex, vizParams, 'tester');
+
+var ex = reduce_station_regions(image_c_ex);
+print(ex);
