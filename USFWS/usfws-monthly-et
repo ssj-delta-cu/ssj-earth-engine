@@ -52,7 +52,10 @@ var select_water_year = function(water_year){
 // fusion table usfws parcels
 var parcels = ee.FeatureCollection('ft:1abRp5UxxtttI5Wdh6L7dkFPxj3rP69WfVdWJndNc');
 
+Map.addLayer(parcels);
 
+var sims = select_water_year(2015).methods.sims.image;
+Map.addLayer(sims);
 
 // Grouped reducer for mean/median/quartiles/count
 var GroupedStatReducers = ee.Reducer.mean()
