@@ -115,5 +115,5 @@ var grid_2015 = station_stats(2015);
 var grid_2016 = station_stats(2016);
 
 var grid_data = grid_2015.merge(grid_2016);
-
+print(grid_data);
 Export.table.toDrive(grid_data, 'fieldstation_grid_monthly', "ET_comparisons_geojson", 'fieldstation_grid_monthly', "GeoJSON");
