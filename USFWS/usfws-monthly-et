@@ -50,7 +50,7 @@ var select_water_year = function(water_year){
 
  
 // fusion table usfws parcels
-var parcels = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
+var parcels = ee.FeatureCollection('ft:1abRp5UxxtttI5Wdh6L7dkFPxj3rP69WfVdWJndNc');
 
 
 
