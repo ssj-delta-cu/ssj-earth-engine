@@ -67,11 +67,7 @@ var reduce_polygon = function(image, polygon){
 };
 
 
-// add a new property called method to a feature
-var setmodel = function(feature){
-  feature = feature.set('model', model_name);
-  return feature;
-};
+
 
 
 // loop through all the et sources, calc stats for the station
@@ -80,10 +76,16 @@ var station_stats = function(wateryear){
 
   // empty list to store collections from reducer
   var coll = [];
+  
+  // add a new property called method to a feature
+  var setmodel = function(feature){
+    feature = feature.set('model', model_name);
+    feature = feature.set('water_year', wateryear);
+    return feature;
+  };
 
   for (var key in methods) {
     var model_name = key;
-    print(model_name);
     var e =  reduce_polygon(methods[key].image, station_points_3x3);
     e = e.map(setmodel);
     coll.push(e);
@@ -91,7 +93,7 @@ var station_stats = function(wateryear){
   
   // merge all the models into a single feature collection
   var merge_holder = null;
-  for(var i=1;i<col.length;i++){
+  for(var i=1;i<coll.length;i++){
     if(i==1){
       merge_holder = coll[0].merge(coll[i]);
     }
@@ -103,21 +105,9 @@ var station_stats = function(wateryear){
 };
 
 
-print(station_points_3x3);
+var grid_2015 = station_stats(2015);
+var grid_2016 = station_stats(2016);
 
-print(e);
+var grid_data = grid_2015.merge(grid_2016);
 
-var g = reduce_polygon(select_water_year(2016).methods['itrc'].image, station_points_3x3);
-var model_name = 'itrc';
-var g = g.map(setmodel);
-print(g);
-
-var m = e.merge(g);
-print(m);
-
-var coll = [e, g, m];
-print(coll);
-
-
-
-print(merge_holder);
+print(grid_data);
