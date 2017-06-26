@@ -67,9 +67,6 @@ var reduce_polygon = function(image, polygon){
 };
 
 
-
-
-
 // loop through all the et sources, calc stats for the station
 var station_stats = function(wateryear){
   var methods = select_water_year(wateryear).methods;
