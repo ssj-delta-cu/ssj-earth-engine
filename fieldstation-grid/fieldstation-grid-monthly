@@ -1,4 +1,4 @@
-//1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV
+// calculate the monthly et and eto for a 3x3 grid around the field stations
 
 var select_water_year = function(water_year){
   if(water_year == 2015){
