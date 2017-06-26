@@ -49,8 +49,8 @@ var select_water_year = function(water_year){
 
 
  
-// fusion table with the 3x3 grid around the 2016 fieldstation points 
-var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
+// fusion table usfws parcels
+var parcels = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
 
 
 
@@ -95,7 +95,7 @@ var station_stats = function(wateryear){
 
   for (var key in methods) {
     var model_name = key;
-    var e =  reduce_polygon(methods[key].image, station_points_3x3);
+    var e =  reduce_polygon(methods[key].image, parcels);
     e = e.map(setmodel);
     coll.push(e);
   }
