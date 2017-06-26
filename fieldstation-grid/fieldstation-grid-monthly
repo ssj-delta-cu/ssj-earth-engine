@@ -79,11 +79,10 @@ var station_stats = function(wateryear){
     var methods = select_water_year(wateryear).methods;
 
   for (var key in methods) {
-    var filename = key + "-" + "fieldstation" + "-" + wateryear;
-    print(filename);
+    var model = key;
+    print(model);
     var e =  reduce_polygon(methods[key].image, station_points_3x3);
-    Export.table.toDrive(e, filename, "ET_comparisons_geojson", filename, "GeoJSON");
-    
+
   }
 };
 
@@ -91,12 +90,15 @@ var station_stats = function(wateryear){
 var exportEEjson = function(wateryear){
   var methods = select_water_year(wateryear).methods;
   
+  // empty list to store collections from reducer
+  var coll = []
+  
   //loop through all the et sources, calc stats for stations
   for (var key in methods) {
     var filename = key + "-" + "fieldstation" + "-" + wateryear;
     print(filename);
     var e =  reduce_polygon(methods[key].image, station_points_3x3);
-    Export.table.toDrive(e, filename, "ET_comparisons_geojson", filename, "GeoJSON");
+    coll.push(e);
     }
   
 };
