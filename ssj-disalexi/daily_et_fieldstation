@@ -2,5 +2,26 @@
 var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
 
 // image collection with the daily ET
-daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr');
+var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr');
 
+// reduce regions
+var reduce_station_regions = function(image){
+  
+  
+  
+};
+
+// map reducer over image collection
+
+
+// tester
+var image_c_ex = ee.Image(daily_et.first());
+print(image_c_ex);
+
+var vizParams = {
+  bands: ['b1'],
+  min: 0,
+  max: 100
+};
+
+Map.addLayer(image_c_ex, vizParams, 'tester');
