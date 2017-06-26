@@ -76,39 +76,35 @@ var setmodel = function(feature){
 
 // loop through all the et sources, calc stats for the station
 var station_stats = function(wateryear){
-    var methods = select_water_year(wateryear).methods;
-
-  for (var key in methods) {
-    var model = key;
-    print(model);
-    var e =  reduce_polygon(methods[key].image, station_points_3x3);
-
-  }
-};
-
-
-var exportEEjson = function(wateryear){
   var methods = select_water_year(wateryear).methods;
-  
+
   // empty list to store collections from reducer
-  var coll = []
-  
-  //loop through all the et sources, calc stats for stations
+  var coll = [];
+
   for (var key in methods) {
-    var filename = key + "-" + "fieldstation" + "-" + wateryear;
-    print(filename);
+    var model_name = key;
+    print(model_name);
     var e =  reduce_polygon(methods[key].image, station_points_3x3);
+    e = e.map(setmodel);
     coll.push(e);
-    }
+  }
   
+  // merge all the models into a single feature collection
+  var merge_holder = null;
+  for(var i=1;i<col.length;i++){
+    if(i==1){
+      merge_holder = coll[0].merge(coll[i]);
+    }
+    else{
+      merge_holder = merge_holder.merge(coll[i]);
+    }
+  }
+  return(merge_holder);
 };
 
 
 print(station_points_3x3);
 
-var e = reduce_polygon(select_water_year(2016).methods['sims'].image, station_points_3x3);
-var model_name = 'sims';
-var e = e.map(setmodel);
 print(e);
 
 var g = reduce_polygon(select_water_year(2016).methods['itrc'].image, station_points_3x3);
@@ -122,15 +118,6 @@ print(m);
 var coll = [e, g, m];
 print(coll);
 
-// merge all the models into a single feature collection
-var merge_holder = null;
-for(var i=1;i<col.length;i++){
-  if(i==1){
-    merge_holder = coll[0].merge(coll[i]);
-  }
-  else{
-    merge_holder = merge_holder.merge(coll[i]);
-  }
-}
+
 
 print(merge_holder);
