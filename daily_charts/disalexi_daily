@@ -11,4 +11,4 @@ var daily_et_filter = daily_et.filter(ee.Filter.date('2016-05-25', '2016-10-30')
 var timeseries = ui.Chart.image.seriesByRegion(daily_et, station_points_3x3, 
   ee.Reducer.mean(), 'b1', 30, 'system:time_start', 'Station_ID');
 
-//print(timeseries);
+print(timeseries);
