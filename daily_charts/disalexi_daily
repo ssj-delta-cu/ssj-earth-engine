@@ -4,47 +4,11 @@ var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS
 // image collection with the daily ET
 var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr');
 
-// reduce regions
-var reduce_station_regions = function(image){
-  // reduce regions at all the points in the feature collection
-  var MeanFeatures = image.reduceRegions({
-    collection: station_points_3x3,
-    reducer: GroupedStatReducers,
-    scale: 30,
-  });
-  return(MeanFeatures);
-  
-};
-
-
-// Grouped reducer for mean/median/quartiles/count
-var GroupedStatReducers = ee.Reducer.mean();
-  //.combine(ee.Reducer.minMax(), "", true)
-  //.combine(ee.Reducer.count(), "", true)
-  //.combine(ee.Reducer.stdDev(), "", true);
-
-
-
-// map reducer over image collection
-
-
-// tester
-var image_c_ex = ee.Image(daily_et.first());
-print(image_c_ex);
-
-var vizParams = {
-  bands: ['b1'],
-  min: 0,
-  max: 100
-};
-
-Map.addLayer(image_c_ex, vizParams, 'tester');
-
-var ex = reduce_station_regions(image_c_ex);
-print(ex);
-
+// filter collection to common overpass dates
+var daily_et_filter = daily_et.filter(ee.Filter.date('2016-05-25', '2016-10-30'));
 
 
 var timeseries = ui.Chart.image.seriesByRegion(daily_et, station_points_3x3, 
   ee.Reducer.mean(), 'b1', 30, 'system:time_start', 'Station_ID');
-print(timeseries);
+
+//print(timeseries);
