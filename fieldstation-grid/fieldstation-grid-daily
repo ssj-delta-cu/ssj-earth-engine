@@ -1,6 +1,6 @@
 var collections = {
-  ucdpt:{collect:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily')},
-  ucdmetric:{collect:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/et_landsat')}
+  ucdpt:{collect:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily'), units:1},
+  ucdmetric:{collect:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/et_landsat'), units:0.1}
 };
 
 
@@ -24,7 +24,7 @@ var datefromIC = function(imagecollection, date){
   return ee.Image(image_at_date);
 };
 
-var t = datefromIC(pt, '2015-10-31');
+var t = datefromIC(collections.ucdmetric.collect, '2015-10-31');
 print(t);
 
 
