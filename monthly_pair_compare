@@ -204,7 +204,7 @@ var add_monthly_band = function(selected_method, selected_month, selected_year, 
   var selected_band = month_bands[selected_month];
   
   maps[map_index].addLayer(et_masked, {bands:[selected_band],min:0,max:100, palette: redyellowgreen}, ZlayerName);
-  maps[map_index].addLayer(station_points_3x3, "FieldStations-2016");
+  maps[map_index].addLayer(outline, {palette: '0B0157'}, "FieldStations-2016");
 };
 
 
