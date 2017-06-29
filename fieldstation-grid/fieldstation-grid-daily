@@ -17,7 +17,7 @@ for(var d in overpass_dates){
 var datefromIC = function(imagecollection, date){
   var filter = imagecollection.filterDate(date);
   var image_at_date = filter.first();
-  return ee.image(image_at_date);
+  return image(image_at_date);
 };
 
 var t = datefromIC(pt, '2015-10-31');
