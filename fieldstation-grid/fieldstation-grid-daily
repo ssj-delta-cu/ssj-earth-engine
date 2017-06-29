@@ -1,7 +1,7 @@
 var collections = {
   ucdpt:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily'), units:1},
   ucdmetric:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/et_landsat'), units:0.1},
-  itrc:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/et_daily'), units:1},
+  itrc:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/et_daily'), units:10},
   sims:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/et_daily'), units:0.1},
   disalexi:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr'), units:0.1},
 };
