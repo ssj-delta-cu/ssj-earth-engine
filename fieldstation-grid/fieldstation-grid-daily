@@ -17,7 +17,7 @@ for(var d in overpass_dates){
 var datefromIC = function(imagecollection, date){
   var filter = imagecollection.filterDate(date);
   var image_at_date = filter.first();
-  return image(image_at_date);
+  return image_at_date;
 };
 
 var t = datefromIC(pt, '2015-10-31');
@@ -25,7 +25,7 @@ print(t);
 
 
 // fusion table with the 3x3 grid around the 2016 fieldstation points 
-var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
+var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV').select(["Station_ID", "Crop"]);
 
 // Grouped reducer for mean/median/quartiles/count
 var GroupedStatReducers = ee.Reducer.mean()
@@ -44,8 +44,8 @@ var reduce_polygon = function(image, polygon){
   return(red_features);
 };
 
-
-var test = t.reduceRegions({
+print(ee.Image(t));
+var test = ee.Image(t).reduceRegions({
     collection: station_points_3x3,
     reducer: GroupedStatReducers,
     scale: 30,
