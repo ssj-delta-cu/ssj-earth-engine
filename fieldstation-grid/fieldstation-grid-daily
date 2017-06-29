@@ -16,18 +16,7 @@ for(var d in overpass_dates){
 // pull a single date from a image collection
 var datefromIC = function(imagecollection, date){
   var filter = imagecollection.filterDate(date);
-  var image; 
-  print(f.size());
-  if(f.size()==1){
-    image = filter.first();
-  }
-  else if (f.size() === 0){
-    print("No image in collection for that date.");
-  }
-  else{
-    print("More than one image in collection for the given date.");
-  }
-  
+  var image = filter.first();
   return image;
 };
 
@@ -35,11 +24,8 @@ var t = datefromIC(pt, '2015-10-31');
 print(t);
 
 
-
 // fusion table with the 3x3 grid around the 2016 fieldstation points 
 var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
-
-
 
 // Grouped reducer for mean/median/quartiles/count
 var GroupedStatReducers = ee.Reducer.mean()
@@ -50,16 +36,17 @@ var GroupedStatReducers = ee.Reducer.mean()
 
 var reduce_polygon = function(image, polygon){
   // reduce regions at all the points in the feature collection
-  var MeanFeatures = image.reduceRegions({
+  var red_features = image.reduceRegions({
     collection: polygon,
     reducer: GroupedStatReducers,
     scale: 30,
   });
-  return(MeanFeatures);
+  return(red_features);
 };
 
 
-
+var test = reduce_polygon(t, station_points_3x3);
+print(test);
 
 // loop through all the et sources, calc stats for the station
 var station_stats = function(wateryear){
