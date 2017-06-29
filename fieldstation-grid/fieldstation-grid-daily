@@ -16,8 +16,8 @@ for(var d in overpass_dates){
 // pull a single date from a image collection
 var datefromIC = function(imagecollection, date){
   var filter = imagecollection.filterDate(date);
-  var image = filter.first();
-  return image;
+  var image_at_date = filter.first();
+  return ee.image(image_at_date);
 };
 
 var t = datefromIC(pt, '2015-10-31');
@@ -45,7 +45,12 @@ var reduce_polygon = function(image, polygon){
 };
 
 
-var test = reduce_polygon(t, station_points_3x3);
+var test = t.reduceRegions({
+    collection: station_points_3x3,
+    reducer: GroupedStatReducers,
+    scale: 30,
+  });
+  
 print(test);
 
 // loop through all the et sources, calc stats for the station
