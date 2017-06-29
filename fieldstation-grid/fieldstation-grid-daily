@@ -4,17 +4,20 @@ print(pt);
 
 var overpass_dates = ['2015-10-31', '2016-05-26', '2016-06-27', '2016-07-13', '2016-07-29', '2016-08-14', '2016-09-15'];
 
+/*
 for(var d in overpass_dates){
   print(overpass_dates[d]);
   var f = pt.filterDate(overpass_dates[d]);
   print(f);
   print(f.size());
 }
+*/
 
 // pull a single date from a image collection
 var datefromIC = function(imagecollection, date){
   var filter = imagecollection.filterDate(date);
   var image; 
+  print(f.size());
   if(f.size()==1){
     image = filter.first();
   }
@@ -25,9 +28,11 @@ var datefromIC = function(imagecollection, date){
     print("More than one image in collection for the given date.");
   }
   
-  
   return image;
 };
+
+var t = datefromIC(pt, '2015-10-31');
+print(t);
 
 
 
