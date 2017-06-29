@@ -9,7 +9,7 @@ var collections = {
 
 
 
-var overpass_dates = ['2015-10-31', '2016-05-26', '2016-06-27', '2016-07-13', '2016-07-29', '2016-08-14', '2016-09-15'];
+var overpass_dates = ['2016-05-26', '2016-06-27', '2016-07-13', '2016-07-29', '2016-08-14', '2016-09-15'];
 
 /*
 for(var d in overpass_dates){
@@ -67,14 +67,11 @@ for (var key in collections) {
   for(var d in overpass_dates) {
     var date=overpass_dates[d];
     var image_for_date = datefromIC(collections[key], date);
-    print(image_for_date);
     var e = reduce_polygons(image_for_date, station_points_3x3);
     e = e.map(setmodel);
   coll.push(e);
   }
 }
-
-print(coll);
 
 // merge all the models into a single feature collection
 var merge_holder = null;
@@ -89,46 +86,5 @@ for(var i=1;i<coll.length;i++){
 
 print(merge_holder);  
 
-// loop through all the et sources, calc stats for the station
-var station_stats = function(wateryear){
-  var methods = select_water_year(wateryear).methods;
 
-  // empty list to store collections from reducer
-  var coll = [];
-  
-  // add a new property called method to a feature
-  var setmodel = function(feature){
-    feature = feature.set('model', model_name);
-    feature = feature.set('water_year', wateryear);
-    return feature;
-  };
-
-  for (var key in methods) {
-    var model_name = key;
-    var e =  reduce_polygon(methods[key].image, station_points_3x3);
-    e = e.map(setmodel);
-    coll.push(e);
-  }
-  
-  // merge all the models into a single feature collection
-  var merge_holder = null;
-  for(var i=1;i<coll.length;i++){
-    if(i==1){
-      merge_holder = coll[0].merge(coll[i]);
-    }
-    else{
-      merge_holder = merge_holder.merge(coll[i]);
-    }
-  }
-  return(merge_holder);
-};
-
-/*
-
-var grid_2015 = station_stats(2015);
-var grid_2016 = station_stats(2016);
-
-var grid_data = grid_2015.merge(grid_2016);
-print(grid_data);
-Export.table.toDrive(grid_data, 'fieldstation_grid_monthly', "ET_comparisons_geojson", 'fieldstation_grid_monthly', "GeoJSON");
-*/
+Export.table.toDrive(merge_holder, 'fieldstation_grid_daily', "ET_comparisons_geojson", 'fieldstation_grid_daily', "GeoJSON");
