@@ -26,12 +26,8 @@ var datefromIC = function(imagecollection, date){
   }
 };
 
-
-
-
-
 var test = datefromIC(collections.itrc, '2015-10-31');
-//print(test);
+print(test);
 
 // fusion table with the 3x3 grid around the 2016 fieldstation points 
 var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV').select(["Station_ID", "Crop"]);
