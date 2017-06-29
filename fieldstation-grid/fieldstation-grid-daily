@@ -34,7 +34,7 @@ var datefromIC_mm = function(imagecollection, date){
   if(imageCount==1){
     print(imageCount)}
   else{
-    print("null")
+    print("null");
   };
   
 };
