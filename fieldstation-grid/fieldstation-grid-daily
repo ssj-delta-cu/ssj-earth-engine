@@ -13,10 +13,39 @@ var overpass_dates = ['2016-05-26', '2016-06-27', '2016-07-13', '2016-07-29', '2
 
 
 
-// pull a single date from a image collection and convert units
+// pull a single date from a image collection
 var datefromIC = function(imagecollection, date){
   var icfilter = imagecollection.ic.filterDate(date);
+  return icfilter;
+};
+
+
+// convert units
+var imageUnits = function(image, factor){
+  var image_in_mm = ee.Image(image).multiply(factor);
+  return  ee.Image(image_in_mm);
+};
+
+
+var datefromIC_mm = function(imagecollection, date){
+  var ic = datefromIC(imagecollection, date);
+  
+  var imageCount = ic.toList(1).length();
+  if(imageCount==0){
+    print(imageCount)}
+  else{
+    print("null")
+  };
+  
+};
+
+
+var test = datefromIC_mm(collections.itrc, '2015-10-31');
+print(test);
+
+/*
   var imageCount = icfilter.toList(1).length();
+  print(imageCount);
   if(imageCount>0){
   var image_at_date = icfilter.first();
   var image_in_mm = ee.Image(image_at_date).multiply(imagecollection.units);
@@ -24,10 +53,13 @@ var datefromIC = function(imagecollection, date){
   else{
     return null;
   }
-};
 
-var test = datefromIC(collections.itrc, '2015-10-31');
-print(test);
+
+
+*/
+
+
+
 
 // fusion table with the 3x3 grid around the 2016 fieldstation points 
 var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV').select(["Station_ID", "Crop"]);
@@ -67,6 +99,7 @@ for (var key in collections) {
   for(var d in overpass_dates) {
     var date=overpass_dates[d];
     var image_for_date = datefromIC(collections[key], date);
+    print(image_for_date);
     var e = reduce_polygons(image_for_date, station_points_3x3);
     e = e.map(setmodel);
     print(e);
