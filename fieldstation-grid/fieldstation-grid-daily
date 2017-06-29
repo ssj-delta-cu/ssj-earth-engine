@@ -3,7 +3,7 @@ var collections = {
   ucdmetric:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/et_landsat'), units:0.1},
   itrc:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/et_daily'), units:1},
   sims:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/et_daily'), units:1},
-  disalexi:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/output_corr/et_daily'), units:0.1},
+  disalexi:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr'), units:0.1},
 };
 
 
@@ -28,8 +28,7 @@ var datefromIC = function(imagecollection, date){
   return ee.Image(image_in_mm);
 };
 
-print(collections.ucdmetric.units);
-var t = datefromIC(collections.ucdmetric, '2015-10-31');
+var t = datefromIC(collections.disalexi, '2015-10-31');
 print(t);
 
 
@@ -53,7 +52,43 @@ var reduce_polygons = function(image, polygon){
   return(red_features);
 };
 
-print(reduce_polygons(t, station_points_3x3));
+
+
+// empty list to store collections from reducer
+var coll = [];
+
+// add a new property called method to a feature
+var setmodel = function(feature){
+  feature = feature.set('model', model_name);
+  feature = feature.set('date', date);
+  return feature;
+};
+
+for (var key in collections) {
+  var model_name = key;
+  print(model_name);
+  for(var d in overpass_dates) {
+    var date=overpass_dates[d];
+    var image_for_date = datefromIC(collections[key], date);
+    var e = reduce_polygon(image_for_date, station_points_3x3);
+    e = e.map(setmodel);
+  coll.push(e);
+  }
+}
+
+print(coll);
+
+// merge all the models into a single feature collection
+var merge_holder = null;
+for(var i=1;i<coll.length;i++){
+  if(i==1){
+    merge_holder = coll[0].merge(coll[i]);
+  }
+  else{
+    merge_holder = merge_holder.merge(coll[i]);
+  }
+}
+
   
 
 // loop through all the et sources, calc stats for the station
