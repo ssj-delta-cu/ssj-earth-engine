@@ -69,7 +69,7 @@ for (var key in collections) {
     var image_for_date = datefromIC(collections[key], date);
     var e = reduce_polygons(image_for_date, station_points_3x3);
     e = e.map(setmodel);
-    print(e)
+    print(e);
     coll.push(e);
   }
 }
