@@ -63,7 +63,6 @@ var setmodel = function(feature){
 
 for (var key in collections) {
   var model_name = key;
-  print(model_name);
   for(var d in overpass_dates) {
     var date=overpass_dates[d];
     var image_for_date = datefromIC(collections[key], date);
