@@ -31,7 +31,7 @@ var datefromIC_mm = function(imagecollection, date){
   var ic = datefromIC(imagecollection, date);
   
   var imageCount = ic.toList(1).length();
-  if(imageCount==0){
+  if(imageCount==1){
     print(imageCount)}
   else{
     print("null")
