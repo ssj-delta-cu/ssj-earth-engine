@@ -28,9 +28,6 @@ var datefromIC = function(imagecollection, date){
   return ee.Image(image_in_mm);
 };
 
-var t = datefromIC(collections.disalexi, '2015-10-31');
-print(t);
-
 
 // fusion table with the 3x3 grid around the 2016 fieldstation points 
 var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV').select(["Station_ID", "Crop"]);
@@ -70,7 +67,8 @@ for (var key in collections) {
   for(var d in overpass_dates) {
     var date=overpass_dates[d];
     var image_for_date = datefromIC(collections[key], date);
-    var e = reduce_polygon(image_for_date, station_points_3x3);
+    print(image_for_date);
+    var e = reduce_polygons(image_for_date, station_points_3x3);
     e = e.map(setmodel);
   coll.push(e);
   }
@@ -89,7 +87,7 @@ for(var i=1;i<coll.length;i++){
   }
 }
 
-  
+print(merge_holder);  
 
 // loop through all the et sources, calc stats for the station
 var station_stats = function(wateryear){
