@@ -13,6 +13,8 @@ var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS
 var testimg = ee.Image(collections.ucdmetric.ic.first());
 print(testimg);
 
+print(testimg.date().format('y-M-d'));
+
 
 // empty list to store collections from reducer
 var coll = [];
@@ -38,11 +40,11 @@ var reduceIMG = function(image){
   };
 
   // get the image date
-  date = image.date();
+  var d = image.date().format('y-M-d');
 
   // add a new property called method to a feature
   var setdate = function(feature){
-    feature = feature.set('date', date);
+    feature = feature.set('date', d);
     return feature;
   };
 
@@ -54,6 +56,9 @@ var reduceIMG = function(image){
 
 
 reduceIMG(testimg);
+
+
+
 print(coll);
 
 /*
