@@ -33,9 +33,6 @@ var ICchangeUnits = function(imageCollection, units){
   return IC_units;
 };
 
-var ic_10 = ICchangeUnits(ic, 10);
-print(ic_10);
-
 
 var reduceIMG = function(image){
 
@@ -88,10 +85,18 @@ for (var key in collections) {
   var model_name = key;
   print(model_name);
   var ic = collections[key].ic;
+  var units = collections[key].units;
+  
+  ic_units = ICchangeUnits(ic, units);
+  
+  var e = ee.FeatureCollection(ic_units.map(reduceIMG)).flatten();
   e = e.map(setmodel);
   coll.push(e);
-  }
 }
+
+print(coll);
+
+
 
 /*
 
