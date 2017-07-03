@@ -26,16 +26,26 @@ results = ee.FeatureCollection(
 results = results.flatten();
 */
 
-var results = ee.FeatureCollection(
-  images.map(function(img)){
+var ic = collections.ucdmetric.ic;
+print(ic);
+
+
+
+var reduce_img = function(img){
     return img.reduceRegions({
       collection: station_points_3x3,
       reducer: GroupedStatReducers,
       scale: 30,
     });
-  }
-  )
+};
 
+
+var ic_results = ic.map(reduceIMG);
+
+
+var results = ee.FeatureCollection(ic_results);
+  
+print(results);
 
 
 // empty list to store collections from reducer
@@ -79,8 +89,7 @@ var reduceIMG = function(image){
 
 reduceIMG(testimg);
 
-var ic = collections.ucdmetric.ic;
-print(ic);
+
 var a = ic.map(reduceIMG);
 
 print(a);
