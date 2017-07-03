@@ -26,7 +26,6 @@ var ICchangeUnits = function(imageCollection, units){
   var convert_image_units = function(image){
     var image_in_mm = image.multiply(units);
     var image_in_mm = image_in_mm.set('system:time_start', image.get('system:time_start'));
-    //image_in_mm.copyProperties(image);
     return image_in_mm;
   };
   
