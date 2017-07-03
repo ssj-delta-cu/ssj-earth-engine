@@ -40,8 +40,6 @@ var image_holder = [];
 
 for(var d in overpass_dates){
   var day = overpass_dates[d];
-  print(day);
-  
   var img = ic.filterDate(day).first();
   image_holder.push(img);
 }
