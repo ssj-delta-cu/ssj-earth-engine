@@ -49,7 +49,7 @@ for(var d in overpass_dates){
 var disalexi = ee.ImageCollection(image_holder);
 print(disalexi);
 
-collections.push(disalexi:{ic:disalexi, units:0.1})
+collections.disalexi = {ic:disalexi, units: 0.1};
 
 // fusion table with the 3x3 grid around the 2016 fieldstation points 
 var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV').select(["Station_ID", "Crop"]);
