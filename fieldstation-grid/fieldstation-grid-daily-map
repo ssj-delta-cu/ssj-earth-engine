@@ -27,30 +27,6 @@ results = results.flatten();
 */
 
 var ic = collections.ucdmetric.ic;
-print(ic);
-
-
-
-var reduce_img = function(img){
-    return img.reduceRegions({
-      collection: station_points_3x3,
-      reducer: GroupedStatReducers,
-      scale: 30,
-    });
-};
-
-
-var ic_results = ic.map(reduceIMG);
-
-
-var results = ee.FeatureCollection(ic_results);
-  
-print(results);
-
-
-// empty list to store collections from reducer
-var coll = [];
-
 
 var reduceIMG = function(image){
 
@@ -86,6 +62,10 @@ var reduceIMG = function(image){
   return e;
 };
 
+
+var results = ee.FeatureCollection(ic.map(reduceIMG)).flatten();
+  
+print(results);
 
 
 /*
