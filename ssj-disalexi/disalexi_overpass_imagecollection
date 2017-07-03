@@ -1,0 +1,52 @@
+// disalexi daily ET is in an image collection that includes all the
+// daily day. It's too many images to reduce, so this scrip extracts
+// the overpass dates for analysis and save as a new image collection
+
+var ic = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr');
+
+print(ic);
+
+
+var overpass_dates = ['2014-08-01',
+'2014-08-09',
+'2014-08-17',
+'2014-09-02',
+'2015-09-21',
+'2015-10-07',
+'2015-10-31',
+'2015-11-16',
+'2015-12-26',
+'2016-03-31',
+'2016-04-16',
+'2016-05-02',
+'2016-05-10',
+'2016-05-18',
+'2016-05-26',
+'2016-06-27',
+'2016-07-05',
+'2016-07-13',
+'2016-07-21',
+'2016-07-29',
+'2016-08-06',
+'2016-08-14',
+'2016-08-30',
+'2016-09-07',
+'2016-09-15',
+'2016-10-01',
+'2016-10-09',
+'2016-11-02'];
+
+var image_holder = [];
+
+for(var d in overpass_dates){
+  var day = overpass_dates[d];
+  print(day);
+  
+  var img = ic.filterDate(day).first();
+  image_holder.push(img);
+}
+
+print(image_holder);
+
+var new_ic = ee.ImageCollection(image_holder);
+print(new_ic);
