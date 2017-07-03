@@ -87,12 +87,6 @@ var reduceIMG = function(image){
 };
 
 
-reduceIMG(testimg);
-
-
-var a = ic.map(reduceIMG);
-
-print(a);
 
 /*
 // pull a single date from a image collection and convert units
