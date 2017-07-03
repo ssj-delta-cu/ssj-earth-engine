@@ -23,9 +23,18 @@ var ic = collections.ucdmetric.ic;
 
 var ICchangeUnits = function(imageCollection, units){
   
+  var convert_image_units = function(image){
+    var image_in_mm = ee.Image(image).multiply(units);
+    image_in_mm.copyProperties(image);
+    return image_in_mm;
+  };
   
-  
-} 
+  var IC_units = imageCollection.map(convert_image_units);
+  return IC_units;
+};
+
+var ic_10 = ICchangeUnits(ic, 10);
+print(ic_10);
 
 
 var reduceIMG = function(image){
@@ -63,7 +72,7 @@ var reduceIMG = function(image){
 };
 
 
-var results = ee.FeatureCollection(ic.map(reduceIMG)).flatten();
+var results = ee.FeatureCollection(ic_10.map(reduceIMG)).flatten();
   
 print(results);
 
