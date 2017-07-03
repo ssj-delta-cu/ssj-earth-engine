@@ -76,7 +76,6 @@ for(var d in overpass_dates){
   print(f);
   print(f.size());
 }
-*/
 
 
 
