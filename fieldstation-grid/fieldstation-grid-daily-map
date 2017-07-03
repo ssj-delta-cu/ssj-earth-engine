@@ -90,17 +90,7 @@ for (var key in collections) {
   coll.push(e);
 }
 
-print(coll);
-
-
-
-/*
-
-
-
-
-
-
+//print(coll);
 
 
 // merge all the models into a single feature collection
@@ -116,6 +106,4 @@ for(var i=1;i<coll.length;i++){
 
 print(merge_holder);  
 
-
 Export.table.toDrive(merge_holder, 'fieldstation_grid_daily', "ET_comparisons_geojson", 'fieldstation_grid_daily', "GeoJSON");
-*/
