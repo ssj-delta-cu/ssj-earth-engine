@@ -69,11 +69,6 @@ var reduceIMG = function(image){
 };
 
 
-var results = ee.FeatureCollection(ic_10.map(reduceIMG)).flatten();
-  
-print(results);
-
-
 // add a new property called method to a feature
 var setmodel = function(feature){
   feature = feature.set('model', model_name);
@@ -87,7 +82,7 @@ for (var key in collections) {
   var ic = collections[key].ic;
   var units = collections[key].units;
   
-  ic_units = ICchangeUnits(ic, units);
+  var ic_units = ICchangeUnits(ic, units);
   
   var e = ee.FeatureCollection(ic_units.map(reduceIMG)).flatten();
   e = e.map(setmodel);
