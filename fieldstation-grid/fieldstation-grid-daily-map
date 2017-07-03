@@ -8,14 +8,6 @@ var collections = {
 
 // fusion table with the 3x3 grid around the 2016 fieldstation points 
 var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV').select(["Station_ID", "Crop"]);
-  
-
-var testimg = ee.Image(collections.ucdmetric.ic.first());
-print(testimg);
-
-print(testimg.date().format('y-M-d'));
-
-
 
 /*
 images = ee.ImageCollection(...).filter(...)
@@ -27,6 +19,14 @@ results = results.flatten();
 */
 
 var ic = collections.ucdmetric.ic;
+
+
+var ICchangeUnits = function(imageCollection, units){
+  
+  
+  
+} 
+
 
 var reduceIMG = function(image){
 
