@@ -16,6 +16,28 @@ print(testimg);
 print(testimg.date().format('y-M-d'));
 
 
+
+/*
+images = ee.ImageCollection(...).filter(...)
+results = ee.FeatureCollection(
+    images.map(function(img) {
+        return img.reduceRegions(featureCollection, ...);
+    }))
+results = results.flatten();
+*/
+
+var results = ee.FeatureCollection(
+  images.map(function(img)){
+    return img.reduceRegions({
+      collection: station_points_3x3,
+      reducer: GroupedStatReducers,
+      scale: 30,
+    });
+  }
+  )
+
+
+
 // empty list to store collections from reducer
 var coll = [];
 
@@ -50,16 +72,18 @@ var reduceIMG = function(image){
 
   var e = reduce_polygons(image);
   e = e.map(setdate);
-  coll.push(e);
-  
+  //coll.push(e);
+  return e;
 };
 
 
 reduceIMG(testimg);
 
+var ic = collections.ucdmetric.ic;
+print(ic);
+var a = ic.map(reduceIMG);
 
-
-print(coll);
+print(a);
 
 /*
 // pull a single date from a image collection and convert units
