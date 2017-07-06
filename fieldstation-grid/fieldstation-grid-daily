@@ -1,16 +1,14 @@
 var collections = {
-  //ucdpt:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily'), units:1},
-  //ucdmetric:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/et_landsat'), units:0.1},
-  //itrc:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/et_daily'), units:1},
-  //sims:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/et_daily'), units:0.1},
-  //disalexi:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr'), units:0.1},
+  ucdpt:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily_wy2016'), units:1},
+  disalexi:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr'), units:0.1},
+  disalexi_eto:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto_collection'), units:0.1},
+  cimis_eto:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr'), units:0.1},
 };
 
-// need to filter the dislexi collection to just overpass dates
-var full_disalexi = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr');
+// start and end to pull data - this roughly matches when the field stations were operational
+var start = ee.Date('2016-05-01');
+var end = ee.Date('2016-09-30');
 
-
-collections.disalexi = {ic:disalexi, units: 0.1};
 
 // fusion table with the 3x3 grid around the 2016 fieldstation points 
 var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV').select(["Station_ID", "Crop"]);
@@ -77,6 +75,9 @@ for (var key in collections) {
   print(model_name);
   var ic = collections[key].ic;
   var units = collections[key].units;
+  
+  // filter image collection by start/end dates
+  var ic = ic.filterDate(start, end);
   
   var ic_units = ICchangeUnits(ic, units);
   
