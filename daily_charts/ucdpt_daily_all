@@ -1,0 +1,13 @@
+// fusion table with the 3x3 grid around the 2016 fieldstation points 
+var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
+
+// image collection with the daily ET
+var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily');
+
+
+users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily_wy2016
+
+var timeseries = ui.Chart.image.seriesByRegion(daily_et, station_points_3x3, 
+  ee.Reducer.mean(), 'b1', 30, 'system:time_start', 'Station_ID');
+
+print(timeseries);
