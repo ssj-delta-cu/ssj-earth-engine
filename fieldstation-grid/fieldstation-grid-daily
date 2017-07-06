@@ -2,7 +2,7 @@ var collections = {
   ucdpt:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily_wy2016'), units:0.01},
   disalexi:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr'), units:0.1},
   disalexi_eto:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto_collection'), units:0.1},
-  cimis_eto:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/cimis_eto'), units:0.1},
+  cimis_eto:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/cimis_eto'), units:1},
 };
 
 // start and end to pull data - this roughly matches when the field stations were operational
