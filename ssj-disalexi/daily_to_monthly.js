@@ -114,7 +114,7 @@ var wy_2016_corr = {'name': 'wy_2016_corr',
     'dates': wy_2016.dates
 };
 
-var water_years = [wy_2016_corr];  // add any new years to run here
+var water_years = [wy_2015_corr];  // add any new years to run here
 
 
 // PROCESSING CODE ============================================================
