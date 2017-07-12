@@ -78,6 +78,16 @@ var wy_2015 = {'name': 'wy_2015',
         ]
 };
 
+var wy_2017 = {'name': 'wy_2017',
+  'collection': 'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output',
+  'dates': [
+        '2016-10-01','2016-11-01','2016-12-01',
+        '2017-01-01','2017-02-01','2017-03-01',
+        '2017-04-01','2017-05-01','2017-06-01',
+        '2017-07-01','2017-08-01','2017-09-01',
+        ]
+};
+
 var eto_2015 = {'name': 'disalexi_eto_2015',
   'collection':'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto_collection',
   'dates': wy_2015.dates
@@ -114,7 +124,7 @@ var wy_2016_corr = {'name': 'wy_2016_corr',
     'dates': wy_2016.dates
 };
 
-var water_years = [eto_2015, eto_2016];  // add any new years to run here
+var water_years = [wy_2016_corr];  // add any new years to run here
 
 
 // PROCESSING CODE ============================================================
