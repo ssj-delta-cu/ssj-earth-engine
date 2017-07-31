@@ -1,0 +1,144 @@
+var collections = {
+  ucdpt:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily'), units:1},
+  ucdmetric:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/et_landsat'), units:0.1},
+  itrc:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/et_daily'), units:1},
+  sims:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/et_daily'), units:0.1},
+  //disalexi:{ic:ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr'), units:0.1},
+};
+
+// need to filter the dislexi collection to just overpass dates
+var full_disalexi = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr');
+
+var overpass_dates = ['2014-08-01',
+'2014-08-09',
+'2014-08-17',
+'2014-09-02',
+'2015-09-21',
+'2015-10-07',
+'2015-10-31',
+'2015-11-16',
+'2015-12-26',
+'2016-03-31',
+'2016-04-16',
+'2016-05-02',
+'2016-05-10',
+'2016-05-18',
+'2016-05-26',
+'2016-06-27',
+'2016-07-05',
+'2016-07-13',
+'2016-07-21',
+'2016-07-29',
+'2016-08-06',
+'2016-08-14',
+'2016-08-30',
+'2016-09-07',
+'2016-09-15',
+'2016-10-01',
+'2016-10-09',
+'2016-11-02'];
+
+var image_holder = [];
+
+for(var d in overpass_dates){
+  var day = overpass_dates[d];
+  var img = full_disalexi.filterDate(day).first();
+  image_holder.push(img);
+}
+
+var disalexi = ee.ImageCollection(image_holder);
+print(disalexi);
+
+collections.disalexi = {ic:disalexi, units: 0.1};
+
+// fusion table with the 3x3 grid around the 2016 fieldstation points 
+var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV').select(["Station_ID", "Crop"]);
+// field level
+var station_points_3x3 = ee.FeatureCollection('ft:18QV24YmdxAD9JTkKRB6IVCQFgA9FS2_4rl5wcklj');
+
+var ICchangeUnits = function(imageCollection, units){
+  
+  var convert_image_units = function(image){
+    var image_in_mm = image.multiply(units);
+    var image_in_mm = image_in_mm.set('system:time_start', image.get('system:time_start'));
+    return image_in_mm;
+  };
+  
+  var IC_units = imageCollection.map(convert_image_units);
+  return IC_units;
+};
+
+
+var reduceIMG = function(image){
+
+  // Grouped reducer for mean/median/quartiles/count
+  var GroupedStatReducers = ee.Reducer.mean()
+    .combine(ee.Reducer.minMax(), "", true)
+    .combine(ee.Reducer.count(), "", true)
+    .combine(ee.Reducer.stdDev(), "", true);
+  
+  
+  var reduce_polygons = function(image){
+    // reduce regions at all the points in the feature collection
+    var red_features = image.reduceRegions({
+      collection: station_points_3x3,
+      reducer: GroupedStatReducers,
+      scale: 30,
+    });
+    return(red_features);
+  };
+
+  // get the image date
+  var d = image.date().format('y-M-d');
+
+  // add a new property called method to a feature
+  var setdate = function(feature){
+    feature = feature.set('date', d);
+    return feature;
+  };
+
+  var e = reduce_polygons(image);
+  e = e.map(setdate);
+  //coll.push(e);
+  return e;
+};
+
+
+// add a new property called method to a feature
+var setmodel = function(feature){
+  feature = feature.set('model', model_name);
+  return feature;
+};
+
+var coll = [];
+
+for (var key in collections) {
+  var model_name = key;
+  print(model_name);
+  var ic = collections[key].ic;
+  var units = collections[key].units;
+  
+  var ic_units = ICchangeUnits(ic, units);
+  
+  var e = ee.FeatureCollection(ic_units.map(reduceIMG)).flatten();
+  e = e.map(setmodel);
+  coll.push(e);
+}
+
+//print(coll);
+
+
+// merge all the models into a single feature collection
+var merge_holder = null;
+for(var i=1;i<coll.length;i++){
+  if(i==1){
+    merge_holder = coll[0].merge(coll[i]);
+  }
+  else{
+    merge_holder = merge_holder.merge(coll[i]);
+  }
+}
+
+print(merge_holder);  
+
+Export.table.toDrive(merge_holder, 'fieldstation_grid_dates', "ET_comparisons_geojson", 'fieldstation_grid_dates', "GeoJSON");
