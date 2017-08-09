@@ -111,7 +111,7 @@ var region_names = {
   "South": DSAregion.filterMetadata("region_name", "equals","South"),
   "North": DSAregion.filterMetadata("region_name", "equals", "North"),
   "Central": DSAregion.filterMetadata("region_name", "equals", "Central"),
-  "Yolo": DSAregion.filterMetadata("region_name", "equals", "Yolo"),
+  "Yolo": DSAregion.filterMetadata("region_name", "equals", "Yolo Bypass"),
   "West": DSAregion.filterMetadata("region_name", "equals", "West")
 };
 
