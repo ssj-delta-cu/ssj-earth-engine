@@ -1,0 +1,15 @@
+// fusion tables with regions to clip
+var regions = ee.FeatureCollection('ft:1ayDDHrkuYHz-LMtXOY-fsXXE77UVKHK3FdZU_shf');
+var ned =  ee.Image("USGS/NED");
+
+Map.addLayer(ned);
+Map.addLayer(regions);
+
+
+// reduce by regions
+var r = ned.reduceRegions(regions, ee.Reducer.mean());
+print(r);
+
+
+var whole = ned.reduceRegion({reducer:ee.Reducer.mean(), geometry:regions, bestEffort:true});
+print(whole);
