@@ -23,3 +23,24 @@ var spatial_cimis_eto = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/s
 Map.addLayer(spatial_cimis_eto);
 
 print(spatial_cimis_eto);
+
+var CIMISTimeSeries = ui.Chart.image.seriesByRegion({
+  imageCollection: spatial_cimis_eto,
+  regions: filtered,
+  reducer: ee.Reducer.mean(),
+  band: 'b1',
+  scale: 30,
+  xProperty: 'system:time_start',
+  seriesProperty: 'id'
+});
+CIMISTimeSeries.setChartType('ScatterChart');
+CIMISTimeSeries.setOptions({
+  title: 'Spatial Cimis at cimis locations',
+  vAxis: {
+    title: 'ETO'
+  },
+  lineWidth: 1,
+  pointSize: 4,
+});
+
+print(CIMISTimeSeries);
