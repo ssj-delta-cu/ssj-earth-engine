@@ -2,9 +2,17 @@
 // from https://github.com/ssj-delta-cu/ssj-weather/blob/master/cimis/station_locations.csv
 var cimis_locations = ee.FeatureCollection('ft:1q_KywBuLzzRzfBlwrMkiLKxcLcbptq6ALO7Lzguu');
 
-Map.addLayer(cimis_locations);
-
-
-// There are seven stations in the delta (47, 140, 167, 242, 243, 247, 248, and 249)
+//Map.addLayer(cimis_locations);
 
 // DSA boundary
+var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZllv').union();
+Map.addLayer(DSAregion,{color: 'FF0000'}, 'DSA boundary');
+
+// There are seven (but several are close enough so really nine) stations in the delta (212, 47, 140, 167, 242, 243, 247, 248, and 249)
+var station_list = [47, 140, 167, 212, 242, 243, 247, 248, 249];
+
+// filter cimis locations to the ones covered by the DSA
+var filtered = cimis_locations.filter(ee.Filter.inList('id', station_list));
+
+Map.addLayer(filtered);
+print(filtered);
