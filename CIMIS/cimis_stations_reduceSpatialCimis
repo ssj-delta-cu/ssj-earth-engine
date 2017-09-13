@@ -29,7 +29,7 @@ var CIMISTimeSeries = ui.Chart.image.seriesByRegion({
   regions: filtered,
   reducer: ee.Reducer.mean(),
   band: 'b1',
-  scale: 30,
+  scale: 200,
   xProperty: 'system:time_start',
   seriesProperty: 'id'
 });
