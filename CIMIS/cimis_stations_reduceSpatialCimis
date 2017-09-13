@@ -20,3 +20,6 @@ print(filtered);
 
 // spatial cimis image collection 
 var spatial_cimis_eto = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/cimis_eto');
+Map.addLayer(spatial_cimis_eto);
+
+print(spatial_cimis_eto);
