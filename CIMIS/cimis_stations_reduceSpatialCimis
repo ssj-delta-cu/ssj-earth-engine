@@ -1,3 +1,9 @@
+// spatial cimis values at cimis stations
+// open the Earth Engine Chart and click download csv for the data
+// charts can only have 5000 elements so you might need to split the
+// station_list into two groups
+
+
 // fusion table with cimis station locations
 // from https://github.com/ssj-delta-cu/ssj-weather/blob/master/cimis/station_locations.csv
 var cimis_locations = ee.FeatureCollection('ft:1q_KywBuLzzRzfBlwrMkiLKxcLcbptq6ALO7Lzguu');
@@ -9,7 +15,8 @@ var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZl
 Map.addLayer(DSAregion,{color: 'FF0000'}, 'DSA boundary');
 
 // There are seven (but several are close enough so really nine) stations in the delta (212, 47, 140, 167, 242, 243, 247, 248, and 249)
-var station_list = [47, 140, 167, 212, 242, 243, 247, 248, 249];
+//var station_list = [47, 140, 167, 212, 242, 243, 247, 248, 249];
+var station_list = [242, 243, 247, 248, 249];
 
 // filter cimis locations to the ones covered by the DSA
 var filtered = cimis_locations.filter(ee.Filter.inList('id', station_list));
@@ -43,4 +50,4 @@ CIMISTimeSeries.setOptions({
   pointSize: 4,
 });
 
-print(CIMISTimeSeries);
+print(CIMISTimeSeries); 
