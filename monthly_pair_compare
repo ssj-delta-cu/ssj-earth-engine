@@ -426,5 +426,5 @@ maps[1].onClick(function(coords) {;
   inspector.add(ui.Button('X', function() {
     inspector.style().set({shown: false});
     }));
-  inspector.style().set({shown: true, height: 10px});
+  inspector.style().set({shown: true, height: '10px'});
 });
