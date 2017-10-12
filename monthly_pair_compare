@@ -403,7 +403,7 @@ var inspector = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
   style: {
     position: 'bottom-center',
-    padding: '8px 15px',
+    padding: '2px 2px',
     shown: false,
   }
 });
@@ -423,8 +423,8 @@ maps[1].onClick(function(coords) {;
   inspector.clear();
   inspector.add(ui.Label('Left: ' + leftvalue.getInfo() + ' mm/day'));
   inspector.add(ui.Label('Right: ' + rightvalue.getInfo() + ' mm/day'));
-    inspector.add(ui.Button('Close', function() {
-      inspector.style().set({shown: false});
+  inspector.add(ui.Button('X', function() {
+    inspector.style().set({shown: false});
     }));
-    inspector.style().set({shown: true});
+  inspector.style().set({shown: true, height: 10px});
 });
