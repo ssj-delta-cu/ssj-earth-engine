@@ -1,6 +1,5 @@
 var select_water_year = function(water_year){
   if(water_year == 2015){
-
     var methods={
       itrc:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1")},
       disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-1-0")},
@@ -10,7 +9,6 @@ var select_water_year = function(water_year){
       eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2015")},
       calsimetaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-calsimetaw/calsimetaw_et_wy2015_v2-0-0")},
       detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2015_v2-0-1")},
-
     };
     
     var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2015_v2016-06-16');
@@ -21,7 +19,6 @@ var select_water_year = function(water_year){
     
   }
   else if(water_year == 2016){
-
     var methods={
       itrc:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2016_v2-0-3")},
       disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2016_v2-1-0")},
@@ -32,16 +29,15 @@ var select_water_year = function(water_year){
       calsimetaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-calsimetaw/calsimetaw_et_wy2016_v2-0-2")},
       detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2016_v2-0-1")},
     };
-    
     var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2016_v2017-04-25');
     var landcover = landIQ.select(['b1']).rename('level_2');
     // fusion table with the station points 2016
     var station_points = ee.FeatureCollection('ft:1TedFG6u5KqIKghK23OyhPQC7ZIk-H_Qy74rkBvYL');
   }
-  
   return({methods: methods, landcover: landcover, stations: station_points});
 };//updated 6-6-17
 
+var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV').select(["Station_ID", "Crop"]);
 
 var DELTA = (function() {
   function bbox() {
@@ -144,8 +140,6 @@ var turn_layers_off = function(map_index){
 
 var gyr=["64FF00", "8DFF00", "B6FF00", "DFFF00", "FFF500", "FFCC00", "FFA300", "FF7A00", "FF5100", "FF2800", "FF0000"];
 
-var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV').select(["Station_ID", "Crop"]);
-
 // Create an empty image into which to paint the features, cast to byte.
 var empty = ee.Image().byte();
 
@@ -171,25 +165,47 @@ var add_monthly_band = function(selected_method, selected_month, selected_year, 
 
   maps[map_index].addLayer(et_masked, {bands:[selected_band],min:0,max:10, palette: gyr}, ZlayerName);
   //maps[map_index].addLayer(outline, {palette: '0B0157'}, "FieldStations-2016"); // locations of the field stations
-  print(et_masked);
   return(et_masked);
 };
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// map controls 
 
-// UI Settings
+// Create two map objects and link them together
+var maps = [ui.Map(), ui.Map()]; // map a is on the left, map b on the right
+var linker = ui.Map.Linker(maps);
+maps[0].setControlVisibility({zoomControl: true}); // Enable zooming on the top-left map.
+maps[1].setControlVisibility({scaleControl: true}); // Show the scale (e.g. '500m') on the bottom-right map.
 
+// Create a grid of maps.
+var mapGrid = ui.Panel(
+  [
+    ui.Panel([maps[0]], null, {stretch: 'both'}),
+    ui.Panel([maps[1]], null, {stretch: 'both'})
+  ],
+  ui.Panel.Layout.Flow('horizontal'), {stretch: 'both'}
+);
+
+// Add the maps and title to the ui.root.
+ui.root.widgets().reset([mapGrid]);
+ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// UI Settings 
+// a is the left map, b is the right map
+
+// default setting for map a
 var a = {
   model: 'sims',
   month: 'July',
   wy: '2015',
   crop: 'Crop Filter',
-  toplayer: '',
+  toplayer: select_water_year(2015).methods['sims'].image.divide(10),
 };
 
-var b = a;
-
-// select method
+// UI controls for map a
 var selectMethod_a = ui.Select({
   items: Object.keys(select_water_year(a.wy).methods),
   placeholder: a.model,
@@ -226,7 +242,16 @@ var selectCrop_a = ui.Select({
   }
 });
 
+// default setting for map b 
+var b = {
+  model: 'ucdpt',
+  month: 'July',
+  wy: '2015',
+  crop: 'Crop Filter',
+  toplayer: select_water_year(2015).methods['ucdpt'].image.divide(10),
+};
 
+// UI controls for map b
 var selectMethod_b = ui.Select({
   items: Object.keys(select_water_year(b.wy).methods),
   placeholder: b.model,
@@ -273,34 +298,6 @@ var selectCrop_b = ui.Select({
 });
 
 
-
-
-// Create a map for each visualization option.
-var maps = [ui.Map(), ui.Map()];
-
-var linker = ui.Map.Linker(maps);
-
-// Enable zooming on the top-left map.
-maps[0].setControlVisibility({zoomControl: true});
-
-// Show the scale (e.g. '500m') on the bottom-right map.
-maps[1].setControlVisibility({scaleControl: true});
-
-
-// Create a grid of maps.
-var mapGrid = ui.Panel(
-  [
-    ui.Panel([maps[0]], null, {stretch: 'both'}),
-    ui.Panel([maps[1]], null, {stretch: 'both'})
-  ],
-  ui.Panel.Layout.Flow('horizontal'), {stretch: 'both'}
-);
-
-// Add the maps and title to the ui.root.
-ui.root.widgets().reset([mapGrid]);
-ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
-
-
 // Create a panel to hold to UI dropdowns
 var panel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
@@ -332,11 +329,11 @@ panel.add(selectWY_b);
 panel.add(selectCrop_b);
 add_monthly_band(b.model, b.month, b.wy, b.crop, 1);
 
-
-
 // Center the maps
 maps[0].centerObject(bbox);
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
 // legend
 
 // set position of panel
@@ -388,7 +385,7 @@ var makeRow = function(color, name) {
 };
  
 
-// name of the legend
+// names for the legend
 var names = ['0','1.0', '2.0', '3.0', '4.0', '5.0', '6.0', '7.0', '8.0', '9.0', '10.0'];
  
 // Add color and and names
@@ -400,21 +397,26 @@ for (var i = 0; i < gyr.length; i++) {
 maps[0].add(legend);
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 // inspector
 var inspector = ui.Panel({
-  layout: ui.Panel.Layout.flow('horizontal')
+  layout: ui.Panel.Layout.flow('horizontal'),
+  style: {
+    position: 'bottom-center',
+    padding: '8px 15px',
+    shown: false,
+  }
 });
 
 
 maps[1].style().set('cursor', 'crosshair');
 
 // Create the inspector panel, initially hiding it.
-var inspector = ui.Panel({style: {shown: false}});
+//var inspector = ui.Panel({style: {shown: false}});
 maps[1].add(inspector);
 
 // Register an onClick handler that populates and shows the inspector panel.
-maps[1].onClick(function(coords) {
-  // Gather the image bands into a single Image that we can asynchronously sample.
+maps[1].onClick(function(coords) {;
   var point = ee.Geometry.Point(coords.lon, coords.lat);
   var leftvalue = a.toplayer.reduceRegion(ee.Reducer.first(), point, 30).get(month_bands[a.month]);
   var rightvalue = b.toplayer.reduceRegion(ee.Reducer.first(), point, 30).get(month_bands[b.month]);
