@@ -422,10 +422,13 @@ maps[1].onClick(function(coords) {
   var point = ee.Geometry.Point(coords.lon, coords.lat);
   var leftvalue = a.toplayer.reduceRegion(ee.Reducer.first(), point, 30).get(month_bands[a.month]);
   var rightvalue = b.toplayer.reduceRegion(ee.Reducer.first(), point, 30).get(month_bands[b.month]);
+  var landuse = select_water_year(a.wy).landcover.reduceRegion(ee.Reducer.first(), point, 30).get('level_2');
+  print(landuse);
   var dot = ui.Map.Layer(point, {color: '0000FF'});
   maps[0].layers().set(1, ui.Map.Layer(point, {color: '0000FF'}));
   maps[1].layers().set(1, ui.Map.Layer(point, {color: '0000FF'}));
   inspector.clear();
+  inspector.add(ui.Label(landuse.getInfo()));
   inspector.add(ui.Label('Left: ' + leftvalue.getInfo() + ' mm/day'));
   inspector.add(ui.Label('Right: ' + rightvalue.getInfo() + ' mm/day'));
   inspector.add(ui.Button('X', function() {
