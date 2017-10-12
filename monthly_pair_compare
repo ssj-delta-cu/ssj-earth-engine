@@ -302,8 +302,8 @@ var selectCrop_b = ui.Select({
 var panel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
   style: {
-    position: 'top-left',
-    padding: '10px 10px'
+    position: 'top-center',
+    padding: '5px 5px'
   }
 });
 maps[0].setOptions("SATELLITE");
@@ -317,8 +317,8 @@ add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
 var panel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
     style: {
-    position: 'top-left',
-    padding: '10px 10px'
+    position: 'top-center',
+    padding: '5px 5px'
   }
 });
 maps[1].setOptions("SATELLITE");
@@ -403,7 +403,7 @@ var inspector = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
   style: {
     position: 'bottom-center',
-    padding: '8px 15px',
+    padding: '8px 8px',
     shown: false,
   }
 });
@@ -425,6 +425,6 @@ maps[1].onClick(function(coords) {
   inspector.add(ui.Label('Right: ' + rightvalue.getInfo() + ' mm/day'));
   inspector.add(ui.Button('X', function() {
     inspector.style().set({shown: false});
-    }, false, {color:'#FF0000', height: '5px', width: '5px'}));
+    }, false, {color:'#FF0000', padding: '-5px', textAlign: 'center'}));
   inspector.style().set({shown: true,});
 });
