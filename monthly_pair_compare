@@ -174,7 +174,9 @@ var add_monthly_band = function(selected_method, selected_month, selected_year, 
   var selected_band = month_bands[selected_month];
   
   maps[map_index].addLayer(et_masked, {bands:[selected_band],min:0,max:100, palette: gyr}, ZlayerName);
-  maps[map_index].addLayer(outline, {palette: '0B0157'}, "FieldStations-2016");
+  //maps[map_index].addLayer(outline, {palette: '0B0157'}, "FieldStations-2016"); // locations of the field stations
+  print(et_masked);
+  return(et_masked);
 };
 
 
@@ -185,7 +187,8 @@ var a = {
   model: 'sims',
   month: 'July',
   wy: '2015',
-  crop: 'Crop Filter'
+  crop: 'Crop Filter',
+  toplayer: '',
 };
 
 var b = a;
@@ -196,16 +199,7 @@ var selectMethod_a = ui.Select({
   placeholder: a.model,
   onChange: function(key) {
     a.model = key;
-    add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
-  }
-});
-
-var selectMethod_a = ui.Select({
-  items: Object.keys(select_water_year(a.wy).methods),
-  placeholder: a.model,
-  onChange: function(key) {
-    a.model = key;
-    add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
+    a.toplayer = add_monthly_band(a.model, a.month, a.wy, a.crop, 0);
   }
 });
 
@@ -427,8 +421,7 @@ maps[0].onClick(function(coords) {
   var point = ee.Geometry.Point(coords.lon, coords.lat);
   var dot = ui.Map.Layer(point, {color: '0000FF'});
   maps[0].layers().set(2, dot);
-  var sample = ee.Image.cat(maps[0].layers().get(1))
-      .unmask(0).sample(point, 30).first().toDictionary();
+  var sample = 1;
   sample.evaluate(function(values) {
     inspector.clear();
 
