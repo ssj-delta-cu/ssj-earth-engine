@@ -416,7 +416,7 @@ maps[1].style().set('cursor', 'crosshair');
 maps[1].add(inspector);
 
 // Register an onClick handler that populates and shows the inspector panel.
-maps[1].onClick(function(coords) {;
+maps[1].onClick(function(coords) {
   var point = ee.Geometry.Point(coords.lon, coords.lat);
   var leftvalue = a.toplayer.reduceRegion(ee.Reducer.first(), point, 30).get(month_bands[a.month]);
   var rightvalue = b.toplayer.reduceRegion(ee.Reducer.first(), point, 30).get(month_bands[b.month]);
