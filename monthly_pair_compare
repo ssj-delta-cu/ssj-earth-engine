@@ -405,26 +405,36 @@ maps[0].add(legend);
 
 
 // inspector
+var inspector = ui.Panel({
+  layout: ui.Panel.Layout.flow('horizontal')
+});
+
+
+maps[0].style().set('cursor', 'crosshair');
 
 // Create the inspector panel, initially hiding it.
 var inspector = ui.Panel({style: {shown: false}});
-maps[0].add(inspector);
+map.add(inspector);
 
 // Register an onClick handler that populates and shows the inspector panel.
-maps[0].onClick(function(coords) {
-  var layers = maps[0].layers();
-
-  print(layers);
-  
-  print(maps[0].layers().get(1));
-  
+map.onClick(function(coords) {
+  // Gather the image bands into a single Image that we can asynchronously sample.
   var point = ee.Geometry.Point(coords.lon, coords.lat);
-  var dot = ui.Map.Layer(point, {color: '0000FF'});
-  maps[0].layers().set(2, dot);
-  var sample = 1;
+  var sample = ee.Image.cat(pop, elevation, slope)
+      .unmask(0).sample(point, 30).first().toDictionary();
   sample.evaluate(function(values) {
     inspector.clear();
 
+    // Display a label that corresponds to a checked checkbox.
+    if (popCheck.getValue()) {
+      inspector.add(ui.Label('Population: ' + values.population + ' people/cell'));
+    }
+    if (elevationCheck.getValue()) {
+      inspector.add(ui.Label('Elevation: ' + values.elevation + ' meters'));
+    }
+    if (slopeCheck.getValue()) {
+      inspector.add(ui.Label('Slope: ' + values.slope + ' degrees'));
+    }
     inspector.add(ui.Button('Close', function() {
       inspector.style().set({shown: false});
     }));
