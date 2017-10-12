@@ -303,11 +303,12 @@ var panel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
   style: {
     position: 'top-center',
-    padding: '5px 5px'
+    padding: '5px 5px',
   }
 });
 maps[0].setOptions("SATELLITE");
 maps[0].add(panel);
+maps[0].setControlVisibility(false);
 panel.add(selectMethod_a);
 panel.add(selectBand_a);
 panel.add(selectWY_a);
@@ -323,6 +324,7 @@ var panel = ui.Panel({
 });
 maps[1].setOptions("SATELLITE");
 maps[1].add(panel);
+maps[1].setControlVisibility(false);
 panel.add(selectMethod_b);
 panel.add(selectBand_b);
 panel.add(selectWY_b);
