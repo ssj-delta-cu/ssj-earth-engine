@@ -137,42 +137,12 @@ var landcover_mask = function(image, landcover_cat, landcover){
 var turn_layers_off = function(map_index){
   var layers = maps[map_index].layers();
   layers.forEach(function(layer){
-        layer.setShown(false);
+        //layer.setShown(false);
+        maps[map_index].layers().remove(layer);
     });
 };
 
 var gyr=["64FF00", "8DFF00", "B6FF00", "DFFF00", "FFF500", "FFCC00", "FFA300", "FF7A00", "FF5100", "FF2800", "FF0000"];
-var redyellowgreen = ['FF0000', 
-'FF1100',
-'FF2200',
-'FF3300',
-'FF4400',
-'FF5500',
-'FF6600',
-'FF7700',
-'FF8800',
-'FF9900',
-'FFAA00',
-'FFBB00',
-'FFCC00',
-'FFDD00',
-'FFEE00',
-'FFFF00',
-'EEFF00',
-'DDFF00',
-'CCFF00',
-'BBFF00',
-'AAFF00',
-'99FF00',
-'88FF00',
-'77FF00',
-'66FF00',
-'55FF00',
-'44FF00',
-'33FF00',
-'22FF00',
-'11FF00',
-'00FF00'];
 
 var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV').select(["Station_ID", "Crop"]);
 
@@ -448,12 +418,16 @@ maps[0].add(inspector);
 
 // Register an onClick handler that populates and shows the inspector panel.
 maps[0].onClick(function(coords) {
-  // Gather the image bands into a single Image that we can asynchronously sample.
+  var layers = maps[0].layers();
+
+  print(layers);
+  
+  print(maps[0].layers().get(1));
+  
   var point = ee.Geometry.Point(coords.lon, coords.lat);
-  var dot = ui.Map.Layer(point, {color: 'FF0000'});
-  maps[0].layers().set(1, dot);
-  print(maps[0].layers());
-  var sample = ee.Image.cat(ZlayerName)
+  var dot = ui.Map.Layer(point, {color: '000000'});
+  maps[0].layers().set(2, dot);
+  var sample = ee.Image.cat(maps[0].layers().get(1))
       .unmask(0).sample(point, 30).first().toDictionary();
   sample.evaluate(function(values) {
     inspector.clear();
