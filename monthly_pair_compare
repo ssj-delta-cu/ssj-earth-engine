@@ -403,7 +403,7 @@ var inspector = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
   style: {
     position: 'bottom-center',
-    padding: '2px 2px',
+    padding: '8px 15px',
     shown: false,
   }
 });
