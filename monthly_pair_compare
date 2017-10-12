@@ -438,3 +438,26 @@ for (var i = 0; i < gyr.length; i++) {
  
 // add legend to map (alternatively you can also print the legend to the console)
 maps[0].add(legend);
+
+
+// inspector
+
+// Create the inspector panel, initially hiding it.
+var inspector = ui.Panel({style: {shown: false}});
+maps[0].add(inspector);
+
+// Register an onClick handler that populates and shows the inspector panel.
+maps[0].onClick(function(coords) {
+  // Gather the image bands into a single Image that we can asynchronously sample.
+  var point = ee.Geometry.Point(coords.lon, coords.lat);
+  var sample = ee.Image.cat(ZlayerName)
+      .unmask(0).sample(point, 30).first().toDictionary();
+  sample.evaluate(function(values) {
+    inspector.clear();
+
+    inspector.add(ui.Button('Close', function() {
+      inspector.style().set({shown: false});
+    }));
+    inspector.style().set({shown: true});
+  });
+});
