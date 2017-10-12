@@ -434,22 +434,8 @@ maps[1].onClick(function(coords) {
   inspector.style().set({shown: true,});
 });
 
-
-
-var inspector = ui.Panel({
-  layout: ui.Panel.Layout.flow('horizontal'),
-  style: {
-    position: 'bottom-center',
-    padding: '8px 8px',
-    shown: false,
-  }
-});
-
+// make it work if the left map is clicked
 maps[0].style().set('cursor', 'crosshair');
-
-// Create the inspector panel, initially hiding it.
-//var inspector = ui.Panel({style: {shown: false}});
-maps[0].add(inspector);
 
 // Register an onClick handler that populates and shows the inspector panel.
 maps[0].onClick(function(coords) {
