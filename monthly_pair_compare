@@ -450,6 +450,9 @@ maps[0].add(inspector);
 maps[0].onClick(function(coords) {
   // Gather the image bands into a single Image that we can asynchronously sample.
   var point = ee.Geometry.Point(coords.lon, coords.lat);
+  var dot = ui.Map.Layer(point, {color: 'FF0000'});
+  maps[0].layers().set(1, dot);
+  print(maps[0].layers());
   var sample = ee.Image.cat(ZlayerName)
       .unmask(0).sample(point, 30).first().toDictionary();
   sample.evaluate(function(values) {
