@@ -425,6 +425,6 @@ maps[1].onClick(function(coords) {
   inspector.add(ui.Label('Right: ' + rightvalue.getInfo() + ' mm/day'));
   inspector.add(ui.Button('X', function() {
     inspector.style().set({shown: false});
-    }, false, {color:'#FF0000'}));
+    }, false, {color:'#FF0000', height: '5px', width: '5px'}));
   inspector.style().set({shown: true,});
 });
