@@ -425,7 +425,7 @@ maps[0].onClick(function(coords) {
   print(maps[0].layers().get(1));
   
   var point = ee.Geometry.Point(coords.lon, coords.lat);
-  var dot = ui.Map.Layer(point, {color: '000000'});
+  var dot = ui.Map.Layer(point, {color: '0000FF'});
   maps[0].layers().set(2, dot);
   var sample = ee.Image.cat(maps[0].layers().get(1))
       .unmask(0).sample(point, 30).first().toDictionary();
