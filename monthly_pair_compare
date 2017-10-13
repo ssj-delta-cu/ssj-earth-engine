@@ -109,6 +109,14 @@ var crops = {
     "Crop Filter": -2
 };
 
+// returns cropname (key) from the crop id (value) specified in the crop dictionary
+var lookup_crop = function(cropid){
+  var crops_d = ee.Dictionary(crops);
+  var crops_d_reverse = ee.Dictionary.fromLists(crops_d.values().map(ee.String), crops_d.keys()); // values become keys
+  var cropname = crops_d_reverse.get(String(cropid));
+  return cropname;
+};
+
 
 // Masks to landcover category
 var landcover_mask = function(image, landcover_cat, landcover){
