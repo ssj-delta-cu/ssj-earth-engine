@@ -53,12 +53,12 @@ var lc_eq = lc_2015.eq(lc_2016);
 
 // function to clip the monthly ET raster by the common landuse mask
 
+var landcover_mask = function(image){
+  var mask = lc_eq.eq([1]);
+  var image_masked = image.updateMask(mask);
+  return image_masked;
+};
 
-Map.addLayer(lc_eq);
-Map.addLayer(lc_2015);
-Map.addLayer(lc_2016);
-
-/*
 
 // fusion tables with regions to clip
 var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZllv');
@@ -135,6 +135,9 @@ var exportEEjson = function(region, wateryear){
   
     var filename = key + "-" + region + "-" + wateryear;
     print(filename);
+    
+    var common_landuse = landcover_mask(clip_ET_region(methods[key].image));
+    
     var e =  LUstatsMonthlyET(clip_ET_region(methods[key].image, region_names[region]), landcover);
     //print(e);
     
@@ -151,4 +154,3 @@ exportEEjson("legal", 2015);
 exportEEjson("dsa", 2015);
 exportEEjson("legal", 2016);
 exportEEjson("dsa", 2016);
-*/
