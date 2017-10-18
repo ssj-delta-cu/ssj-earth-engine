@@ -44,9 +44,21 @@ var select_water_year = function(water_year){
 
 
 
-print(select_water_year(2015).landcover);
+var lc_2015 = select_water_year(2015).landcover;
+var lc_2016 = select_water_year(2016).landcover;
 
-Map.addLayer(select_water_year(2015).landcover);
+// Need to create a landuse mask where landuse 2015 values are equal to the landuse 2016 classes
+var lc_eq = lc_2015.eq(lc_2016);
+
+
+// function to clip the monthly ET raster by the common landuse mask
+
+
+Map.addLayer(lc_eq);
+Map.addLayer(lc_2015);
+Map.addLayer(lc_2016);
+
+/*
 
 // fusion tables with regions to clip
 var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZllv');
@@ -139,3 +151,4 @@ exportEEjson("legal", 2015);
 exportEEjson("dsa", 2015);
 exportEEjson("legal", 2016);
 exportEEjson("dsa", 2016);
+*/
