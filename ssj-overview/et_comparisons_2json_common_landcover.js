@@ -3,7 +3,7 @@ var select_water_year = function(water_year){
 
     var methods={
       itrc:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1")},
-      disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-1-1")},
+      disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-1-0")},
       ucdpt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2015_v2-2-0")},
       ucdmetric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2015_v2-1-0")},
       sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2015_v2-0-0")},
@@ -136,9 +136,9 @@ var exportEEjson = function(region, wateryear){
     var filename = key + "-" + region + "-" + wateryear;
     print(filename);
     
-    var common_landuse = landcover_mask(clip_ET_region(methods[key].image));
+    var common_landuse = landcover_mask(methods[key].image);
     
-    var e =  LUstatsMonthlyET(clip_ET_region(methods[key].image, region_names[region]), landcover);
+    var e =  LUstatsMonthlyET(clip_ET_region(common_landuse, region_names[region]), landcover);
     //print(e);
     
       var FC = ee.FeatureCollection([
@@ -150,7 +150,7 @@ var exportEEjson = function(region, wateryear){
   
 };
 
-exportEEjson("legal", 2015);
+//exportEEjson("legal", 2015);
 exportEEjson("dsa", 2015);
-exportEEjson("legal", 2016);
+//exportEEjson("legal", 2016);
 exportEEjson("dsa", 2016);
