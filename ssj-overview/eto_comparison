@@ -4,7 +4,7 @@ var select_water_year = function(water_year){
     var methods={
     spatial_cimis_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2015")},
     detaw_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_eto_wy2015")},
-    disalexi_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_monthly/eto_2015_monthly")}
+    disalexi_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_monthly/eto_2015_v2")}
     };
     
   }
@@ -13,7 +13,7 @@ var select_water_year = function(water_year){
     var methods={
     spatial_cimis_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2016")},
     detaw_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_eto_wy2016")},
-    disalexi_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_monthly/eto_2016_monthly")}
+    disalexi_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_monthly/eto_2016_v2")}
     };
   };  
 
