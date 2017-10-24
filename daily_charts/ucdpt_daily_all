@@ -1,11 +1,18 @@
-// fusion table with the 3x3 grid around the 2016 fieldstation points 
-var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
 
+// this is all the daily et rasters for wy 2016. wy2015 need to be uploaded
 // image collection with the daily ET
 var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily_wy2016');
 
 
-var timeseries = ui.Chart.image.seriesByRegion(daily_et, station_points_3x3, 
-  ee.Reducer.mean(), 'b1', 30, 'system:time_start', 'Station_ID');
+var func = require('users/ucd-cws-ee-data/ssj-delta-et:daily_charts/reduce_timeseries_function');
 
-print(timeseries);
+// fusion table with the 3x3 grid around the 2016 fieldstation points 
+var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
+
+// divide imageCollection by 10 so results are in mm/day
+var daily_et_mm = daily_et.map(function(image){
+  var mm = image.divide(10).copyProperties(image, ['system:time_start']);
+  return mm});
+
+// reduce image collection to get statistics of the feature regions
+func.reduce_SSJ_timeseries(daily_et_mm, station_points_3x3, 'Station_ID', 'ucdpt', 'et', '3x3');
