@@ -38,4 +38,15 @@ var reduce_SSJ_timeseries = function(imageCol, regionsFC, FCfield, model, variab
   });
 };
 
-exports = {reduce_SSJ_timeseries: reduce_SSJ_timeseries};
+
+// fusion table with the 3x3 grid around the 2016 fieldstation points 
+var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
+
+// fusion table with field3 (landiq) where the staion points are located 
+var station_points_field = ee.FeatureCollection('ft:18QV24YmdxAD9JTkKRB6IVCQFgA9FS2_4rl5wcklj');
+
+
+exports = {reduce_SSJ_timeseries: reduce_SSJ_timeseries, 
+    grid: station_points_3x3,
+    field: station_points_field,
+};
