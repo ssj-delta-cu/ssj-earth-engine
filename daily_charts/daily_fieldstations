@@ -12,35 +12,43 @@ var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disale
 
 // reduce image collection to get statistics of the feature regions
 //var reduce_features = 
+var FCfield = 'Station_ID';
+var model='disalexi';
+var variable='et';
+var region='3x3';
 
 
+var reduce_SSJ_timeseries = function(imageCol, regionsFC, FCfield, model, variable, region){
 
-// adapted from https://code.earthengine.google.com/2bc97f60e4470be64438b52eb8db2781
-var reduceRegions_timeseries = daily_et.map(function(image) {
- return image.reduceRegions({
-   collection: station_points_3x3.select(['Station_ID']),
-    reducer: ee.Reducer.mean(),
-    scale: 30
- }).filter(ee.Filter.neq('mean', null))
-   .map(function(f) {
-      f=f.set('imageId', image.id());
-      f=f.set('date', image.date());
-      return f;
-   });
-}).flatten();
-
-// produces feature collection with features containing following columns:
-// feature id, imageID, image date, mean
-print(reduceRegions_timeseries.limit(1));
-
-// you could drop the .geo column
-var reduceRegions_timeseries_out = reduceRegions_timeseries.select(['.*'], null, false);
-
-
-Export.table.toDrive({
- collection: reduceRegions_timeseries_out,
-  description: 'reduceRegions_timeseries_out',
-  folder: 'GEE_output',//you can specify folder
- fileFormat: 'CSV'
-});
-
+  // adapted from https://code.earthengine.google.com/2bc97f60e4470be64438b52eb8db2781
+  var reduceRegions_timeseries = imageCol.map(function(image) {
+   return image.reduceRegions({
+     collection: regionsFC.select([FCfield]),
+      reducer: ee.Reducer.mean(),
+      scale: 30
+   }).filter(ee.Filter.neq('mean', null))
+     .map(function(f) {
+        f=f.set('imageId', image.id());
+        f=f.set('date', image.date());
+        f=f.set('model', model);
+        f=f.set('variable', variable);
+        f=f.set('region', region);
+        return f;
+     });
+  }).flatten();
+  
+  // produces feature collection with features containing following columns:
+  // feature id, imageID, image date, mean
+  print(reduceRegions_timeseries.limit(1));
+  
+  // you could drop the .geo column
+  var reduceRegions_timeseries_out = reduceRegions_timeseries.select(['.*'], null, false);
+  
+  
+  Export.table.toDrive({
+   collection: reduceRegions_timeseries_out,
+    description: 'reduceRegions_timeseries_out',
+    folder: 'GEE_output',//you can specify folder
+   fileFormat: 'CSV'
+  });
+};
