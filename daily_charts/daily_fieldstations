@@ -1,25 +1,11 @@
-// fusion table with the 3x3 grid around the 2016 fieldstation points 
-var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
-
-// image collection with the daily ET
-var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr');
-
-
-//var timeseries = ui.Chart.image.seriesByRegion(daily_et_filter, station_points_3x3, 
-//  ee.Reducer.mean(), 'b1', 30, 'system:time_start', 'Station_ID');
-
-//print(timeseries);
-
-// reduce image collection to get statistics of the feature regions
-//var reduce_features = 
-var FCfield = 'Station_ID';
-var model='disalexi';
-var variable='et';
-var region='3x3';
-
+// function to get the mean value in a polygon from a imageCollection. This is 
+// similuar to the ui.Chart.image.seriesByRegion chart but allow more control and 
+// exports directly to a csv file. Usage: specify the image collection, fusion table for 
+// regions, fusion table column for the group id, the name of the model, the name of the variable
+// and the name region. Make sure to kick off the task in the task pane to export the csv to
+// to google drive. 
 
 var reduce_SSJ_timeseries = function(imageCol, regionsFC, FCfield, model, variable, region){
-
   // adapted from https://code.earthengine.google.com/2bc97f60e4470be64438b52eb8db2781
   var reduceRegions_timeseries = imageCol.map(function(image) {
    return image.reduceRegions({
@@ -38,17 +24,34 @@ var reduce_SSJ_timeseries = function(imageCol, regionsFC, FCfield, model, variab
   }).flatten();
   
   // produces feature collection with features containing following columns:
-  // feature id, imageID, image date, mean
+  // feature id, imageID, image date, mean, etc
   print(reduceRegions_timeseries.limit(1));
   
-  // you could drop the .geo column
+  // drop the .geo column
   var reduceRegions_timeseries_out = reduceRegions_timeseries.select(['.*'], null, false);
-  
   
   Export.table.toDrive({
    collection: reduceRegions_timeseries_out,
-    description: 'reduceRegions_timeseries_out',
-    folder: 'GEE_output',//you can specify folder
+    description: model+'_'+variable+'_'+region,
+    //folder: 'GEE_output',//you can specify folder
    fileFormat: 'CSV'
   });
 };
+
+
+// fusion table with the 3x3 grid around the 2016 fieldstation points 
+var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
+
+// image collection with the daily ET
+var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr');
+
+
+// reduce image collection to get statistics of the feature regions
+//var reduce_features = 
+var FCfield = 'Station_ID';
+var model='disalexi';
+var variable='et';
+var region='3x3';
+
+
+reduce_SSJ_timeseries(daily_et, station_points_3x3, FCfield, model, variable, region);
