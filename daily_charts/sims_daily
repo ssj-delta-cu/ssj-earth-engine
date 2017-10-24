@@ -12,4 +12,4 @@ var daily_et_mm = daily_et.map(function(image){
 func.reduce_SSJ_timeseries(daily_et_mm, func.grid, 'Station_ID', 'sims', 'et', '3x3');
 
 // reduce image collection to get statistics for the field
-func.reduce_SSJ_timeseries(daily_et_mm, func.grid, 'Station_ID', 'sims', 'et', 'field');
+func.reduce_SSJ_timeseries(daily_et_mm, func.field, 'Station_ID', 'sims', 'et', 'field');
