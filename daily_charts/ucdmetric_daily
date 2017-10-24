@@ -1,8 +1,5 @@
 var func = require('users/ucd-cws-ee-data/ssj-delta-et:daily_charts/reduce_timeseries_function');
 
-// fusion table with the 3x3 grid around the 2016 fieldstation points 
-var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
-
 // image collection with the daily ET
 var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/et_landsat');
 
@@ -11,5 +8,9 @@ var daily_et_mm = daily_et.map(function(image){
   var mm = image.divide(10).copyProperties(image, ['system:time_start']);
   return mm});
 
-// reduce image collection to get statistics of the feature regions
-func.reduce_SSJ_timeseries(daily_et_mm, station_points_3x3, 'Station_ID', 'ucdmetric', 'et', '3x3');
+
+// reduce image collection to get statistics of the grid regions
+func.reduce_SSJ_timeseries(daily_et_mm, func.grid, 'Station_ID', 'ucdmetric', 'et', '3x3');
+
+// reduce image collection to get statistics for the field
+func.reduce_SSJ_timeseries(daily_et_mm, func.grid, 'Station_ID', 'ucdmetric', 'et', 'field');
