@@ -10,11 +10,4 @@ var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disale
 
 
 // reduce image collection to get statistics of the feature regions
-//var reduce_features = 
-var FCfield = 'Station_ID';
-var model='disalexi';
-var variable='et';
-var region='3x3';
-
-
-func.reduce_SSJ_timeseries(daily_et, station_points_3x3, FCfield, model, variable, region);
+func.reduce_SSJ_timeseries(daily_et, station_points_3x3, 'Station_ID', 'disalexi', 'et', '3x3');
