@@ -1,8 +1,5 @@
 // export disalexi time series as a csv file
-
 var func = require('users/ucd-cws-ee-data/ssj-delta-et:daily_charts/reduce_timeseries_function');
-
-
 
 // image collection with the daily ET
 var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/et_daily_output_corr');
@@ -12,5 +9,8 @@ var daily_et_mm = daily_et.map(function(image){
   var mm = image.divide(10).copyProperties(image, ['system:time_start']);
   return mm});
 
-// reduce image collection to get statistics of the feature regions
-func.reduce_SSJ_timeseries(daily_et_mm, station_points_3x3, 'Station_ID', 'disalexi', 'et', '3x3');
+// reduce image collection to get statistics of the grid regions
+func.reduce_SSJ_timeseries(daily_et_mm, func.grid, 'Station_ID', 'disalexi', 'et', '3x3');
+
+// reduce image collection to get statistics for the field
+func.reduce_SSJ_timeseries(daily_et_mm, func.grid, 'Station_ID', 'disalexi', 'et', 'field');
