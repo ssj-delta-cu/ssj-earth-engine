@@ -8,7 +8,7 @@ var func = require('users/ucd-cws-ee-data/ssj-delta-et:daily_charts/reduce_times
 
 // divide imageCollection by 10 so results are in mm/day
 var daily_et_mm = daily_et.map(function(image){
-  var mm = image.divide(10).copyProperties(image, ['system:time_start']);
+  var mm = image.divide(100).copyProperties(image, ['system:time_start']);
   return mm});
 
 
@@ -17,3 +17,5 @@ func.reduce_SSJ_timeseries(daily_et_mm, func.grid, 'Station_ID', 'ucdpt', 'et', 
 
 // reduce image collection to get statistics for the field
 func.reduce_SSJ_timeseries(daily_et_mm, func.field, 'Station_ID', 'ucdpt', 'et', 'field');
+
+Map.addLayer(daily_et_mm);
