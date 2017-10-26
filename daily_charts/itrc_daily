@@ -5,12 +5,18 @@ var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-m
 
 // divide imageCollection by 10 so results are in mm/day
 var daily_et_mm = daily_et.map(function(image){
-  var mm = image.divide(10).copyProperties(image, ['system:time_start']);
+  var mm = image.divide(1).copyProperties(image, ['system:time_start']);
   return mm});
 
 
 // reduce image collection to get statistics of the grid regions
-func.reduce_SSJ_timeseries(daily_et_mm, func.grid, 'Station_ID', 'itrc', 'et', '3x3');
+//func.reduce_SSJ_timeseries(daily_et_mm, func.grid, 'Station_ID', 'itrc', 'et', '3x3');
 
 // reduce image collection to get statistics for the field
-func.reduce_SSJ_timeseries(daily_et_mm, func.field, 'Station_ID', 'itrc', 'et', 'field');
+//func.reduce_SSJ_timeseries(daily_et_mm, func.field, 'Station_ID', 'itrc', 'et', 'field');
+
+// image collection with the daily Rn
+var rn = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/rn');
+
+// reduce image collection to get statistics of the grid regions
+func.reduce_SSJ_timeseries(rn, func.grid, 'Station_ID', 'itrc', 'rn', '3x3');
