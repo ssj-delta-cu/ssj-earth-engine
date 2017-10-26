@@ -1,7 +1,7 @@
 var func = require('users/ucd-cws-ee-data/ssj-delta-et:daily_charts/reduce_timeseries_function');
 
 // image collection with the daily ET
-var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/et_daily');
+var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/inst_et_24hr');
 
 // divide imageCollection by 10 so results are in mm/day
 var daily_et_mm = daily_et.map(function(image){
