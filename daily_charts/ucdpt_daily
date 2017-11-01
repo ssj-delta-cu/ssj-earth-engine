@@ -21,3 +21,6 @@ var daily_rn = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-pr
 
 // reduce image collection to get statistics of the grid regions
 func.reduce_SSJ_timeseries(daily_rn, func.grid, 'Station_ID', 'ucdpt', 'rn', '3x3');
+
+func.reduce_SSJ_timeseries(daily_rn, func.cimis, 'ID', 'ucdpt', 'rn', 'cimis_station');
+
