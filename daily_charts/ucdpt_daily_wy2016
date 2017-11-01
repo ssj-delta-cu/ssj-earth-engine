@@ -1,7 +1,9 @@
 
 // this is all the daily et rasters for wy 2016. wy2015 need to be uploaded
 // image collection with the daily ET
-var daily_et = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily_wy2016');
+var daily_et_2016 = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily_wy2016');
+var daily_et_2015 = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/et_daily_wy2015');
+var daily_et = daily_et_2015.merge(daily_et_2016);
 
 
 var func = require('users/ucd-cws-ee-data/ssj-delta-et:daily_charts/reduce_timeseries_function');
