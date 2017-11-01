@@ -20,3 +20,6 @@ var rn = ee.ImageCollection('users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/
 
 // reduce image collection to get statistics of the grid regions
 func.reduce_SSJ_timeseries(rn, func.grid, 'Station_ID', 'itrc', 'rn', '3x3');
+
+// reduce image collection to get statistics of the cimis stations
+func.reduce_SSJ_timeseries(rn, func.cimis, 'ID', 'itrc', 'rn', 'cimis_station');
