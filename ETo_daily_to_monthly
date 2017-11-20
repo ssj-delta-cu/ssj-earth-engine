@@ -53,7 +53,7 @@ Map.addLayer(eto_wy2015, {bands:['b1'], min: 20, max:35}, "ETO water year 2015")
 Export.image.toAsset({
   image:eto_wy2015,
   description:'eto_wy2015',
-  assetId:'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalxi/eto-v2/eto_wy2015',
+  assetId:'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto-v2/eto_wy2015',
   pyramidingPolicy: {
         '.default': 'mean',
       },
@@ -70,7 +70,7 @@ Map.addLayer(eto_wy2016, {bands:['b1'], min: 20, max:35}, "ETO water year 2016")
 Export.image.toAsset({
   image:eto_wy2016,
   description:'eto_wy2016',
-  assetId:'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalxi/eto-v2/eto_wy2016',
+  assetId:'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto-v2/eto_wy2016',
   pyramidingPolicy: {
         '.default': 'mean',
       },
