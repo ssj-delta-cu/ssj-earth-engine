@@ -1,0 +1,123 @@
+// calculate the monthly et and eto for a 3x3 grid around the field stations
+
+var select_water_year = function(water_year){
+  if(water_year == 2015){
+
+    var methods={
+      itrc:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2015_v2-0-1")},
+      disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2015_v2-1-0")},
+      ucdpt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2015_v2-2-0")},
+      ucdmetric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2015_v2-1-0")},
+      sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2015_v2-0-0")},
+      calsimetaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-calsimetaw/calsimetaw_et_wy2015_v2-0-0")},
+      detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2015_v2-0-1")},
+      spatial_cimis_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2015")},
+      detaw_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_eto_wy2015")},
+      disalexi_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_monthly/eto_2015_monthly")}
+    };
+    
+    var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2015_v2016-06-16');
+    var landcover = landIQ.select(['b2']).rename('level_2');
+    
+    // fusion table with the station points 2015
+    var station_points = ee.FeatureCollection('ft:1vGYHsi1INwYjWj62xbrcQMewrRJQLbbE_jyqFwL7');
+    
+  }
+  else if(water_year == 2016){
+
+    var methods={
+      itrc:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-itrc-metric/itrc_et_wy2016_v2-0-3")},
+      disalexi:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_et_wy2016_v2-1-0")},
+      ucdpt:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-priestley-taylor/ucd-pt_et_wy2016_v2-2-0")},
+      ucdmetric:{image:ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-ucd-metric/ucd-metric_et_wy2016_v2-1-0")},
+      sims:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-sims/sims_et_wy2016_v2-0-0")},
+      calsimetaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-calsimetaw/calsimetaw_et_wy2016_v2-0-2")},
+      detaw:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_et_wy2016_v2-0-1")},
+      spatial_cimis_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-weather/eto_wy2016")},
+      detaw_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-detaw/detaw_eto_wy2016")},
+      disalexi_eto:{image: ee.Image("users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/disalexi_monthly/eto_2016_monthly")}
+      
+    };
+    
+    var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2016_v2017-04-25');
+    var landcover = landIQ.select(['b1']).rename('level_2');
+    // fusion table with the station points 2016
+    var station_points = ee.FeatureCollection('ft:1TedFG6u5KqIKghK23OyhPQC7ZIk-H_Qy74rkBvYL');
+  }
+  
+  return({methods: methods, landcover: landcover, stations: station_points});
+};//updated 6-26-17
+
+
+ 
+// fusion table with the 3x3 grid around the 2016 fieldstation points 
+var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
+//
+
+
+// Grouped reducer for mean/median/quartiles/count
+var GroupedStatReducers = ee.Reducer.mean()
+  .combine(ee.Reducer.minMax(), "", true)
+  .combine(ee.Reducer.count(), "", true)
+  .combine(ee.Reducer.stdDev(), "", true);
+
+
+var reduce_polygon = function(image, polygon){
+  
+  // months in wy order
+  var m = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
+  
+  // rename band to months (They are in order by water year)
+  image=image.select([0,1,2,3,4,5,6,7,8,9,10,11],m);
+  
+  // reduce regions at all the points in the feature collection
+  var MeanFeatures = image.reduceRegions({
+    collection: polygon,
+    reducer: GroupedStatReducers,
+    scale: 30,
+  });
+  return(MeanFeatures);
+};
+
+
+// loop through all the et sources, calc stats for the station
+var station_stats = function(wateryear){
+  var methods = select_water_year(wateryear).methods;
+
+  // empty list to store collections from reducer
+  var coll = [];
+  
+  // add a new property called method to a feature
+  var setmodel = function(feature){
+    feature = feature.set('model', model_name);
+    feature = feature.set('water_year', wateryear);
+    return feature;
+  };
+
+  for (var key in methods) {
+    var model_name = key;
+    var e =  reduce_polygon(methods[key].image, station_points_3x3);
+    e = e.map(setmodel);
+    coll.push(e);
+  }
+  
+  // merge all the models into a single feature collection
+  var merge_holder = null;
+  for(var i=1;i<coll.length;i++){
+    if(i==1){
+      merge_holder = coll[0].merge(coll[i]);
+    }
+    else{
+      merge_holder = merge_holder.merge(coll[i]);
+    }
+  }
+  return(merge_holder);
+};
+
+
+var grid_2015 = station_stats(2015);
+var grid_2016 = station_stats(2016);
+
+var grid_data = grid_2015.merge(grid_2016);
+print(grid_data);
+Export.table.toDrive(grid_data, 'fieldstation_grid_monthly', "ET_comparisons_geojson", 'fieldstation_grid_monthly', "GeoJSON");
