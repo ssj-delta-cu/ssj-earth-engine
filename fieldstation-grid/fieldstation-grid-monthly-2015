@@ -51,8 +51,9 @@ var select_water_year = function(water_year){
 
  
 // fusion table with the 3x3 grid around the 2016 fieldstation points 
-var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
-//
+//var station_points_3x3 = ee.FeatureCollection('ft:1ZGZRl8zMoyLpsf6s1d8NsxNq0DCDS_BNldFPZvUV');
+var station_points_3x3 = ee.FeatureCollection('users/ucd-cws-ee-data/ssj-delta-cu/FieldEquipment_2015_3x3_grid');
+
 
 
 // Grouped reducer for mean/median/quartiles/count
@@ -116,8 +117,8 @@ var station_stats = function(wateryear){
 
 
 var grid_2015 = station_stats(2015);
-var grid_2016 = station_stats(2016);
+//var grid_2016 = station_stats(2016);
 
-var grid_data = grid_2015.merge(grid_2016);
-print(grid_data);
-Export.table.toDrive(grid_data, 'fieldstation_grid_monthly', "ET_comparisons_geojson", 'fieldstation_grid_monthly', "GeoJSON");
+//var grid_data = grid_2015.merge(grid_2016);
+//print(grid_data);
+Export.table.toDrive(grid_2015, 'fieldstation_grid_monthly', "ET_comparisons_geojson", 'fieldstation_grid_monthly', "GeoJSON");
