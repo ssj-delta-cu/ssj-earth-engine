@@ -50,6 +50,7 @@ Map.addLayer(select_water_year(2015).landcover);
 // fusion tables with regions to clip
 var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZllv');
 var LEGALregion = ee.FeatureCollection('ft:1pwTPCh-j_aDA2MUbk12LxorHFrW-DnEgYqqySPk5');
+//var DETAWregions = 
 
 
 // function to return an image clipped to a specific AOI from a fusion table
@@ -110,7 +111,8 @@ var region_names = {
   "dsa_51": DSAregion.filterMetadata("subarea", "equals", 51),
   "dsa_103": DSAregion.filterMetadata("subarea", "equals", 103),
   "dsa_119": DSAregion.filterMetadata("subarea", "equals", 119),
-  "dsa_153": DSAregion.filterMetadata("subarea", "equals", 153)
+  "dsa_153": DSAregion.filterMetadata("subarea", "equals", 153),
+  "detaw": DETAWregions
 };
 
 
@@ -134,5 +136,5 @@ var exportEE = function(region, wateryear){
   
 };
 
-exportEE("dsa", 2015);
-exportEEjson("dsa", 2016);
+exportEE("detaw", 2015);
+exportEE("detaw", 2016);
