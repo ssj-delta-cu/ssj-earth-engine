@@ -13,7 +13,6 @@ var select_water_year = function(water_year){
 
     };
     
-  
     var landIQ = ee.Image('users/ucd-cws-ee-data/ssj-delta-cu/ssj-landuse/landuse_2015_v2016-06-16');
     var landcover = landIQ.select(['b2']).rename('level_2');
     
@@ -49,7 +48,6 @@ var select_water_year = function(water_year){
 
 // fusion tables with regions to clip
 var DSAregion = ee.FeatureCollection('ft:1RmuOccaSI1eOkXCPZ5ca95DWCvXk4d7mQ6xhqLGe');
-var LEGALregion = ee.FeatureCollection('ft:1pwTPCh-j_aDA2MUbk12LxorHFrW-DnEgYqqySPk5');
 
 
 Map.addLayer(DSAregion);
