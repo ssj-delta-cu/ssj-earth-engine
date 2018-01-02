@@ -42,94 +42,70 @@ var select_water_year = function(water_year){
   return({methods: methods, landcover: landcover, stations: station_points});
 };//updated 6-6-17
 
-
-//print(select_water_year(2015).landcover);
-
-
 // fusion tables with regions to clip
-var DSAregion = ee.FeatureCollection('ft:1RmuOccaSI1eOkXCPZ5ca95DWCvXk4d7mQ6xhqLGe');
-
-
+var DSAregion = ee.FeatureCollection('ft:1VnIrhkVHzFfej6PC0eDEW5ywS3Hjw9Fm0abHZllv');
 Map.addLayer(DSAregion);
 
+var landcover = select_water_year(2015).landcover;
 
-// function to return an image clipped to a specific AOI from a fusion table
-var clip_ET_region = function(image, AOI){
-  var clipped = image.clipToCollection(AOI);
-  return clipped;
+// mask to crops using land cover
+var crops_only = function(image, landcover_level2){
+    //var mask_bands = landcover_level2.eq([0, 12, 22, 425, 2002, 2004, 2005, 2006, 2007]);
+    var mask_bands = landcover_level2.eq([913, 2002, 2004, 2005, 2006, 2007, 2008]); // excludes semi-ag + we herb
+    var mask = mask_bands.reduce(ee.Reducer.anyNonZero()).eq(0);
+    var image_masked = image.updateMask(mask);
+    return image_masked;
 };
 
 
 // Grouped reducer for mean/median/quartiles/count
 var GroupedStatReducers = ee.Reducer.mean()
-  .combine(ee.Reducer.median(), "", true)
-  .combine(ee.Reducer.percentile([9, 25, 75, 91]), "", true)
-  .combine(ee.Reducer.count(), "", true)
-  .combine(ee.Reducer.stdDev(), "", true);
-
-// Function to use ReduceRegions to calculate GroupedStatReducers by landcover type for a single band 
-var LUstats = function(monthlyETwy12band, bandname, landcover){
-  var LUstatsSingleBand = monthlyETwy12band.select(bandname)
-    .addBands(landcover)
-    .reduceRegion({
-      reducer: GroupedStatReducers.group({
-        groupField: 1, 
-        groupName: 'level_2',}), 
-      scale: 30, // note scale is set to 200 meters!
-      maxPixels: 1e8 });
-  return LUstatsSingleBand;
-};
-
-
-// loop through each band in the 12 band monthly ET and calc stats about the landuse 
-var LUstatsMonthlyET = function(monthlyETwy12band, landcover){
- 
-  // months in wy order
-  var m = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
-
-  // rename band to months (They are in order by water year)
-  monthlyETwy12band=monthlyETwy12band.select([0,1,2,3,4,5,6,7,8,9,10,11],m);
+  //.combine(ee.Reducer.median(), "", true)
+  //.combine(ee.Reducer.percentile([9, 25, 75, 91]), "", true)
+  .combine(ee.Reducer.count(), "", true);
   
-  // create dictionary to store each month for the water year
-  var wydict = ee.Dictionary();
+
+// reduces DSA island for a given method and water year
+var reduce_et_method = function(method, water_year){
+  var et_img = select_water_year(water_year).methods[method].image;
+  var landcover_yr = select_water_year(water_year).landcover;
   
-  for(var i=0;i<m.length;i++){
-    var statsMonth = LUstats(monthlyETwy12band, m[i], landcover);
-    statsMonth = ee.Dictionary(statsMonth);
-    statsMonth = statsMonth.rename(['groups'], [m[i]]);
-    wydict = wydict.combine(statsMonth, false);
-  }
-  return(wydict); // return results as dictionary of monthly dictionarys broken down by level 2 crop id
+  
+  // mask to crops only
+  var et_img_crops = crops_only(et_img, landcover_yr);
+  
+  // rename bands
+  var months = ['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP'];
+  var et_img_crops_rename = et_img_crops.rename(months);
+  
+  
+  // reducer
+  var regions_reduced = et_img_crops_rename.reduceRegions({
+  collection: DSAregion,
+  reducer: GroupedStatReducers,
+  scale: 30,
+  });
+  
+  return(regions_reduced);
+  
 };
 
 
-var region_names = {
-  "dsa": DSAregion, 
-  "legal": LEGALregion,
-  "South": DSAregion.filterMetadata("region_name", "equals","South"),
-  "North": DSAregion.filterMetadata("region_name", "equals", "North"),
-  "Central": DSAregion.filterMetadata("region_name", "equals", "Central"),
-  "Yolo": DSAregion.filterMetadata("region_name", "equals", "Yolo Bypass"),
-  "West": DSAregion.filterMetadata("region_name", "equals", "West")
-};
-
-
-var exportEEjson = function(region, wateryear){
+// loop though all methds and years and export to drive folder
+var export_fc_csv = function(wateryear){
   var methods = select_water_year(wateryear).methods;
-  var landcover = select_water_year(wateryear).landcover;
-    //loop through all the et sources, calc stats for areas
   for (var key in methods) {
   
-    var filename = key + "-" + region + "-" + wateryear;
+    var filename = key + "-" + "DSAsubregions" + "-" + wateryear;
     print(filename);
-    var e =  LUstatsMonthlyET(clip_ET_region(methods[key].image, region_names[region]), landcover);
-    //print(e);
-    
-      var FC = ee.FeatureCollection([
-      ee.Feature(null, ee.Dictionary(e))
-    ]);
-  
-    Export.table.toDrive(FC, filename, "ET_comparisons_geojson", filename, "GeoJSON");
+    var e =  reduce_et_method(key, wateryear);
+    // drop the .geo column
+    e = e.select(['.*'], null, false);
+    print(e);
+    Export.table.toDrive(e, filename, "ET_comparisons_geojson", filename, "CSV");
     }
-  
 };
+
+
+export_fc_csv(2015);
+export_fc_csv(2016);
