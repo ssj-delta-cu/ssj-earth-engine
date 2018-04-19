@@ -68,7 +68,7 @@ Map.addLayer(eto_wy2016, {bands:['b1'], min: 20, max:35}, "ETO water year 2016")
 
 Export.image.toAsset({
   image:eto_wy2016,
-  description:'eto_wy2016',
+  description:'eto_wy2016_full_res',
   assetId:'users/ucd-cws-ee-data/ssj-delta-cu/ssj-disalexi/eto-v2/eto_wy2016_full_res',
   pyramidingPolicy: {
         '.default': 'mean',
