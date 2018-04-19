@@ -73,7 +73,6 @@ Export.image.toAsset({
   pyramidingPolicy: {
         '.default': 'mean',
       },
-  scale: 2000,
   region: bbox,
 });
 
